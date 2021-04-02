@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Enter a destination</h1>
+<hr/>
+<p>search by city:
+    <form method="post" action="{% url 'searched_city' %}">
+        {% csrf_token %}
+        <input type="text" name="city" value="city">
+        <button>go</button>
+    </form>
+</p>
+
+{% endblock %}

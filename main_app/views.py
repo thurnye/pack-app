@@ -8,8 +8,17 @@ from django.contrib.auth.decorators import login_required
 def home(request):
     return render(request, 'index.html')
 
-def about(request):
-  return render(request, 'about.html')
+def search_city(request):
+  return render(request, 'search_city.html')
+
+def searched_city(request):
+  return render(request, 'search_filters.html') 
+
+def searched_filters(request):
+  return render(request, 'results.html')
+
+def create(request):
+  return redirect('search/new/filters')
 
 def signup(request):
   error_message = ''
@@ -24,3 +33,4 @@ def signup(request):
   form = UserCreationForm()
   context = {'form': form, 'error_message': error_message}
   return render(request, 'registration/signup.html', context)
+
