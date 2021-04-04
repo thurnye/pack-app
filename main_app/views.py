@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
+from django.core import serializers
 
 # Create your views here.
 
@@ -44,3 +45,21 @@ def signup(request):
 
 def test(request):
     return render(request, "test.html")
+
+def upvote_system(request):
+    if request.is_ajax and request.method == "POST":
+        print("UPVOTE: this is successfully an ajax & post method")
+        # this is where the view func will update the database items counters
+        # will also create a relation for the user, to check to see if they've previously voted
+        return redirect('/')
+    else:
+        return JsonResponse({"error": ""}, status=400)
+
+def downvote_system(request):
+    if request.is_ajax and request.method == "POST":
+        print("DOWNVOTE: this is successfully an ajax & post method")
+        # this is where the view func will update the database items counters
+        # will also create a relation for the user, to check to see if they've previously voted
+        return redirect('/')
+    else:
+        return JsonResponse({"error": ""}, status=400)
