@@ -4,5 +4,6 @@ db.sqlite3
 packapp1/newfile.html
 main_app/__pycache__
 packapp1/__pycache__
-.gitignore
+*.gitignore
 testytestesttester
+askdjaskdj
