@@ -2,5 +2,4 @@
 *.gitignore
 *db.sqlite3
 *settings.py
-*/__pyache__
-*__pyache__
+*__pyache__/
