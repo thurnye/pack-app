@@ -1,5 +1,4 @@
 *.env
-*.gitignore
 *db.sqlite3
 *settings.py
-*__pyache__/
+packapp1/__pycache__
