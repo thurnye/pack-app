@@ -27,7 +27,7 @@
           </li>
           <a class="navbar-brand py-1.25" href="/">Pack'd</a>
         </ul>
-        <form action="{% url 'searched_city' %}" method="POST"
+        {% comment %} <form action="{% url 'searched_city' %}" method="POST"
           class="d-flex position-absolute translate-middle-x start-50" id="search-form">
           {% csrf_token %}
           <div class="input-group">
@@ -41,7 +41,7 @@
               </svg>
             </button>
           </div>
-        </form>
+        </form> {% endcomment %}
         <ul class="navbar-nav ms-auto">
           {% if user.is_authenticated %}
           <li class="d-flex align-items-center">
@@ -78,14 +78,12 @@
     </nav>
   </div>
   <main>
-
     <div id="content">
       {% block content %}
       {% endblock %}
     </div>
   </main>
-  <script defer type="text/javascript"
-    src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyABt5_xdXjRl4pFDKfdUtAM4Bv5lgt1vo8&libraries=places"></script>
+  <script defer type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyABt5_xdXjRl4pFDKfdUtAM4Bv5lgt1vo8&libraries=places"></script>
   <script defer type="text/javascript" src="/static/javascript/base.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
