@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -85,6 +86,7 @@ DATABASES = {
         'NAME': 'packapp1',
         'USER': 'postgres',
         'PASSWORD': my_key,
+        #'NAME': "Packd"
     }
 }
 
