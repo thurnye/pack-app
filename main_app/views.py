@@ -4,21 +4,24 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.core import serializers
+from .models import User, activity
 
 # Create your views here.
 
 
 def home(request):
-    return render(request, 'index.html')
+    activities = [x[1] for x in activity]
+    return render(request, 'index.html', {
+        "activities": activities
+    })
 
 
 def search(request):
     if request.method == "POST":
-        print(request.POST)
         return render(request, "results.html", {
-            # "destination": request.POST.destination,
-            # "activity": request.POST.activity,
-            # "date": request.POST.date
+            "destination": request.POST.destination,
+            "activity": request.POST.activity,
+            "date": request.POST.date
         })
 
 
