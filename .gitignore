@@ -1,5 +1,4 @@
 *.env
 *db.sqlite3
 *settings.py
-*/__pycache__
-*__pycache__
+packapp1/__pycache__
