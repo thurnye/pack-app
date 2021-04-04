@@ -1,4 +1,5 @@
-packapp1/.env
+*.env
 db.sqlite3
-packapp1/settings.py
-main_app/__pycache__
+*settings.py
+packapp1/newfile.html
+main_app/__pycache__/
