@@ -1,3 +1,6 @@
-main_app/__pycache__
- 
-main_app/packapp1/__pycache__
+*.env
+db.sqlite3
+*settings.py
+packapp1/newfile.html
+main_app/__pycache__/
+main_app/packapp1/__pycache__/

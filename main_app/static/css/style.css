@@ -62,3 +62,6 @@ header {
 #content {
     transition: .5s;
 }
+.upvote-btn {
+    color: purple;
+}
