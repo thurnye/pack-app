@@ -14,6 +14,8 @@ class City(models.Model):
 
     def get_absolute_url(self):
         return reverse('searched_city', kwargs={'pk': self.id})
+ 
+
 
 # Seasons
 season = (
@@ -31,6 +33,11 @@ activity = (
     ('Ma', 'Marielle'),
     ('Mi', 'Shirley'),
 )
+person = (
+    ('Mn', 'Men'),
+    ('Wm', 'Women'),
+    ('By', 'Baby'),
+)
 
 class Item (models.Model):
     name = models.CharField(max_length=50)
@@ -44,12 +51,17 @@ class Item (models.Model):
         choices= activity,
         default=activity[0][0],
     )
+    person =  models.CharField(
+        max_length=2,
+        choices= person,
+        default= person[0][0],
+    )
     vote = models.IntegerField(
         default = 0
     )
     # 1:M model, establishing the foreign key
     city = models.ForeignKey(City, on_delete=models.CASCADE)
-    
+
     def __str__(self):
     # Nice method for obtaining the friendly value of a Field.choice
         return (f"{self.get_season_display()} on {self.name}")
@@ -57,3 +69,10 @@ class Item (models.Model):
     # sort by voting
     class Meta:
         ordering = ['-vote']
+
+       
+    # create the M:M
+    user = models.ManyToManyField(User)
+
+    # Link the user
+    # user = models.ForeignKey(User, on_delete=models.CASCADE)
