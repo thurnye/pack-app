@@ -1,5 +1,0 @@
-*.env
-*.gitignore
-*db.sqlite3
-*settings.py
-*__pyache__/

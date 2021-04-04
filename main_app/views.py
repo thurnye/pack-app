@@ -12,6 +12,16 @@ def home(request):
     return render(request, 'index.html')
 
 
+def search(request):
+    if request.method == "POST":
+        print(request.POST)
+        return render(request, "results.html", {
+            # "destination": request.POST.destination,
+            # "activity": request.POST.activity,
+            # "date": request.POST.date
+        })
+
+
 def search_city(request):
     return render(request, 'search_city.html')
 
@@ -46,6 +56,7 @@ def signup(request):
 def test(request):
     return render(request, "test.html")
 
+
 def upvote_system(request):
     if request.is_ajax and request.method == "POST":
         print("UPVOTE: this is successfully an ajax & post method")
@@ -54,6 +65,7 @@ def upvote_system(request):
         return redirect('/')
     else:
         return JsonResponse({"error": ""}, status=400)
+
 
 def downvote_system(request):
     if request.is_ajax and request.method == "POST":
