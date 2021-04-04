@@ -18,10 +18,11 @@ def home(request):
 
 def search(request):
     if request.method == "POST":
+        print(request.POST)
         return render(request, "results.html", {
-            "destination": request.POST.destination,
-            "activity": request.POST.activity,
-            "date": request.POST.date
+            "destination": request.POST["destination"],
+            "activity": request.POST["activity"],
+            "date": request.POST["date"]
         })
 
 
