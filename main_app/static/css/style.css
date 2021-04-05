@@ -1,17 +1,46 @@
 /* Global */
 HTML:root {
     --background: #FFFFFF;
-    --nav: #087E8B;
+    /* --nav: #087E8B; */
+    --nav: #BFD7EA;
     --button-primary: #edcd62;
     --button-secondary: #BFD7EA;
     --text: blue;
 }
 
 body {
+    font-family: "Montserrat", sans-serif;
     display: flex;
     flex-direction: column;
     padding: 0;
     margin: 0;
+}
+
+.text-normal {
+    color: #16056B;
+    font-size: 14px;
+}
+
+.text-normal-bold {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 15px;
+    color: #16056B;
+}
+
+.text-normal-indent {
+    margin-left: 20px;
+}
+
+.card-shadow,
+.button-shadow {
+    box-shadow: 4px 4px 10px 1px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+}
+
+.h2 {
+    font-weight: bold;
 }
 
 header {
@@ -22,13 +51,17 @@ header {
     background-color: var(--button-primary);
 }
 
+.button-hover:hover {
+    background-color: #edcd62;
+}
+
 /* Top Nav */
 #top-nav {
     background-color: var(--nav);
 }
 
 #top-nav-right>li>a {
-    color: white;
+    color: black;
     opacity: .5;
 }
 
@@ -91,7 +124,17 @@ header {
     max-width: 840px;
 }
 
-/* Items */
-.upvote-btn {
-    color: purple;
+/* Packing List Item */
+.score {
+    width: 90px;
+}
+
+.score-value {
+    margin-top: auto;
+}
+
+.score-up {}
+
+.score-down:hover {
+    color: pink;
 }
