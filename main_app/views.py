@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.core import serializers
+from .models import City, Item
 
 from .models import User, activity
 
@@ -72,6 +73,21 @@ def trip_index(request, trip_id):
     # if request.method == "GET":
     return render(request, "trips/trip.html")
 
+def trip(request):
+    if request.method == "POST":
+        print(request.POST['search'])
+        print(request.POST)
+        print(request.user)
+        country = request.POST['search'].split()
+        City.objects.create(
+            city_name=request.POST['search'],
+            country=country[-1],
+            trip_date=request.POST['date'],
+            activity=request.POST.get('option1', '') == 'on',
+            travelers=request.POST.get('agegroup', False),
+            user=request.user,
+        )
+    return render(request, "trips/trip.html")
 
 def test(request):
     return render(request, "test.html")
