@@ -1,7 +1,10 @@
-/* HTML */
-:root {
-    --top-nav: #dc3545;
-    --side-nav: #dc3545;
+/* Global */
+HTML:root {
+    --background: #FFFFFF;
+    --nav: #087E8B;
+    --button-primary: #edcd62;
+    --button-secondary: #BFD7EA;
+    --text: blue;
 }
 
 body {
@@ -15,9 +18,22 @@ header {
     z-index: 10;
 }
 
+.button-primary {
+    background-color: var(--button-primary);
+}
+
 /* Top Nav */
 #top-nav {
-    background-color: var(--top-nav);
+    background-color: var(--nav);
+}
+
+#top-nav-right>li>a {
+    color: white;
+    opacity: .5;
+}
+
+#top-nav-right>li>a:hover {
+    opacity: .8;
 }
 
 /* Side Nav */
@@ -38,7 +54,7 @@ header {
     height: 100%;
     color: rgb(110, 110, 110);
     list-style-type: none;
-    background-color: var(--side-nav);
+    background-color: var(--nav);
 
 }
 
@@ -62,6 +78,20 @@ header {
 #content {
     transition: .5s;
 }
+
+
+/* Containers */
+#mobile-container {
+    min-width: 270px;
+    max-width: 420px;
+}
+
+#index-container {
+    min-width: 270px;
+    max-width: 840px;
+}
+
+/* Items */
 .upvote-btn {
     color: purple;
 }
