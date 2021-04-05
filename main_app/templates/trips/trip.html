@@ -1,6 +1,109 @@
 {% extends 'base.html' %}
 {% block content %}
 {% load static %}
+<div class="container px-4" id="mobile-container">
+  <div class="card card-shadow border-0 mt-4">
+    <div class="card-body">
+      <text class="text-normal">Local Weather Forecast</text>
+      <div class="text-center">
+        weather
+      </div>
+    </div>
+  </div>
+  <div class="card card-shadow border-0 mt-4 ">
+    <div class="card-body">
+      <div class="card-title">
+        <text class="text-normal">Packing List</text>
+      </div>
+      <hr class="my-1" />
+      <text class="text-normal-bold">Category 1</text>
+      <div class="form-check d-flex text-normal py-1 my-0 text-normal-indent">
+        <div class="ms-0">
+          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+          <label class="form-check-label" for="flexCheckDefault">Item 1</label>
+        </div>
+        <div class="ms-auto d-flex score">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+            class="bi bi-arrow-up-short me-auto" viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5z" />
+          </svg>
+          <label class="form-check-label score-value" for="flexCheckDefault">000</label>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+            class="bi bi-arrow-down-short ms-auto" viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4z" />
+          </svg>
+        </div>
+      </div>
+      <div class="form-check d-flex text-normal py-1 my-0 text-normal-indent">
+        <div class="ms-0">
+          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+          <label class="form-check-label" for="flexCheckDefault">Item 2</label>
+        </div>
+        <div class="ms-auto d-flex score">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+            class="bi bi-arrow-up-short me-auto" viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5z" />
+          </svg>
+          <label class="form-check-label score-value" for="flexCheckDefault">000</label>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+            class="bi bi-arrow-down-short ms-auto" viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4z" />
+          </svg>
+        </div>
+      </div>
+      <hr class="my-1" />
+      <text class="text-normal-bold">Category 1</text>
+      <div class="form-check d-flex text-normal py-1 my-0 text-normal-indent">
+        <div class="ms-0">
+          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+          <label class="form-check-label" for="flexCheckDefault">Item 1</label>
+        </div>
+        <div class="ms-auto d-flex score">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+            class="bi bi-arrow-up-short me-auto" viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5z" />
+          </svg>
+          <label class="form-check-label score-value" for="flexCheckDefault">000</label>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+            class="bi bi-arrow-down-short ms-auto" viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4z" />
+          </svg>
+        </div>
+      </div>
+      <div class="form-check d-flex text-normal py-1 my-0 text-normal-indent">
+        <div class="ms-0">
+          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+          <label class="form-check-label" for="flexCheckDefault">Item 2</label>
+        </div>
+        <div class="ms-auto d-flex score">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+            class="bi bi-arrow-up-short me-auto" viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5z" />
+          </svg>
+          <label class="form-check-label score-value" for="flexCheckDefault">000</label>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+            class="bi bi-arrow-down-short ms-auto" viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4z" />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="text-center">
+    <button class="btn button-hover button-shadow border-0 mt-4">
+      <text class="text-normal">+ Add item</text>
+    </button>
+  </div>
+</div>
 
+<script defer src="/static/javascript/trip.js"></script>
 
 {% endblock %}
