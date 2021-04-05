@@ -64,6 +64,13 @@ def new_trip(request):
         return render(request, "trips/trip_form.html", {
 
         })
+    # elif request.method == "POST":
+        # return redirect("trip/%s" % (tripId))
+
+
+def trip_index(request, trip_id):
+    # if request.method == "GET":
+    return render(request, "trips/trip.html")
 
 
 def test(request):
