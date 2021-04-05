@@ -4,8 +4,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.core import serializers
-from .models import City, Item, Trip
-from .models import User, activity
+from .models import Item, Trip, User, category, activity, getChoices
 
 # Create your views here.
 
@@ -66,45 +65,46 @@ def new_trip(request):
         })
     elif request.method == "POST":
         print(request.POST)
-        print(request.user)
-        country = request.POST['search'].split(" ")
+        search = request.POST['search'].split(", ")
+        date = request.POST["date"]
+        month = date.split("-")[1]
+        day = date.split("-")[2]
+        if (month == "12" or month == "01" or month == "02" or month == "03"):
+            season = "winter"
+        elif(month == "04" or month == "05"):
+            season = "spring"
+        elif(month == "06" or month == "07" or month == "08" or month == "09"):
+            season = "summer"
+        elif(month == "10" or month == "11"):
+            season = "fall"
+
         trip = Trip.objects.create(
-            city=request.POST['search'],
-            country=country[-1],
-            date=request.POST['date'],
-            activity=request.POST.get('option1', '') == 'on',
-            travelers=request.POST.get('agegroup', False),
-            user=request.user,
+            city=search[0],
+            country=search[-1],
+            date=date,
+            season=season,
+            # activity=# activity=request.POST.get('option1', '') == 'on',
+            # travelers=request.POST.get('agegroup', False),
+            user=request.user
         )
         trip.save()
-        return redirect("trip/%s/" % (trip.id))
+        return redirect("/trip/%s/" % (trip.id))
 
 
-def trip_index(request, trip_id):
-    # if request.method == "GET":
-    return render(request, "trips/trip.html")
+# def trip_index(request, trip_id):
+#     # if request.method == "GET":
+#     return render(request, "trips/trip.html")
 
 
-def trip(request):
-    # if request.method == "GET":
-    #     return render(request, "trips/trip_form.html", {
+def trip(request, trip_id):
+    if request.method == "GET":
+        trip = Trip.objects.get(id=trip_id)
+        # items = Item.objects.filter(season=)
+        print(trip.user)
+        return render(request, "trips/trip.html", {
+            "categories": getChoices(category),
 
-    #     })
-
-    if request.method == "POST":
-        print(request.POST['search'])
-        print(request.POST)
-        print(request.user)
-        country = request.POST['search'].split()
-        Trip.objects.create(
-            city=request.POST['search'],
-            country=country[-1],
-            date=request.POST['date'],
-            activity=request.POST.get('option1', '') == 'on',
-            travelers=request.POST.get('agegroup', False),
-            user=request.user,
-        )
-    return render(request, "trips/trip.html")
+        })
 
 
 def test(request):

@@ -3,20 +3,6 @@ from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
 from datetime import datetime
 
-
-# City Model
-class City(models.Model):
-    city_name = models.CharField(max_length=50)
-    country = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.city_name
-
-    def get_absolute_url(self):
-        return reverse('searched_city', kwargs={'pk': self.id})
-
-
-# Seasons
 season = (
     ('WT', 'Winter'),
     ('SP', 'Spring'),
@@ -26,54 +12,45 @@ season = (
 
 activity = (
     ("BP", "Backpacking"),
-    ("SS", "Siteseeing"),
+    ("SS", "Sightseeing"),
     ("LS", "Leisure"),
     ("BS", "Business"),
 )
+
 category = (
-    ("CL", "Clothings"),
+    ("CL", "Clothing"),
     ("EL", "Electronics"),
-    ("EQ", "Equipments"),
+    ("EQ", "Equipment"),
     ("PS", "Personal"),
     ("MD", "Medication"),
-    ("OT", "Others"),
+    ("OT", "Other"),
 )
 
 person = (
-    ('Mn', 'Men'),
-    ('Wm', 'Women'),
-    ('By', 'Baby'),
+    ("I", "Infant"),
+    ("C", "Child"),
+    ("T", "Teen"),
+    ("A", "Adult"),
+    ("S", "Senior")
+)
+
+gender = (
+    ("M", "Male"),
+    ("F", "Female"),
+    ("O", "Other")
 )
 
 
 class Item (models.Model):
-    name = models.CharField(max_length=50)
-    season = models.CharField(
-        max_length=2,
-        choices=season,
-        # default=season[0][0],
-    )
-    activity = models.CharField(
-        max_length=2,
-        choices=activity,
-        # default=activity[0][0],
-    )
-    person = models.CharField(
-        max_length=2,
-        choices=person,
-        default=person[0][0],
-    )
-    category = models.CharField(
-        max_length=2,
-        choices=category,
-        default=category[0][0],
-    )
-    vote = models.IntegerField(
-        default=0
-    )
-
-    # 1:M model, establishing the foreign key
-    city = models.ForeignKey(City, on_delete=models.CASCADE)
+    name = models.CharField(max_length=25)
+    city = models.CharField(max_length=25)
+    country = models.CharField(max_length=25)
+    season = models.CharField(max_length=10, choices=season)
+    activity = models.CharField(max_length=10, choices=activity)
+    person = models.CharField(max_length=10, choices=person, default=person[0][0])
+    category = models.CharField(max_length=10, choices=category, default=category[0][0])
+    gender = models.CharField(max_length=10, choices=gender, default=gender[-1][0])
+    vote = models.IntegerField(default=0)
 
     def __str__(self):
         # Nice method for obtaining the friendly value of a Field.choice
@@ -89,20 +66,23 @@ class Item (models.Model):
     # Link the user
     # user = models.ForeignKey(User, on_delete=models.CASCADE)
 
-# first
-
-
-class My_Trip(models.Model):
-    item = models.ManyToManyField(Item)
-
 
 class Trip(models.Model):
-    # 1:M model, establishing the foreign key
-    city = models.CharField(max_length=50)
-    country = models.CharField(max_length=50, default="Canada")
-    # Link the user
-    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+    city = models.CharField(max_length=25)
+    country = models.CharField(max_length=25)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField(default=datetime.now)
-    #my_trip = models.ForeignKey(My_Trip, on_delete=models.CASCADE)
+    season = models.CharField(
+        max_length=10,
+        choices=season,
+    )
     activity = models.CharField(max_length=50, null=True, default="")
     travelers = models.CharField(max_length=50, blank=True, null=True, default='')
+
+
+class Traveler(models.Model):
+    name = models.CharField(max_length=25)
+
+
+def getChoices(choices):
+    return [x[1] for x in choices]
