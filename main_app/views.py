@@ -4,11 +4,6 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.core import serializers
-<<<<<<< HEAD
-from .models import City, Item, Trip
-=======
-
->>>>>>> d017181575b8031152079e95d79c815113a32f8e
 
 from .models import User, activity
 
