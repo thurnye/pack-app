@@ -1,11 +1,10 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.contrib.auth import authenticate
+from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.core import serializers
 from .models import City, Item, Trip
-from django.contrib.auth import login
 
 from .models import User, activity
 
@@ -66,15 +65,33 @@ def new_trip(request):
         return render(request, "trips/trip_form.html", {
 
         })
-    # elif request.method == "POST":
-        # return redirect("trip/%s" % (tripId))
+    elif request.method == "POST":
+        print(request.POST)
+        print(request.user)
+        country = request.POST['search'].split(" ")
+        trip = Trip.objects.create(
+            city=request.POST['search'],
+            country=country[-1],
+            date=request.POST['date'],
+            activity=request.POST.get('option1', '') == 'on',
+            travelers=request.POST.get('agegroup', False),
+            user=request.user,
+        )
+        trip.save()
+        return redirect("trip/%s/" % (trip.id))
 
 
 def trip_index(request, trip_id):
     # if request.method == "GET":
     return render(request, "trips/trip.html")
 
+
 def trip(request):
+    # if request.method == "GET":
+    #     return render(request, "trips/trip_form.html", {
+
+    #     })
+
     if request.method == "POST":
         print(request.POST['search'])
         print(request.POST)
@@ -89,6 +106,7 @@ def trip(request):
             user=request.user,
         )
     return render(request, "trips/trip.html")
+
 
 def test(request):
     return render(request, "test.html")
