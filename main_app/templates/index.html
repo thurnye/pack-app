@@ -2,39 +2,45 @@
 {% block content %}
 {% load static %}
 
-  {% comment %} <div class="mt-5 position-absolute translate-middle-x start-50">
-    <form action="{% url 'search' %}" method="POST" class="d-flex" id="search-form">
-      {% csrf_token %}
-      <div class="input-group input-group-lg">
-        <input class="form-control py-1 btn-outline-light btn-light text-dark" type="search" placeholder="Destination" aria-label="Destination" name="destination" id="searchTextField" required>
-        <select class="form-control py-1 btn-outline-light btn-light text-dark" type="text" placeholder="Activity" aria-label="Activity" name="activity" list="activities" id="ActivityField">
+{% comment %} <div class="mt-5 position-absolute translate-middle-x start-50">
+  <form action="{% url 'search' %}" method="POST" class="d-flex" id="search-form">
+    {% csrf_token %}
+    <div class="input-group input-group-lg">
+      <input class="form-control py-1 btn-outline-light btn-light text-dark" type="search" placeholder="Destination"
+        aria-label="Destination" name="destination" id="searchTextField" required>
+      <select class="form-control py-1 btn-outline-light btn-light text-dark" type="text" placeholder="Activity"
+        aria-label="Activity" name="activity" list="activities" id="ActivityField">
         <datalist id="activities">
           <option value="">Select Activity</option>
           {% for activity in activities %}
-            <option value="{{ activity }}">{{ activity }}</option>
+          <option value="{{ activity }}">{{ activity }}</option>
           {% endfor %}
-        </datalist>        
-        <input class="form-control py-1 btn-outline-light btn-light text-dark" type="date" placeholder="Date" aria-label="Date" name="date" id="DateField">
+        </datalist>
+        <input class="form-control py-1 btn-outline-light btn-light text-dark" type="date" placeholder="Date"
+          aria-label="Date" name="date" id="DateField">
         <button class="btn btn-outline-dark py-1" type="submit" arial-label="search" id="search-button">
-          <svg xmlns="http://www.w3.org/2000/svg" width="36" height="18" fill="currentColor" class="bi bi-search" viewBox="0 0 18 18" id="basic-addon2">
-            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+          <svg xmlns="http://www.w3.org/2000/svg" width="36" height="18" fill="currentColor" class="bi bi-search"
+            viewBox="0 0 18 18" id="basic-addon2">
+            <path
+              d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
           </svg>
         </button>
-      </div>
-    </form>
-  </div> {% endcomment %}
-  <div class="container mt-5" id="index-container">
-    <div class="container" id="mobile-container">
-      <div class="d-grid">
-        <img class="img-fluid" src="{% static "images/globe.png" %}" alt="">
-      </div>
-      <div class="d-grid">
-        <a href="{% url 'new_trip' %}" class="btn rounded-pill py-2 mt-4 button-primary">Add New Trip</a>
-      </div>
-      <div class="d-grid">
-        <a href="/trip/new" class="btn rounded-pill py-2 mt-3 btn-secondary disabled">View Trips</a>
-      </div>
     </div>
+  </form>
+</div> {% endcomment %}
+<div class="container mt-5" id="index-container">
+  <div class="container" id="mobile-container">
+    <div class="d-grid">
+      <img class="img-fluid" src="{% static 'images/globe.png' %}" alt="">
+    </div>
+    <div class="d-grid">
+      <a href="{% url 'new_trip' %}" class="btn rounded-pill py-2 mt-4 button-primary">Add New Trip</a>
+    </div>
+    <div class="d-grid">
+      <a href="/trip/new" class="btn rounded-pill py-2 mt-3 btn-secondary disabled">View Trips</a>
+    </div>
+
   </div>
-  
+</div>
+
 {% endblock %}
