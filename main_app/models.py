@@ -73,3 +73,31 @@ class Item (models.Model):
 
     # Link the user
     # user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+
+# first
+
+class My_Trip(models.Model):
+    item = models.ManyToManyField(Item)
+    
+
+class Trip(models.Model):
+     # 1:M model, establishing the foreign key
+    city = models.CharField(max_length=50)
+    # Link the user
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    date = models.DateField(' Date')
+    my_trip = models.ForeignKey(My_Trip, on_delete=models.CASCADE)
+
+# # second
+
+# class Trip(models.Model):
+#      # 1:M model, establishing the foreign key
+#     city = models.CharField(max_length=50)
+#     # Link the user
+#     user = models.ForeignKey(User, on_delete=models.CASCADE)
+#     date = models.DateField(' Date')
+
+# class My_Trip(models.Model) :
+#     trip = models.ForeignKey(Trip, on_delete=models.CASCADE)
+#     item = models.ForeignKey(Item, on_delete=models.CASCADE)
