@@ -84,10 +84,11 @@ class My_Trip(models.Model):
 class Trip(models.Model):
      # 1:M model, establishing the foreign key
     city = models.CharField(max_length=50)
+    country = models.CharField(max_length=50, default="Canada")
     # Link the user
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     date = models.DateField(default=datetime.now)
-    my_trip = models.ForeignKey(My_Trip, on_delete=models.CASCADE)
+    #my_trip = models.ForeignKey(My_Trip, on_delete=models.CASCADE)
     activity = models.CharField(max_length=50, null=True, default="")
     travelers = models.CharField(max_length=50, blank=True, null=True, default='')
 
