@@ -13,6 +13,7 @@ from .models import User, activity
 def home(request):
     activities = [x[1] for x in activity]
     return render(request, 'index.html', {
+        "title": "Home",
         "activities": activities
     })
 
@@ -56,6 +57,13 @@ def signup(request):
     form = UserCreationForm()
     context = {'form': form, 'error_message': error_message}
     return render(request, 'registration/signup.html', context)
+
+
+def new_trip(request):
+    if request.method == "GET":
+        return render(request, "trips/trip_form.html", {
+
+        })
 
 
 def test(request):

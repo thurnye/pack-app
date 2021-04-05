@@ -21,20 +21,22 @@
               d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
           </svg>
         </a>
-        <a class="navbar-brand me-auto" href="/">Pack'd</a>
-        <ul class="nav d-flex" id="top-nav-right">
-          {% if user.is_authenticated %}
-          <li class="d-flex align-items-center">
-            <a href="{% url 'logout' %}" class="nav-link py-1 px-3 my-0">Log Out</a>
+        {% if user.is_authenticated %}
+          <a class="navbar-brand position-absolute translate-middle-x start-50" href="/">{{ title }}</a>
+          <ul class="nav d-flex" id="top-nav-right">
+            <li class="d-flex align-items-center">
+              <a href="{% url 'logout' %}" class="nav-link px-2">Log Out</a>
+            </li>
+        {% else %}
+          <a class="navbar-brand position-absolute translate-middle-x start-50" href="/">Login</a>
+          {% comment %} <ul class="nav d-flex" id="top-nav-right">
+            <li class="d-flex align-items-center">
+              <a href="{% url 'signup' %}" class="nav-link px-2 my-0">Sign Up</a>
           </li>
-          {% else %}
           <li class="d-flex align-items-center">
-            <a href="{% url 'signup' %}" class="nav-link py-1 px-3 my-0">Sign Up</a>
-          </li>
-          <li class="d-flex align-items-center">
-            <a href="{% url 'login' %}" class="nav-link py-1 px-3 my-0">Log In</a>
-          </li>
-          {% endif %}
+            <a href="{% url 'login' %}" class="nav-link px-2 my-0">Log In</a>
+          </li> {% endcomment %}
+        {% endif %}
         </ul>
       </div>
     </nav>
