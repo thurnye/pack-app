@@ -1,15 +1,32 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.contrib.auth import login
+from django.contrib.auth import authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.core import serializers
+from .models import City, Item
+
+from .models import User, activity
 
 # Create your views here.
 
 
 def home(request):
-    return render(request, 'index.html')
+    activities = [x[1] for x in activity]
+    return render(request, 'index.html', {
+        "title": "Home",
+        "activities": activities
+    })
+
+
+def search(request):
+    if request.method == "POST":
+        print(request.POST)
+        return render(request, "results.html", {
+            "destination": request.POST["destination"],
+            "activity": request.POST["activity"],
+            "date": request.POST["date"]
+        })
 
 
 def search_city(request):
@@ -43,8 +60,31 @@ def signup(request):
     return render(request, 'registration/signup.html', context)
 
 
+def new_trip(request):
+    if request.method == "GET":
+        return render(request, "trips/trip_form.html", {
+
+        })
+
+def trip(request):
+    if request.method == "POST":
+        print(request.POST['search'])
+        print(request.POST)
+        print(request.user)
+        country = request.POST['search'].split()
+        City.objects.create(
+            city_name=request.POST['search'],
+            country=country[-1],
+            trip_date=request.POST['date'],
+            activity=request.POST.get('option1', '') == 'on',
+            travelers=request.POST.get('agegroup', False),
+            user=request.user,
+        )
+    return render(request, "trips/trip.html")
+
 def test(request):
     return render(request, "test.html")
+
 
 def upvote_system(request):
     if request.is_ajax and request.method == "POST":
@@ -54,6 +94,7 @@ def upvote_system(request):
         return redirect('/')
     else:
         return JsonResponse({"error": ""}, status=400)
+
 
 def downvote_system(request):
     if request.is_ajax and request.method == "POST":
