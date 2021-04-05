@@ -8,12 +8,13 @@ from datetime import datetime
 class City(models.Model):
     city_name = models.CharField(max_length=50)
     country = models.CharField(max_length=50)
-    
+
     def __str__(self):
         return self.city_name
 
     def get_absolute_url(self):
         return reverse('searched_city', kwargs={'pk': self.id})
+
 
 # Seasons
 season = (
@@ -90,12 +91,13 @@ class Item (models.Model):
 
 # first
 
+
 class My_Trip(models.Model):
     item = models.ManyToManyField(Item)
-    
+
 
 class Trip(models.Model):
-     # 1:M model, establishing the foreign key
+    # 1:M model, establishing the foreign key
     city = models.CharField(max_length=50)
     country = models.CharField(max_length=50, default="Canada")
     # Link the user
@@ -104,4 +106,3 @@ class Trip(models.Model):
     #my_trip = models.ForeignKey(My_Trip, on_delete=models.CASCADE)
     activity = models.CharField(max_length=50, null=True, default="")
     travelers = models.CharField(max_length=50, blank=True, null=True, default='')
-
