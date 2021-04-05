@@ -1,5 +1,50 @@
 {% extends 'base.html' %}
 {% block content %}
 {% load static %}
-  
+
+
+<h3>add new trip</h3>
+
+<form method="POST" action="{% url 'trip' %}">
+    {% csrf_token %}
+    where are you going?<br>
+    <input type="text" id="searchTextField" name="search" placeholder="Search City..."><br>
+    what day do you arrive?<br>
+    <input type="date" name="date" required><br>
+    travelers<br>
+    <p style="color:grey;">placeholder for information of added travelers</p>
+    name<br>
+    <input type="text" name="traveler-name" placeholder="Name..."><br>
+    age group<br>
+    <select name="agegroup" default="none">
+        <option value="" disabled selected hidden>choose age group</option>
+        <option value="infant">Infant/Young Child (0-3)</option>
+        <option value="child">Child (3-17)</option>
+        <option value="adult">Adult (18+)</option>
+    </select><br>
+    how much do you want to pack?<br>
+    light
+    <input type="checkbox" name="light">
+    medium
+    <input type="checkbox" name="medium">
+    everything
+    <input type="checkbox" name="everything"><br>
+
+    select activities<br>
+    <input type="checkbox" name="option1">
+    <input type="checkbox" name="option2">
+    <input type="checkbox" name="option3"><br>
+    <input type="checkbox" name="option4">
+    <input type="checkbox" name="option5">
+    <input type="checkbox" name="option6"><br>
+    <input type="checkbox" name="option7">
+    <input type="checkbox" name="option8">
+    <input type="checkbox" name="option9"><br>
+
+    <button>create my list</button>
+</form>
+
+<script defer type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyABt5_xdXjRl4pFDKfdUtAM4Bv5lgt1vo8&libraries=places"></script>
+<script defer type="text/javascript" src="/static/javascript/trip_form.js"></script>
+
 {% endblock %}

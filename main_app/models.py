@@ -1,18 +1,19 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.postgres.fields import ArrayField
+from datetime import datetime
 
 
 # City Model
 class City(models.Model):
     city_name = models.CharField(max_length=50)
     country = models.CharField(max_length=50)
-
+    
     def __str__(self):
         return self.city_name
 
     def get_absolute_url(self):
         return reverse('searched_city', kwargs={'pk': self.id})
-
 
 # Seasons
 season = (
@@ -27,6 +28,14 @@ activity = (
     ("SS", "Siteseeing"),
     ("LS", "Leisure"),
     ("BS", "Business"),
+)
+category = (
+    ("CL", "Clothings"),
+    ("EL", "Electronics"),
+    ("EQ", "Equipments"),
+    ("PS", "Personal"),
+    ("MD", "Medication"),
+    ("OT", "Others"),
 )
 
 person = (
@@ -53,6 +62,11 @@ class Item (models.Model):
         choices=person,
         default=person[0][0],
     )
+    category = models.CharField(
+        max_length=2,
+        choices=category,
+        default=category[0][0],
+    )
     vote = models.IntegerField(
         default=0
     )
@@ -74,7 +88,6 @@ class Item (models.Model):
     # Link the user
     # user = models.ForeignKey(User, on_delete=models.CASCADE)
 
-
 # first
 
 class My_Trip(models.Model):
@@ -84,20 +97,10 @@ class My_Trip(models.Model):
 class Trip(models.Model):
      # 1:M model, establishing the foreign key
     city = models.CharField(max_length=50)
+    country = models.CharField(max_length=50, default="Canada")
     # Link the user
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    date = models.DateField(' Date')
-    my_trip = models.ForeignKey(My_Trip, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+    date = models.DateField(default=datetime.now)
+    activity = models.CharField(max_length=50, null=True, default="")
+    travelers = models.CharField(max_length=50, blank=True, null=True, default='')
 
-# # second
-
-# class Trip(models.Model):
-#      # 1:M model, establishing the foreign key
-#     city = models.CharField(max_length=50)
-#     # Link the user
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     date = models.DateField(' Date')
-
-# class My_Trip(models.Model) :
-#     trip = models.ForeignKey(Trip, on_delete=models.CASCADE)
-#     item = models.ForeignKey(Item, on_delete=models.CASCADE)
