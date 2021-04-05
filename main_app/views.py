@@ -5,6 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.core import serializers
 
+
 from .models import City, Item, Trip
 from .models import User, activity
 
