@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
+{% load static %}
 
-  <div class="container-fluid mt-5">
-    <form action="{% url 'search' %}" method="POST" class="d-flex position-absolute translate-middle-x start-50" id="search-form">
+  {% comment %} <div class="mt-5 position-absolute translate-middle-x start-50">
+    <form action="{% url 'search' %}" method="POST" class="d-flex" id="search-form">
       {% csrf_token %}
       <div class="input-group input-group-lg">
         <input class="form-control py-1 btn-outline-light btn-light text-dark" type="search" placeholder="Destination" aria-label="Destination" name="destination" id="searchTextField" required>
@@ -12,8 +13,7 @@
           {% for activity in activities %}
             <option value="{{ activity }}">{{ activity }}</option>
           {% endfor %}
-        </datalist>
-        
+        </datalist>        
         <input class="form-control py-1 btn-outline-light btn-light text-dark" type="date" placeholder="Date" aria-label="Date" name="date" id="DateField">
         <button class="btn btn-outline-dark py-1" type="submit" arial-label="search" id="search-button">
           <svg xmlns="http://www.w3.org/2000/svg" width="36" height="18" fill="currentColor" class="bi bi-search" viewBox="0 0 18 18" id="basic-addon2">
@@ -22,5 +22,16 @@
         </button>
       </div>
     </form>
+  </div> {% endcomment %}
+  <div class="container px-4 mt-5" id="index-container">
+    <div class="container" id="mobile-container">
+      <div class="d-grid">
+        <img class="img-fluid" src="{% static "images/globe.png" %}" alt="">
+      </div>
+      <div class="d-grid">
+        <a href="#" class="btn rounded-pill py-2 mt-4 button-primary">Add New Trip</a>
+      </div>
+    </div>
   </div>
+  
 {% endblock %}
