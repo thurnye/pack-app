@@ -1,5 +1,9 @@
 # Pack'd
 
+## Collaborators 
+* [Austin Im](https://github.com/imaustinim)
+* [Daniel Tamunotonye](https://github.com/thurnye)
+
 ## Description
 This is a webapp designed to help absent-minded vacationers get organized! Search by location to return results pertaining to the destinations, get must-pack information curated by destination, season, type of travel, etc, that will help take the stress out of packing for that dream vacation.  
 
