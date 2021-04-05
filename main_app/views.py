@@ -5,16 +5,18 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.core import serializers
 
-from .models import User, activity
+from .models import User, Trip, Item, activity
 
 # Create your views here.
 
 
 def home(request):
+    my_trips = Trip.objects.filter(user_id=request.user.id)
+    print(my_trips)
     activities = [x[1] for x in activity]
     return render(request, 'index.html', {
-        "title": "Home",
-        "activities": activities
+        "mytrips": my_trips,
+        "activities": activities,
     })
 
 
@@ -65,11 +67,11 @@ def new_trip(request):
 
         })
     elif request.method == "POST":
-        print(request.POST)
-        print(request.user)
-        country = request.POST['search'].split(" ")
+        country = request.POST['search'].split(",")
+        print(request.POST['search'])
+        print(country)
         trip = Trip.objects.create(
-            city=request.POST['search'],
+            city=country[0],
             country=country[-1],
             date=request.POST['date'],
             activity=request.POST.get('option1', '') == 'on',
