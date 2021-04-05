@@ -7,7 +7,7 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('accounts/signup', views.signup, name='signup'),
     path("trip/new/", views.new_trip, name="new_trip"),
-
+    path("trip/new/list", views.trip, name="trip"),
 
     path("search/", views.search, name="search"),
     # path('search/', views.search_city, name='search_city'),
