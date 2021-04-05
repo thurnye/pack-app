@@ -31,14 +31,15 @@
 <div class="container mt-5" id="index-container">
   <div class="container" id="mobile-container">
     <div class="d-grid">
-      <img class="img-fluid" src="{% static " images/globe.png" %}" alt="">
+      <img class="img-fluid" src="{% static 'images/globe.png' %}" alt="">
     </div>
     <div class="d-grid">
-      <a href="/trip/new" class="btn rounded-pill py-2 mt-4 button-primary">Add New Trip</a>
+      <a href="{% url 'new_trip' %}" class="btn rounded-pill py-2 mt-4 button-primary">Add New Trip</a>
     </div>
     <div class="d-grid">
       <a href="/trip/new" class="btn rounded-pill py-2 mt-3 btn-secondary disabled">View Trips</a>
     </div>
+
   </div>
 </div>
 

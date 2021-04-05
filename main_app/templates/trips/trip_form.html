@@ -5,7 +5,7 @@
 
 <h3>add new trip</h3>
 
-<form method="POST" action="{% url 'trip' %}">
+<form method="POST" action="{% url 'new_trip' %}">
     {% csrf_token %}
     where are you going?<br>
     <input type="text" id="searchTextField" name="search" placeholder="Search City..."><br>
