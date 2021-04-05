@@ -15,7 +15,6 @@ class City(models.Model):
     def get_absolute_url(self):
         return reverse('searched_city', kwargs={'pk': self.id})
 
-
 # Seasons
 season = (
     ('WT', 'Winter'),
@@ -75,7 +74,6 @@ class Item (models.Model):
 
     # Link the user
     # user = models.ForeignKey(User, on_delete=models.CASCADE)
-
 
 # first
 
