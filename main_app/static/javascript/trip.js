@@ -1,13 +1,3 @@
-// // Search Autocomplete
-// function initialize() {
-//     const input = document.getElementById('searchTextField');
-//     const options = {
-//         types: ['(cities)'],
-//     }
-//     new google.maps.places.Autocomplete(input, options);
-// }
-// google.maps.event.addDomListener(window, 'load', initialize);
-
 const scores = document.querySelectorAll(".score");
 const scoreUp = document.querySelectorAll(".score-up");
 const scoreDown = document.querySelectorAll(".score-down");

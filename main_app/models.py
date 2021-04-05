@@ -6,20 +6,14 @@ from datetime import datetime
 
 # City Model
 class City(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
-    #or use settings.AUTH_USER_MODEL
     city_name = models.CharField(max_length=50)
     country = models.CharField(max_length=50)
-    trip_date = models.DateField(default=datetime.now)
-    activity = models.CharField(max_length=50, null=True, default="")
-    travelers = models.CharField(max_length=50, blank=True, null=True, default='')
-    # ArrayField(models.CharField(max_length=50, blank=True, null=True, default=''), default=list)
+    
     def __str__(self):
         return self.city_name
 
     def get_absolute_url(self):
         return reverse('searched_city', kwargs={'pk': self.id})
-
 
 # Seasons
 season = (
@@ -80,3 +74,33 @@ class Item (models.Model):
 
     # Link the user
     # user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+# first
+
+class My_Trip(models.Model):
+    item = models.ManyToManyField(Item)
+    
+
+class Trip(models.Model):
+     # 1:M model, establishing the foreign key
+    city = models.CharField(max_length=50)
+    country = models.CharField(max_length=50, default="Canada")
+    # Link the user
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+    date = models.DateField(default=datetime.now)
+    #my_trip = models.ForeignKey(My_Trip, on_delete=models.CASCADE)
+    activity = models.CharField(max_length=50, null=True, default="")
+    travelers = models.CharField(max_length=50, blank=True, null=True, default='')
+
+# # second
+
+# class Trip(models.Model):
+#      # 1:M model, establishing the foreign key
+#     city = models.CharField(max_length=50)
+#     # Link the user
+#     user = models.ForeignKey(User, on_delete=models.CASCADE)
+#     date = models.DateField(' Date')
+
+# class My_Trip(models.Model) :
+#     trip = models.ForeignKey(Trip, on_delete=models.CASCADE)
+#     item = models.ForeignKey(Item, on_delete=models.CASCADE)
