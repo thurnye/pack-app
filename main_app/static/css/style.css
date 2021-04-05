@@ -5,7 +5,9 @@ HTML:root {
     --nav: #BFD7EA;
     --button-primary: #edcd62;
     --button-secondary: #BFD7EA;
-    --text: blue;
+    --score-default: #16056B;
+    --score-up: #BFD7EA;
+    --score-down: pink;
 }
 
 body {
@@ -125,7 +127,7 @@ header {
 }
 
 /* Packing List Item */
-.score {
+.score-div {
     width: 90px;
 }
 
@@ -133,8 +135,24 @@ header {
     margin-top: auto;
 }
 
-.score-up {}
+.score-up:hover {
+    cursor: pointer;
+    color: var(--score-up);
+    fill: var(--score-up);
+}
 
 .score-down:hover {
-    color: pink;
+    cursor: pointer;
+    color: var(--score-down);
+    fill: var(--score-down);
+}
+
+.score-up-post {
+    color: var(--score-up);
+    fill: var(--score-up);
+}
+
+.score-down-post {
+    color: var(--score-down);
+    fill: var(--score-down);
 }
