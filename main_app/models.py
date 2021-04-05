@@ -29,6 +29,14 @@ activity = (
     ("LS", "Leisure"),
     ("BS", "Business"),
 )
+category = (
+    ("CL", "Clothings"),
+    ("EL", "Electronics"),
+    ("EQ", "Equipments"),
+    ("PS", "Personal"),
+    ("MD", "Medication"),
+    ("OT", "Others"),
+)
 
 person = (
     ('Mn', 'Men'),
@@ -53,6 +61,11 @@ class Item (models.Model):
         max_length=2,
         choices=person,
         default=person[0][0],
+    )
+    category = models.CharField(
+        max_length=2,
+        choices=category,
+        default=category[0][0],
     )
     vote = models.IntegerField(
         default=0
@@ -92,15 +105,3 @@ class Trip(models.Model):
     activity = models.CharField(max_length=50, null=True, default="")
     travelers = models.CharField(max_length=50, blank=True, null=True, default='')
 
-# # second
-
-# class Trip(models.Model):
-#      # 1:M model, establishing the foreign key
-#     city = models.CharField(max_length=50)
-#     # Link the user
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     date = models.DateField(' Date')
-
-# class My_Trip(models.Model) :
-#     trip = models.ForeignKey(Trip, on_delete=models.CASCADE)
-#     item = models.ForeignKey(Item, on_delete=models.CASCADE)
