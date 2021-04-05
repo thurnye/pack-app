@@ -101,6 +101,7 @@ class Trip(models.Model):
     # Link the user
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     date = models.DateField(default=datetime.now)
+    #my_trip = models.ForeignKey(My_Trip, on_delete=models.CASCADE)
     activity = models.CharField(max_length=50, null=True, default="")
     travelers = models.CharField(max_length=50, blank=True, null=True, default='')
 
