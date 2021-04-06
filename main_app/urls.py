@@ -19,4 +19,5 @@ urlpatterns = [
     path("test", views.test, name="test"),
     path("post/ajax/up", views.upvote_system, name="upvote_system"),
     path("post/ajax/down", views.downvote_system, name="downvote_system"),
+    path("data/", views.generateData)
 ]
