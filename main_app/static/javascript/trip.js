@@ -43,11 +43,6 @@ scores.forEach(item => {
                 }
             }
         }
-        // let i = 5
-        // const length = score.innerHTML.length
-        // while (i > length) {
-        //     score.innerHTML = score.innerHTML + "&nbsp;"
-        //     i -= 1
-        // }
     })
 })
+
