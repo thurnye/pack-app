@@ -16,5 +16,8 @@ urlpatterns = [
 
     path("post/ajax/up", views.upvote_system, name="upvote_system"),
     path("post/ajax/down", views.downvote_system, name="downvote_system"),
-    path("data/", views.generateData)
+    path("data/", views.generateData),
+
+    path('findcity/', views.find_city, name="findcity"),
+    path('findcity/results', views.results, name='results'),
 ]
