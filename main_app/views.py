@@ -118,7 +118,7 @@ def trip(request, trip_id):
 
 
 def generateData(request):
-    data = getData(100000)
+    data = getData(10000)
     return render(request, "data.html", {
         "data": data
     })
@@ -150,4 +150,24 @@ def profile(request, user_id):
     return render (request, 'registration/profile.html', {
         "mytrips": my_trips,
         "myitems": my_items,
+    })
+
+def find_city(request):
+    return render(request, 'search/search.html')
+
+def results(request):
+    print(request.POST)
+    search = request.POST['search'].split(", ")
+    num_items = 15
+    items = Item.objects.filter(city=search[0], country=search[-1])[:num_items]
+    print(items)
+    categories = getChoices(category)
+    sorted_items = {}
+    for cat in categories:
+        sorted_items[cat] = []
+    for item in items:
+            if item.vote > 0:
+                sorted_items[item.category].append(item)
+    return render(request, 'search/results.html', {
+        "categories": sorted_items,
     })

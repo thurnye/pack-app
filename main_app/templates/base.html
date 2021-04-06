@@ -50,6 +50,9 @@
   <div id="side-nav-container">
     <nav class="navbar-dark" id="side-nav">
       <ul class="navbar-nav">
+        <li>
+          <a href="{% url 'findcity' %}" class="nav-link py-1 px-3 my-0">Search</a>
+        </li>
         {% if user.is_authenticated %}
         <li>
           <a href="{% url 'profile' user.id %}" class="nav-link py-1 px-3 my-0">Profile</a>
