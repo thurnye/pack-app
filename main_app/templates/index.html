@@ -31,7 +31,27 @@
 <div class="container mt-5" id="index-container">
   <div class="container" id="mobile-container">
     <div class="d-grid">
+      {% if user.is_authenticated == False %}
       <img class="img-fluid" src="{% static 'images/globe.png' %}" alt="">
+      {% else %}
+      <h4>Welcome back</h4>
+      Here are your upcoming trips
+      <hr />
+      {% for trip in mytrips %}
+      <div>
+        {{ trip.city }} - {{ trip.country }}<br>
+        {{ trip.date }}<br>
+
+        {% if trip.travelers == True %}
+        {{ trip.travelers }}
+        {% else %}
+        No travel companions
+        {% endif %}
+
+        {{ trip.activity }}
+      </div>
+      {% endfor %}
+      {% endif %}
     </div>
     <div class="d-grid">
       <a href="{% url 'new_trip' %}" class="btn rounded-pill py-2 mt-4 button-primary">Add New Trip</a>
