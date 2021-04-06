@@ -14,7 +14,7 @@ scores.forEach(item => {
             up : "score-up-post",
             down : "score-down-post"
         }
-    
+        
         if (target.classList.contains("score-up")) {
             if (up.classList.contains(classNames.up)) {
                 up.classList.remove(classNames.up)

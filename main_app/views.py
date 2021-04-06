@@ -110,7 +110,8 @@ def trip(request, trip_id):
         for cat in categories:
             sorted_items[cat] = []
         for item in items:
-            sorted_items[item.category].append(item)
+            if item.vote > 0:
+                sorted_items[item.category].append(item)
 
         # print(trip.city, trip.country, trip.season, trip.activity)
         # personal_items = Item.objects.filter(city=trip.city, country=trip.country, season=trip.season, activity=trip.activity, trip_id=trip.id)
