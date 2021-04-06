@@ -7,13 +7,10 @@ from django.contrib.auth.decorators import login_required
 from django.core import serializers
 from .models import Item, Trip, User, category, activity, getChoices
 
-
 # Create your views here.
-
 
 def home(request):
     my_trips = Trip.objects.filter(user_id=request.user.id)
-    print(my_trips)
     activities = [x[1] for x in activity]
     return render(request, 'index.html', {
         "mytrips": my_trips,
@@ -29,14 +26,6 @@ def search(request):
             "activity": request.POST["activity"],
             "date": request.POST["date"]
         })
-
-
-def search_city(request):
-    return render(request, 'search_city.html')
-
-
-def searched_city(request):
-    return render(request, 'search_filters.html')
 
 
 def searched_filters(request):
@@ -62,10 +51,11 @@ def signup(request):
     return render(request, 'registration/signup.html', context)
 
 
+@login_required
 def new_trip(request):
     if request.method == "GET":
         return render(request, "trips/trip_form.html", {
-
+            
         })
     elif request.method == "POST":
         print(request.POST)
@@ -99,7 +89,7 @@ def new_trip(request):
 #     # if request.method == "GET":
 #     return render(request, "trips/trip.html")
 
-
+@login_required
 def trip(request, trip_id):
     if request.method == "GET":
         trip = Trip.objects.get(id=trip_id)
@@ -127,17 +117,13 @@ def trip(request, trip_id):
         })
 
 
-def test(request):
-    return render(request, "test.html")
-
-
 def generateData(request):
     data = getData(100000)
     return render(request, "data.html", {
         "data": data
     })
 
-
+@login_required
 def upvote_system(request):
     if request.is_ajax and request.method == "POST":
         print("UPVOTE: this is successfully an ajax & post method")
@@ -147,7 +133,7 @@ def upvote_system(request):
     else:
         return JsonResponse({"error": ""}, status=400)
 
-
+@login_required
 def downvote_system(request):
     if request.is_ajax and request.method == "POST":
         print("DOWNVOTE: this is successfully an ajax & post method")
@@ -156,3 +142,12 @@ def downvote_system(request):
         return redirect('/')
     else:
         return JsonResponse({"error": ""}, status=400)
+
+@login_required
+def profile(request, user_id):
+    my_trips = Trip.objects.filter(user_id=user_id)
+    my_items = Item.objects.filter(user=user_id)
+    return render (request, 'registration/profile.html', {
+        "mytrips": my_trips,
+        "myitems": my_items,
+    })
