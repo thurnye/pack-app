@@ -99,10 +99,13 @@ def new_trip(request):
 def trip(request, trip_id):
     if request.method == "GET":
         trip = Trip.objects.get(id=trip_id)
-        # items = Item.objects.filter(season=)
+
+        items = Item.objects.filter(city=trip.city, country=trip.country, season=trip.season, activity=trip.activity)
         print(trip.user)
         return render(request, "trips/trip.html", {
             "categories": getChoices(category),
+            "items": items
+
 
         })
 
