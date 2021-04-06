@@ -7,14 +7,17 @@ from django.contrib.auth.decorators import login_required
 from django.core import serializers
 from .models import Item, Trip, User, category, activity, getChoices
 
+
 # Create your views here.
 
 
 def home(request):
+    my_trips = Trip.objects.filter(user_id=request.user.id)
+    print(my_trips)
     activities = [x[1] for x in activity]
     return render(request, 'index.html', {
-        "title": "Home",
-        "activities": activities
+        "mytrips": my_trips,
+        "activities": activities,
     })
 
 
