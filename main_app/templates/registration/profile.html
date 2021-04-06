@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<div class="container mt-5" id="index-container">
+    <div class="container" id="mobile-container">
+        <div class="d-grid">
+            <h4>Your profile</h4>
+            Here are all of your current and past trips
+            <hr />
+            {% for trip in mytrips %}
+            <div>
+                {{ trip.city }} - {{ trip.country }}<br>
+                {{ trip.date }}<br>
+                {% if trip.travelers == True %}
+                {{ trip.travelers }}
+                {% else %}
+                No travel companions
+                {% endif %}
+                {{ trip.activity }}
+            </div><br>
+            {% endfor %}
+            <br>
+
+            Here are all of your created items
+            <hr />
+            {% for trip in mytrips %}
+            <div>
+                {{ trip.city }} - {{ trip.country }}<br>
+                {{ trip.date }}<br>
+                {% if trip.travelers == True %}
+                {{ trip.travelers }}
+                {% else %}
+                No travel companions
+                {% endif %}
+                {{ trip.activity }}
+            </div><br>
+            {% endfor %}
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

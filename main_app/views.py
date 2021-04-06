@@ -155,3 +155,11 @@ def downvote_system(request):
         return redirect('/')
     else:
         return JsonResponse({"error": ""}, status=400)
+
+def profile(request):
+    my_trips = Trip.objects.filter(user_id=request.user.id)
+    my_items = Item.objects.all()
+    print(my_items)
+    return render (request, 'registration/profile.html', {
+        "mytrips": my_trips,
+    })
