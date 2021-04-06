@@ -28,14 +28,6 @@ def search(request):
         })
 
 
-def search_city(request):
-    return render(request, 'search_city.html')
-
-
-def searched_city(request):
-    return render(request, 'search_filters.html')
-
-
 def searched_filters(request):
     return render(request, 'results.html')
 
@@ -123,10 +115,6 @@ def trip(request, trip_id):
             # "items": sorted_items,
             # "personal_items": personal_items
         })
-
-
-def test(request):
-    return render(request, "test.html")
 
 
 def generateData(request):
