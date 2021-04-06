@@ -5,7 +5,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.core import serializers
-from .models import Item, Trip, User, category, activity, getChoices
+from .models import Item, Trip, User, Activity, CATEGORIES, ACTIVITIES, getChoices
 
 
 # Create your views here.
@@ -13,7 +13,6 @@ from .models import Item, Trip, User, category, activity, getChoices
 
 def home(request):
     my_trips = Trip.objects.filter(user_id=request.user.id)
-    print(my_trips)
     activities = [x[1] for x in activity]
     return render(request, 'index.html', {
         "mytrips": my_trips,
@@ -64,11 +63,12 @@ def signup(request):
 
 def new_trip(request):
     if request.method == "GET":
+        activities = getChoices(ACTIVITIES)
         return render(request, "trips/trip_form.html", {
-
+            "title": "Add New Trip",
+            "activities": activities
         })
     elif request.method == "POST":
-        print(request.POST)
         search = request.POST['search'].split(", ")
         date = request.POST["date"]
         month = date.split("-")[1]
@@ -87,25 +87,29 @@ def new_trip(request):
             country=search[-1].title(),
             date=date,
             season=season.title(),
-            # activity=# activity=request.POST.get('option1', '') == 'on',
-            # travelers=request.POST.get('agegroup', False),
+            # activity=# travelers=request.POST.get('agegroup', False),
             user=request.user
         )
         trip.save()
+
+        activities = request.POST.getlist("activities")
+        for activity in activities:
+            newActivity = Activity.objects.create(
+                name=activity,
+                trip=trip.id
+            )
+            newActivity.save()
+
         return redirect("/trip/%s/" % (trip.id))
-
-
-# def trip_index(request, trip_id):
-#     # if request.method == "GET":
-#     return render(request, "trips/trip.html")
 
 
 def trip(request, trip_id):
     if request.method == "GET":
         trip = Trip.objects.get(id=trip_id)
+        activities = Activity.objects.filter()
         num_items = 15
         items = Item.objects.filter(city=trip.city, country=trip.country, season=trip.season, activity=trip.activity)[:num_items]
-        categories = getChoices(category)
+        categories = getChoices(CATEGORIES)
         sorted_items = {}
         for cat in categories:
             sorted_items[cat] = []
@@ -132,7 +136,7 @@ def test(request):
 
 
 def generateData(request):
-    data = getData(100000)
+    data = getData(1000)
     return render(request, "data.html", {
         "data": data
     })
