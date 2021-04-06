@@ -9,7 +9,7 @@ urlpatterns = [
     path("trip/new/", views.new_trip, name="new_trip"),
     path("trip/<int:trip_id>/", views.trip, name="trip"),
     # path("trip/new/list", views.trip, name="new_trip"),
-    path("profile/", views.profile, name="profile"),
+    path("profile/<int:user_id>/", views.profile, name="profile"),
 
     path("search/", views.search, name="search"),
     # path('search/', views.search_city, name='search_city'),

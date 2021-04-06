@@ -7,9 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.core import serializers
 from .models import Item, Trip, User, category, activity, getChoices
 
-
 # Create your views here.
-
 
 def home(request):
     my_trips = Trip.objects.filter(user_id=request.user.id)
@@ -156,10 +154,10 @@ def downvote_system(request):
     else:
         return JsonResponse({"error": ""}, status=400)
 
-def profile(request):
-    my_trips = Trip.objects.filter(user_id=request.user.id)
-    my_items = Item.objects.all()
-    print(my_items)
+def profile(request, user_id):
+    my_trips = Trip.objects.filter(user_id=user_id)
+    my_items = Item.objects.filter(user=user_id)
     return render (request, 'registration/profile.html', {
         "mytrips": my_trips,
+        "myitems": my_items,
     })

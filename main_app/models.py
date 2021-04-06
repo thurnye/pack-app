@@ -59,6 +59,7 @@ class Item (models.Model):
     vote = models.IntegerField(default=0)
     category = models.CharField(max_length=25, choices=category)
     trip_id = models.IntegerField(null=True)
+    user = models.ManyToManyField(User)
 
     def __str__(self):
         # Nice method for obtaining the friendly value of a Field.choice
@@ -68,8 +69,6 @@ class Item (models.Model):
     class Meta:
         ordering = ['-vote']
 
-    # create the M:M
-    user = models.ManyToManyField(User)
 
     # Link the user
     # user = models.ForeignKey(User, on_delete=models.CASCADE)

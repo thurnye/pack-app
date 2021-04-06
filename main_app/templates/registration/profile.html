@@ -8,6 +8,7 @@
             <h4>Your profile</h4>
             Here are all of your current and past trips
             <hr />
+            {% if mytrips %}
             {% for trip in mytrips %}
             <div>
                 {{ trip.city }} - {{ trip.country }}<br>
@@ -20,22 +21,29 @@
                 {{ trip.activity }}
             </div><br>
             {% endfor %}
+            {% else %}
+            <div>
+                You have no trips yet
+            </div>
+            {% endif %}
             <br>
 
             Here are all of your created items
             <hr />
-            {% for trip in mytrips %}
+            {% if myitems %}
+            {% for item in myitems %}
             <div>
-                {{ trip.city }} - {{ trip.country }}<br>
-                {{ trip.date }}<br>
-                {% if trip.travelers == True %}
-                {{ trip.travelers }}
-                {% else %}
-                No travel companions
-                {% endif %}
-                {{ trip.activity }}
+                name: {{ item.name }}<br>
+                location: {{ item.city }}<br>
+                season: {{ item.season }}<br>
+                current vote: {{ item.vote }}<br>
             </div><br>
             {% endfor %}
+            {% else %}
+            <div>
+                You have no created items yet
+            </div><br>
+            {% endif %}
         </div>
 
     </div>
