@@ -20,8 +20,8 @@ activity = (
     ("OT", "Other")
 )
 
-person = (
-    ("A", "All"),
+age = (
+    ("A", "All Ages"),
     ("I", "Infant"),
     ("C", "Child"),
     ("T", "Teen"),
@@ -47,15 +47,18 @@ category = (
 
 
 class Item (models.Model):
-    name = models.CharField(max_length=25)
-    city = models.CharField(max_length=25)
-    country = models.CharField(max_length=25)
-    season = models.CharField(max_length=10, choices=season, default=season[0][0])
-    activity = models.CharField(max_length=10, choices=activity, default=activity[0][0])
-    person = models.CharField(max_length=10, choices=person, default=person[0][0])
-    gender = models.CharField(max_length=10, choices=gender, default=gender[0][0])
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    name = models.CharField(max_length=50)
+    city = models.CharField(max_length=50)
+    country = models.CharField(max_length=50)
+    season = models.CharField(max_length=25, choices=season, default=season[0][1])
+    activity = models.CharField(max_length=25, choices=activity, default=activity[0][1])
+    age = models.CharField(max_length=25, choices=age, default=age[0][1])
+    gender = models.CharField(max_length=25, choices=gender, default=gender[0][1])
     vote = models.IntegerField(default=0)
-    category = models.CharField(max_length=10, choices=category)
+    category = models.CharField(max_length=25, choices=category)
+    trip_id = models.IntegerField(null=True)
 
     def __str__(self):
         # Nice method for obtaining the friendly value of a Field.choice
@@ -73,20 +76,25 @@ class Item (models.Model):
 
 
 class Trip(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     city = models.CharField(max_length=25)
     country = models.CharField(max_length=25)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField(default=datetime.now)
-    season = models.CharField(
-        max_length=10,
-        choices=season,
-    )
-    activity = models.CharField(max_length=50, null=True, default="")
-    travelers = models.CharField(max_length=50, blank=True, null=True, default='')
+    season = models.CharField(max_length=25, choices=season, default=season[0][1])
+    activity = models.CharField(max_length=50, default=activity[0][1])
+    travelers = models.CharField(max_length=50, default='')
+    # num_items = models.IntegerField(default=15)
 
 
 class Traveler(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     name = models.CharField(max_length=25)
+    gender = models.CharField(max_length=25, choices=gender, default=gender[0][1])
+    age = models.CharField(max_length=25, choices=age, default=age[0][1])
+    trip = models.ForeignKey(Trip, on_delete=models.CASCADE, null=True)
 
 
 def getChoices(choices):
