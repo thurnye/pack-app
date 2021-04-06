@@ -59,6 +59,7 @@ def signup(request):
     return render(request, 'registration/signup.html', context)
 
 
+@login_required
 def new_trip(request):
     if request.method == "GET":
         return render(request, "trips/trip_form.html", {
@@ -96,7 +97,7 @@ def new_trip(request):
 #     # if request.method == "GET":
 #     return render(request, "trips/trip.html")
 
-
+@login_required
 def trip(request, trip_id):
     if request.method == "GET":
         trip = Trip.objects.get(id=trip_id)
@@ -134,7 +135,7 @@ def generateData(request):
         "data": data
     })
 
-
+@login_required
 def upvote_system(request):
     if request.is_ajax and request.method == "POST":
         print("UPVOTE: this is successfully an ajax & post method")
@@ -144,7 +145,7 @@ def upvote_system(request):
     else:
         return JsonResponse({"error": ""}, status=400)
 
-
+@login_required
 def downvote_system(request):
     if request.is_ajax and request.method == "POST":
         print("DOWNVOTE: this is successfully an ajax & post method")
@@ -154,6 +155,7 @@ def downvote_system(request):
     else:
         return JsonResponse({"error": ""}, status=400)
 
+@login_required
 def profile(request, user_id):
     my_trips = Trip.objects.filter(user_id=user_id)
     my_items = Item.objects.filter(user=user_id)
