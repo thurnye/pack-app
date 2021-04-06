@@ -64,7 +64,7 @@ def signup(request):
 def new_trip(request):
     if request.method == "GET":
         return render(request, "trips/trip_form.html", {
-
+            
         })
     elif request.method == "POST":
         country = request.POST['search'].split(",")
