@@ -4,10 +4,20 @@ HTML:root {
     /* --nav: #087E8B; */
     --nav: #BFD7EA;
     --button-primary: #FFDC67;
-    --button-secondary: #BFD7EA;
+    --button-secondary: #96BEDD;
     --score-default: #16056B;
     --score-up: #BFD7EA;
     --score-down: pink;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+a:hover {
+    text-decoration: none;
+    color: initial;
 }
 
 body {
@@ -97,6 +107,7 @@ header {
 /* Top Nav */
 #top-nav {
     background-color: var(--nav);
+    height: 64px;
 }
 
 #top-nav-title {
@@ -172,13 +183,17 @@ header {
 /* Login Page */
 
 .text-login-page {
-    font-weight: bold;
+    /* font-weight: bold; */
     font-size: 40px;
+}
+
+.text-login-page-2 {
+    font-weight: bold;
+    font-size: 60px;
 }
 
 .button-height {
     height: 42px;
-    /* justify-content: center; */
     vertical-align: middle;
 
 }
@@ -251,4 +266,3 @@ header {
     font-weight: bold;
     color: red;
 }
-
