@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.core import serializers
 from django.db.models import Sum, Q
 from .models import User, Trip, Vote, Item, Activity, CATEGORIES, ACTIVITIES, getChoices
+import re
 
 # Create your views here.
 
@@ -61,7 +62,8 @@ def new_trip(request):
 
         })
     elif request.method == "POST":
-        search = request.POST['search'].split(", ")
+        print(request.POST)
+        search = re.split(', | - ', request.POST['search'])
         date = request.POST["date"]
         month = date.split("-")[1]
         day = date.split("-")[2]
@@ -213,22 +215,23 @@ def profile(request, user_id):
 
 
 def find_city(request):
-    return render(request, 'search/search.html')
+    activities = getChoices(ACTIVITIES)
+    return render(request, 'search/search.html', {
+        "activities": activities,
+    })
 
 
 def results(request):
     print(request.POST)
-    search = request.POST['search'].split(", ")
+    search = re.split(', | - ', request.POST['search'])
     num_items = 15
-    items = Item.objects.filter(city=search[0], country=search[-1])[:num_items]
-    print(items)
-    categories = getChoices(category)
+    items = Item.objects.filter(city__contains=search[0])[:num_items]
+    categories = getChoices(CATEGORIES)
     sorted_items = {}
     for cat in categories:
         sorted_items[cat] = []
     for item in items:
-        if item.vote > 0:
-            sorted_items[item.category].append(item)
+        sorted_items[item.category].append(item)
     return render(request, 'search/results.html', {
         "categories": sorted_items,
     })
