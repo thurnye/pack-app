@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core import serializers
 from django.db.models import Sum, Q
 from .models import User, Trip, Vote, Item, Activity, Traveler, CATEGORIES, ACTIVITIES, getChoices
@@ -44,7 +44,7 @@ def searched_filters(request):
 def create(request):
     return redirect('search/new/filters')
 
-
+@user_passes_test(lambda u: u.is_anonymous, '/')
 def signup(request):
     error_message = ''
     if request.method == 'POST':
@@ -58,7 +58,6 @@ def signup(request):
     form = UserCreationForm()
     context = {'form': form, 'error_message': error_message}
     return render(request, 'registration/signup.html', context)
-
 
 @login_required
 def new_trip(request):
@@ -279,3 +278,4 @@ def add_item(request, trip_id):
     )
     new_item.save()
     return redirect("/trip/%s/" % (trip_id))
+
