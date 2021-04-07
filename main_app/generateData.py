@@ -1,7 +1,7 @@
 import random
 from .models import Item, Vote, SEASONS, ACTIVITIES, AGES, GENDERS, CATEGORIES, getChoices
 from django.contrib.auth.models import User
-from .static.data.places import cities
+from .static.data.places import select_cities, cities
 from .static.data.items import item_names
 from .static.data.people import first_names, last_names
 
@@ -16,7 +16,7 @@ category_choices = getChoices(CATEGORIES)
 def generateItemData(n):
     data = []
     for i in range(n):
-        random_city = cities[random.randint(0, len(cities)-1)]
+        random_city = select_cities[random.randint(0, len(select_cities)-1)]
 
         item = Item.objects.create(
             name=item_names[random.randint(0, len(item_names)-1)].title(),
@@ -72,16 +72,22 @@ def generateVoteData(n):
         item = items[random.randint(0, items_length-1)]
         user = users[random.randint(0, users_length-1)]
         score = round((random.randint(-100, 100) + 30)/100)
-        vote = Vote.objects.create(
-            user=user,
-            item=item,
-            vote=score
-        )
-        vote.save()
+        if len(Vote.objects.filter(user=user, item=item)) > 0:
+            # print("%s || already exists" % (i))
+            pass
+        else:
+            vote = Vote.objects.create(
+                user=user,
+                item=item,
+                vote=score
+            )
+            vote.save()
+            # print("%s || creating object" % (i))
 
-        data.append({
-            item, user, score
-        })
+            data.append({
+                item, user, score
+            })
+
     # print(items[random.randint(0, items_length-1)], users[random.randint(0, users_length)])
 
     return data
