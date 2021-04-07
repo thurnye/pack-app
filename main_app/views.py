@@ -118,7 +118,7 @@ def trip(request, trip_id):
 
 
 def generateData(request):
-    data = getData(100000)
+    data = getData(10000)
     return render(request, "data.html", {
         "data": data
     })
