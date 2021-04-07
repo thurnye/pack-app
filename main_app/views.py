@@ -190,7 +190,7 @@ def find_city(request):
 def results(request):
     print(request.POST)
     search = re.split(', | - ', request.POST['search'])
-    num_items = 15
+    num_items = int(request.POST['number_items'])
     items = Item.objects.filter(city__contains=search[0])[:num_items]
     categories = getChoices(CATEGORIES)
     sorted_items = {}
