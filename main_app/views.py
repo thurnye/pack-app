@@ -1,20 +1,21 @@
-from .generateData import getData
+from .generateData import generateItemData, generateUserData, generateVoteData
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.core import serializers
-from .models import Item, Trip, User, category, activity, getChoices
+from django.db.models import Sum, Q
+from .models import User, Trip, Vote, Item, Activity, CATEGORIES, ACTIVITIES, getChoices
+import re
 
 # Create your views here.
 
+
 def home(request):
     my_trips = Trip.objects.filter(user_id=request.user.id)
-    activities = [x[1] for x in activity]
     return render(request, 'index.html', {
         "mytrips": my_trips,
-        "activities": activities,
     })
 
 
@@ -54,12 +55,15 @@ def signup(request):
 @login_required
 def new_trip(request):
     if request.method == "GET":
+        activities = getChoices(ACTIVITIES)
         return render(request, "trips/trip_form.html", {
-            
+            "title": "Add New Trip",
+            "activities": activities
+
         })
     elif request.method == "POST":
         print(request.POST)
-        search = request.POST['search'].split(", ")
+        search = re.split(', | - ', request.POST['search'])
         date = request.POST["date"]
         month = date.split("-")[1]
         day = date.split("-")[2]
@@ -71,59 +75,114 @@ def new_trip(request):
             season = "Summer"
         elif(month == "10" or month == "11"):
             season = "Fall"
+        number_items = int(request.POST["number_items"])
 
         trip = Trip.objects.create(
+            user=request.user,
             city=search[0].title(),
             country=search[-1].title(),
             date=date,
             season=season.title(),
-            # activity=# activity=request.POST.get('option1', '') == 'on',
-            # travelers=request.POST.get('agegroup', False),
-            user=request.user
+            number_items=number_items
         )
         trip.save()
+
+        activities = request.POST.getlist("activities")
+        for activity in activities:
+            newActivity = Activity.objects.create(
+                trip=trip,
+                activity=activity,
+            )
+            newActivity.save()
         return redirect("/trip/%s/" % (trip.id))
 
-
-# def trip_index(request, trip_id):
-#     # if request.method == "GET":
-#     return render(request, "trips/trip.html")
 
 @login_required
 def trip(request, trip_id):
     if request.method == "GET":
         trip = Trip.objects.get(id=trip_id)
-        num_items = 15
-        items = Item.objects.filter(city=trip.city, country=trip.country, season=trip.season, activity=trip.activity)[:num_items]
-        categories = getChoices(category)
-        sorted_items = {}
-        for cat in categories:
-            sorted_items[cat] = []
-        for item in items:
-            if item.vote > 0:
-                sorted_items[item.category].append(item)
+        if trip.user != request.user:
+            return redirect("/")
 
-        # print(trip.city, trip.country, trip.season, trip.activity)
-        # personal_items = Item.objects.filter(city=trip.city, country=trip.country, season=trip.season, activity=trip.activity, trip_id=trip.id)
-        # for cat in sorted_items:
-        #     for i in cat:
-        #         print(i)
+        activities = Activity.objects.filter(trip_id=trip.id)
+        filtered_items = []
+        for i in range(len(activities)):
+            filtered_items_temp = Item.objects.filter(city=trip.city, country=trip.country, season=trip.season, activity=activities[i].activity, trip_id=None, public=True)
+            filtered_items.extend(filtered_items_temp)
+        filtered_items = list(set(filtered_items))
+
+        filtered_items.extend(Item.objects.filter(trip_id=trip.id))
+
+        items = []
+        personal_items = []
+        for item in filtered_items:
+            sum_votes = Vote.objects.filter(item_id=item.id).aggregate(Sum("vote"))["vote__sum"]
+            user_item = Vote.objects.filter(item_id=item.id, user_id=request.user.id)
+            if len(user_item) == 1:
+                vote = user_item[0]
+            else:
+                vote = Vote.objects.create(
+                    item_id=item.id,
+                    user_id=request.user.id,
+                    vote=0,
+                    checked=False
+                )
+
+            if sum_votes == None or sum_votes >= 0:
+                if item.trip_id:
+                    personal_items.append({
+                        "item": item,
+                        "sum_votes": sum_votes,
+                        "vote": vote,
+                        "personal": True
+                    })
+                else:
+                    items.append({
+                        "item": item,
+                        "sum_votes": sum_votes,
+                        "vote": vote,
+                        "personal": False
+                    })
+        sorted_items = sorted(items, key=lambda k: k["sum_votes"], reverse=True)[:trip.number_items]
+        sorted_items.extend(personal_items)
+
+        categories = getChoices(CATEGORIES)
+        categorized_items = {}
+        for category in categories:
+            categorized_items[category] = []
+
+        for i in range(len(sorted_items)):
+            old_item = sorted_items[i]
+            categorized_items[old_item["item"].category].append(old_item)
 
         return render(request, "trips/trip.html", {
             "title": "%s, %s" % (trip.city, trip.country),
-            "categories": sorted_items,
-            # "items": sorted_items,
-            # "personal_items": personal_items
+            "categorized_items": categorized_items,
         })
 
 
-def generateData(request):
-    data = getData(10000)
+def itemData(request, n=100):
+    data = generateItemData(n)
     return render(request, "data.html", {
         "data": data
     })
 
-@login_required
+
+def userData(request, n=10):
+    data = generateUserData(n)
+    return render(request, "data.html", {
+        "data": data
+    })
+
+
+def voteData(request, n=1000):
+    data = generateVoteData(n)
+    return render(request, "data.html", {
+        "data": data
+    })
+
+
+@ login_required
 def upvote_system(request):
     if request.is_ajax and request.method == "POST":
         print("UPVOTE: this is successfully an ajax & post method")
@@ -133,7 +192,8 @@ def upvote_system(request):
     else:
         return JsonResponse({"error": ""}, status=400)
 
-@login_required
+
+@ login_required
 def downvote_system(request):
     if request.is_ajax and request.method == "POST":
         print("DOWNVOTE: this is successfully an ajax & post method")
@@ -143,11 +203,35 @@ def downvote_system(request):
     else:
         return JsonResponse({"error": ""}, status=400)
 
-@login_required
+
+@ login_required
 def profile(request, user_id):
     my_trips = Trip.objects.filter(user_id=user_id)
     my_items = Item.objects.filter(user=user_id)
-    return render (request, 'registration/profile.html', {
+    return render(request, 'registration/profile.html', {
         "mytrips": my_trips,
         "myitems": my_items,
+    })
+
+
+def find_city(request):
+    activities = getChoices(ACTIVITIES)
+    return render(request, 'search/search.html', {
+        "activities": activities,
+    })
+
+
+def results(request):
+    print(request.POST)
+    search = re.split(', | - ', request.POST['search'])
+    num_items = 15
+    items = Item.objects.filter(city__contains=search[0])[:num_items]
+    categories = getChoices(CATEGORIES)
+    sorted_items = {}
+    for cat in categories:
+        sorted_items[cat] = []
+    for item in items:
+        sorted_items[item.category].append(item)
+    return render(request, 'search/results.html', {
+        "categories": sorted_items,
     })

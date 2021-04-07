@@ -3,7 +3,7 @@ HTML:root {
     --background: #FFFFFF;
     /* --nav: #087E8B; */
     --nav: #BFD7EA;
-    --button-primary: #edcd62;
+    --button-primary: #FFDC67;
     --button-secondary: #BFD7EA;
     --score-default: #16056B;
     --score-up: #BFD7EA;
@@ -16,6 +16,12 @@ body {
     flex-direction: column;
     padding: 0;
     margin: 0;
+}
+
+.text-header {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 20px;
 }
 
 .text-normal {
@@ -31,11 +37,34 @@ body {
     color: #16056B;
 }
 
+.text-card-title {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+}
+
+.text-card-normal {
+    font-size: 14px;
+}
+
+.text-activities {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 17px;
+}
+
+
 .text-normal-indent {
     margin-left: 20px;
 }
 
-.card-shadow,
+.card-shadow {
+    box-shadow: 4px 4px 10px 1px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+}
+
 .button-shadow {
     box-shadow: 4px 4px 10px 1px rgba(0, 0, 0, 0.1);
     border-radius: 20px;
@@ -60,6 +89,12 @@ header {
 /* Top Nav */
 #top-nav {
     background-color: var(--nav);
+}
+
+#top-nav-title {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
 }
 
 #top-nav-right>li>a {
@@ -126,7 +161,29 @@ header {
     max-width: 840px;
 }
 
-/* Packing List Item */
+/* Trip Form Items */
+.card-activity,
+.card-packing {
+    border: 2px solid var(--button-secondary);
+    box-sizing: border-box;
+    min-height: 100px;
+    min-width: 100px;
+}
+
+
+.card-activity-active,
+.card-packing-active {
+    background-color: var(--button-secondary);
+    color: var(--background);
+}
+
+.card-packing:hover {
+    cursor: pointer;
+    background-color: var(--button-secondary);
+    color: var(--background);
+}
+
+/* Trip Item */
 .score-div {
     width: 90px;
 }
@@ -155,4 +212,9 @@ header {
 .score-down-post {
     color: var(--score-down);
     fill: var(--score-down);
+}
+
+.text-personal {
+    font-weight: bold;
+    color: red;
 }
