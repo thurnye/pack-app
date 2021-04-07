@@ -5,8 +5,8 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.core import serializers
-from .models import Item, Trip, User, category, activity, getChoices
-
+import re
+from .models import Item, Trip, User, Activity, CATEGORIES, ACTIVITIES, getChoices
 
 # Create your views here.
 
@@ -28,14 +28,6 @@ def search(request):
             "activity": request.POST["activity"],
             "date": request.POST["date"]
         })
-
-
-def search_city(request):
-    return render(request, 'search_city.html')
-
-
-def searched_city(request):
-    return render(request, 'search_filters.html')
 
 
 def searched_filters(request):
@@ -61,14 +53,18 @@ def signup(request):
     return render(request, 'registration/signup.html', context)
 
 
+@login_required
 def new_trip(request):
     if request.method == "GET":
+        activities = getChoices(ACTIVITIES)
         return render(request, "trips/trip_form.html", {
+            "title": "Add New Trip",
+            "activities": activities
 
         })
     elif request.method == "POST":
         print(request.POST)
-        search = request.POST['search'].split(", ")
+        search = re.split(', | - ', request.POST['search'])
         date = request.POST["date"]
         month = date.split("-")[1]
         day = date.split("-")[2]
@@ -86,25 +82,30 @@ def new_trip(request):
             country=search[-1].title(),
             date=date,
             season=season.title(),
-            # activity=# activity=request.POST.get('option1', '') == 'on',
-            # travelers=request.POST.get('agegroup', False),
+            # activity=# travelers=request.POST.get('agegroup', False),
             user=request.user
         )
         trip.save()
+
+        activities = request.POST.getlist("activities")
+        for activity in activities:
+            newActivity = Activity.objects.create(
+                name=activity,
+                trip=trip.id
+            )
+            newActivity.save()
+
         return redirect("/trip/%s/" % (trip.id))
 
 
-# def trip_index(request, trip_id):
-#     # if request.method == "GET":
-#     return render(request, "trips/trip.html")
-
-
+@login_required
 def trip(request, trip_id):
     if request.method == "GET":
         trip = Trip.objects.get(id=trip_id)
+        activities = Activity.objects.filter()
         num_items = 15
         items = Item.objects.filter(city=trip.city, country=trip.country, season=trip.season, activity=trip.activity)[:num_items]
-        categories = getChoices(category)
+        categories = getChoices(CATEGORIES)
         sorted_items = {}
         for cat in categories:
             sorted_items[cat] = []
@@ -126,17 +127,14 @@ def trip(request, trip_id):
         })
 
 
-def test(request):
-    return render(request, "test.html")
-
-
 def generateData(request):
-    data = getData(100000)
+    data = getData(1000)
     return render(request, "data.html", {
         "data": data
     })
 
 
+@login_required
 def upvote_system(request):
     if request.is_ajax and request.method == "POST":
         print("UPVOTE: this is successfully an ajax & post method")
@@ -147,6 +145,7 @@ def upvote_system(request):
         return JsonResponse({"error": ""}, status=400)
 
 
+@login_required
 def downvote_system(request):
     if request.is_ajax and request.method == "POST":
         print("DOWNVOTE: this is successfully an ajax & post method")
@@ -155,3 +154,36 @@ def downvote_system(request):
         return redirect('/')
     else:
         return JsonResponse({"error": ""}, status=400)
+
+
+@login_required
+def profile(request, user_id):
+    my_trips = Trip.objects.filter(user_id=user_id)
+    my_items = Item.objects.filter(user=user_id)
+    return render(request, 'registration/profile.html', {
+        "mytrips": my_trips,
+        "myitems": my_items,
+    })
+
+
+def find_city(request):
+    return render(request, 'search/search.html')
+
+
+def results(request):
+    print(request.POST)
+    search = re.split(', | - ', request.POST['search'])
+    num_items = 15
+    print(f"{search[0]}, ||||, {search[-1]}")
+    items = Item.objects.filter(city__contains=search[0])[:num_items]
+    print(items)
+    categories = getChoices(category)
+    sorted_items = {}
+    for cat in categories:
+        sorted_items[cat] = []
+    for item in items:
+        if item.vote > 0:
+            sorted_items[item.category].append(item)
+    return render(request, 'search/results.html', {
+        "categories": sorted_items,
+    })

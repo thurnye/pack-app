@@ -1,13 +1,13 @@
 import random
-from .models import Item, season, activity, age, gender, category, getChoices
+from .models import Item, SEASONS, ACTIVITIES, AGES, GENDERS, CATEGORIES, getChoices
 from .static.data.places import cities
 from .static.data.names import item_names
 
-season_choices = getChoices(season)
-activity_choices = getChoices(activity)
-age_choices = getChoices(age)
-gender_choices = getChoices(gender)
-category_choices = getChoices(category)
+season_choices = getChoices(SEASONS)
+activity_choices = getChoices(ACTIVITIES)
+age_choices = getChoices(AGES)
+gender_choices = getChoices(GENDERS)
+category_choices = getChoices(CATEGORIES)
 
 
 def getData(n):

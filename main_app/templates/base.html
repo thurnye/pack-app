@@ -24,7 +24,11 @@
               d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
           </svg>
         </a>
+
+        <ul class="nav d-flex" id="top-nav-right"></ul>
+        <a class="navbar-brand position-absolute translate-middle-x start-50" href="/" id="top-nav-title">Pack'd</a>
         {% if user.is_authenticated %}
+<<<<<<< HEAD
         <a class="navbar-brand position-absolute translate-middle-x start-50" href="/" id="top-nav-title">{{ title
           }}</a>
         <ul class="nav d-flex" id="top-nav-right">
@@ -35,6 +39,20 @@
           {% comment %} <a class="navbar-brand position-absolute translate-middle-x start-50" href="/">
             Login</a>
           {% endcomment %}
+=======
+          <text class="navbar-brand position-absolute translate-middle-x start-50" id="top-nav-title">{{ title }}</text>
+>>>>>>> 83290c3c1b4a187446bb65bb331d7877497046ed
+          <ul class="nav d-flex" id="top-nav-right">
+            <li class="d-flex align-items-center">
+              <a href="{% url 'signup' %}" class="nav-link px-2 my-0">Sign Up</a>
+            </li>
+<<<<<<< HEAD
+            <li class="d-flex align-items-center">
+              <a href="{% url 'login' %}" class="nav-link px-2 my-0">Log In</a>
+            </li>
+            {% endif %}
+=======
+          {% else %}
           <ul class="nav d-flex" id="top-nav-right">
             <li class="d-flex align-items-center">
               <a href="{% url 'signup' %}" class="nav-link px-2 my-0">Sign Up</a>
@@ -42,15 +60,23 @@
             <li class="d-flex align-items-center">
               <a href="{% url 'login' %}" class="nav-link px-2 my-0">Log In</a>
             </li>
-            {% endif %}
+          {% endif %}
+>>>>>>> 83290c3c1b4a187446bb65bb331d7877497046ed
           </ul>
       </div>
     </nav>
   </header>
+
   <div id="side-nav-container">
     <nav class="navbar-dark" id="side-nav">
       <ul class="navbar-nav">
+        <li>
+          <a href="{% url 'findcity' %}" class="nav-link py-1 px-3 my-0">Search</a>
+        </li>
         {% if user.is_authenticated %}
+        <li>
+          <a href="{% url 'profile' user.id %}" class="nav-link py-1 px-3 my-0">Profile</a>
+        </li>
         <li>
           <a href="{% url 'logout' %}" class="nav-link py-1 px-3 my-0">Log Out</a>
         </li>
