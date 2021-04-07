@@ -6,7 +6,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.core import serializers
 from .models import Item, Trip, User, category, activity, getChoices
-
+import re
 # Create your views here.
 
 def home(request):
@@ -59,7 +59,7 @@ def new_trip(request):
         })
     elif request.method == "POST":
         print(request.POST)
-        search = request.POST['search'].split(", ")
+        search = re.split(', | - ', request.POST['search'])
         date = request.POST["date"]
         month = date.split("-")[1]
         day = date.split("-")[2]
@@ -157,9 +157,10 @@ def find_city(request):
 
 def results(request):
     print(request.POST)
-    search = request.POST['search'].split(", ")
+    search = re.split(', | - ', request.POST['search'])
     num_items = 15
-    items = Item.objects.filter(city=search[0], country=search[-1])[:num_items]
+    print(f"{search[0]}, ||||, {search[-1]}")
+    items = Item.objects.filter(city__contains=search[0])[:num_items]
     print(items)
     categories = getChoices(category)
     sorted_items = {}

@@ -20,8 +20,10 @@ Create and add items for specific locations, and up-vote/down-vote other communi
 * Python
 * PostgreSQL & Postbird
 * HTML, CSS, Javascript
+* Bootstrap
 * JQuery, AJAX
 
 ## Other
-* [Trello Board]()
-* [Wireframes]()
+* [Trello Board](https://trello.com/b/Z1liPaey/packd)
+* [Wireframes](https://www.figma.com/file/2PoNMUg2fwZbZ4VwMEjykV/Pack'D?node-id=12%3A36)
+* [User Stories](https://www.canva.com/design/DAEazvT3As0/b9WaIulWfGE2-kPRzvvSkg/edit#1)
