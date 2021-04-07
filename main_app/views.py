@@ -20,6 +20,7 @@ def home(request):
             "trip": my_trip,
             "travelers": Traveler.objects.filter(trip_id=my_trip)
         })
+    trips.reverse()
 
     return render(request, 'index.html', {
         "trips": trips[:3],
