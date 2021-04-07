@@ -6,7 +6,7 @@
     {% if user.is_authenticated == False %}
       <div class="d-grid">
         <div class="">
-          <text class="text-login-page">Welcome!</text><br>
+          <text class="text-login-page">Welcome</text><br>
           <text>Plan your first trip</text>
         </div>
         <hr />
@@ -19,9 +19,21 @@
     {% else %}
       <div class="d-grid">
         <div class="">
-          <text class="text-login-page">Welcome back!</text><br>
-          <text>Here are your upcoming trips</text>
+          {% if user.first_name %}
+            <text class="text-login-page">Welcome {{ user.first_name}}</text><br>
+          {% else %}
+            <text class="text-login-page">Welcome back</text><br>
+          {% endif %}
         </div>
+        {% if trips %}
+          <div class="mt-1">
+            <text>Here are your upcoming trips</text>
+          </div>
+        {% else %}
+          <div class="mt-1">
+            <text>Plan your first trip!</text>
+          </div>
+        {% endif %}
         <hr/>
         {% for trip in trips %}
         <div class="card card-shadow border-0 my-2">
@@ -66,14 +78,20 @@
         </div>
         {% endfor %}
         <div class="d-grid">
-          <div class="text-center">
-            <button class="btn button-hover px-4 button-shadow border-0 mt-2">
-              <text class="text-normal">View All Trips</text>
-            </button>
-          </div>
-          <a href="{% url 'new_trip' %}" class="btn rounded-pill py-2 mt-5 button-shadow button-primary button-height">
-            <text class="text-header">Add New Trip</text>
-          </a>
+          {% if trips %}
+            <div class="text-center">
+              <button class="btn button-hover px-4 button-shadow border-0 mt-2">
+                <text class="text-normal">View All Trips</text>
+              </button>
+            </div>
+            <a href="{% url 'new_trip' %}" class="btn rounded-pill py-2 mt-5 button-shadow button-primary button-height">
+              <text class="text-header">Add New Trip</text>
+            </a>
+          {% else %}
+            <a href="{% url 'new_trip' %}" class="btn rounded-pill py-2 mt-5 button-shadow button-primary button-height">
+              <text class="text-header">Click here to get started</text>
+            </a>
+          {% endif %}
           <a href="{% url 'new_trip' %}" class="btn rounded-pill py-2 mt-3 button-shadow button-height">
             <text class="text-header">View Past Trips</text>
           </a>

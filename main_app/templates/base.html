@@ -36,11 +36,11 @@
         {% else %}
         <ul class="nav d-flex" id="top-nav-right">
           <li class="d-flex align-items-center">
-            <a href="{% url 'signup' %}" class="nav-link px-2 my-0">Sign Up</a>
+            <a href="{% url 'login' %}" class="nav-link px-2 my-0">Sign In</a>
           </li>
-          <li class="d-flex align-items-center">
+          {% comment %} <li class="d-flex align-items-center">
             <a href="{% url 'login' %}" class="nav-link px-2 my-0">Log In</a>
-          </li>
+          </li> {% endcomment %}
         </ul>
         {% endif %}
       </div>
@@ -62,7 +62,7 @@
         </li>
         {% else %}
         <li>
-          <a href="{% url 'signup' %}" class="nav-link py-1 px-3 my-0">Sign Up</a>
+          <a href="{% url 'signup' %}" class="nav-link py-1 px-3 my-0">Sign In</a>
         </li>
         <li>
           <a href="{% url 'login' %}" class="nav-link py-1 px-3 my-0">Log In</a>
