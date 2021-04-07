@@ -21,22 +21,71 @@
         <input type="date" class="form-control" name="date" id="date" required>
       </div>
     </div>
-    {% comment %} <div class="mt-4">
+    <div class="mt-4">
       <label class="form-label text-header">Travellers</label>
-      <ol class="ps-4">
-        <li>
-          <a>User</a>
+      <ol class="ps-4" id="travellers-list">
+        <li class="my-1 ps-2 my-traveller">
+          <div class="d-flex">
+            <div class="input-group input-group-sm">
+              {% if user.first_name %}
+                <input type="text" placeholder="Name" value="{{ user.first_name }} {{ user.last_name }}" class="form-control" disabled>
+              {% else %}
+                <input type="text" placeholder="Name" value="{{ user.username.title }}" class="form-control" disabled>
+              {% endif %}
+            </div>
+            <div class="text-center mx-1 my-auto">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="grey" class="bi bi-x" viewBox="0 0 16 16" disabled>
+              </svg>
+            </div>
+          </div>
         </li>
-        <li>
-          <a>User</a>
+        {% for traveller in travellers %}
+        <li class="my-1 ps-2" id="traveller-template">
+          <div class="d-flex">
+            <div class="input-group input-group-sm">
+              <input type="text" name="name" placeholder="Name" class="form-control" required>
+              <input type="number" name="age" min="0" max="110" placeholder="Age" class="form-control pe-1 age" required>
+              <select class="form-select form-select-sm pe-0 gender" name="gender" aria-label=".form-select-sm" required>
+                <option value="" disabled selected>Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="text-center mx-1 my-auto">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="grey" class="bi bi-x remove-traveller-button" value="{{ traveller.name }}" viewBox="0 0 16 16">
+                <path class="remove-traveller-button" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+              </svg>
+            </div>
+          </div>
+        </li>
+        {% endfor %}
+        <li class="my-1 ps-2" id="traveller-template">
+          <div class="d-flex">
+            <div class="input-group input-group-sm">
+              <input type="text" name="name" placeholder="Name" class="form-control" required>
+              <input type="number" name="age" min="0" max="110" placeholder="Age" class="form-control pe-1 age" required>
+              <select class="form-select form-select-sm pe-0 gender" name="gender" aria-label=".form-select-sm" required>
+                <option value="" disabled selected>Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="text-center mx-1 my-auto">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="grey" class="bi bi-x remove-traveller-button" viewBox="0 0 16 16">
+                <path class="remove-traveller-button" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+              </svg>
+            </div>
+          </div>
         </li>
       </ol>
     </div>
     <div class="text-center">
-      <button class="btn button-hover button-shadow border-0">
+      <div class="btn button-hover button-shadow border-0" id="add-traveller-button">
         <text class="text-normal">+ Add traveller</text>
-      </button>
-    </div> {% endcomment %}
+      </div>
+    </div>
     <div class="mt-4">
       <label for="number_items" class="form-label text-header">How much do you want to pack?</label>
       <div class="row g-3 mt-1">

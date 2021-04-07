@@ -2,7 +2,7 @@
 {% block content %}
 
 <div class="container px-4 mt-5" id="mobile-container">
-  <h1 class="display-2">Hi,<br>traveller!</h1>
+  <text class="text-login-page">Hi,<br>traveller!</text>
   <form method="POST" action="{% url 'login' %}">
     {% csrf_token %}
     {% comment %} <div class="mb-3">
@@ -18,16 +18,20 @@
       <input type="password" class="form-control" id="login-password" name="password" required>
     </div>
     <div class="d-grid">
-      <input type="submit" class="btn rounded-pill py-2 mt-2 button-primary" value="Login">
+      <input type="submit" class="btn py-2 mt-2 button-shadow button-primary button-height text-header" value="Login">
       <input type="hidden" name="next" value="{{ next }}">
     </div>
   </form>
   <p class="text-center text-muted my-2">or</p>
   <div class="d-grid">
-    <a href="#" class="btn rounded-pill py-2 btn-secondary">Continue with Google</a>
+    <a href="#" class="btn rounded-pill py-2 button-shadow button-height">
+      <text class="text-header">Continue with Google</text>
+    </a>
   </div>
   <div class="d-grid">
-    <a href="#" class="btn rounded-pill py-2 my-2 btn-secondary">Continue with Facebook</a>
+    <a href="#" class="btn rounded-pill py-2 my-2 button-shadow button-height">
+      <text class="text-header">Continue with Facebook</text>
+    </a>
   </div>
 </div>
 

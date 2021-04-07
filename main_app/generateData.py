@@ -87,6 +87,7 @@ def generateVoteData(n):
             data.append({
                 item, user, score
             })
+    print(len(data))
 
     # print(items[random.randint(0, items_length-1)], users[random.randint(0, users_length)])
 
