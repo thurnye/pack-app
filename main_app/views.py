@@ -7,7 +7,6 @@ from django.contrib.auth.decorators import login_required
 from django.core import serializers
 from .models import Item, Trip, User, Activity, CATEGORIES, ACTIVITIES, getChoices
 
-
 # Create your views here.
 
 
@@ -28,14 +27,6 @@ def search(request):
             "activity": request.POST["activity"],
             "date": request.POST["date"]
         })
-
-
-def search_city(request):
-    return render(request, 'search_city.html')
-
-
-def searched_city(request):
-    return render(request, 'search_filters.html')
 
 
 def searched_filters(request):
@@ -61,12 +52,14 @@ def signup(request):
     return render(request, 'registration/signup.html', context)
 
 
+@login_required
 def new_trip(request):
     if request.method == "GET":
         activities = getChoices(ACTIVITIES)
         return render(request, "trips/trip_form.html", {
             "title": "Add New Trip",
             "activities": activities
+
         })
     elif request.method == "POST":
         search = request.POST['search'].split(", ")
@@ -103,6 +96,7 @@ def new_trip(request):
         return redirect("/trip/%s/" % (trip.id))
 
 
+@login_required
 def trip(request, trip_id):
     if request.method == "GET":
         trip = Trip.objects.get(id=trip_id)
@@ -131,10 +125,6 @@ def trip(request, trip_id):
         })
 
 
-def test(request):
-    return render(request, "test.html")
-
-
 def generateData(request):
     data = getData(1000)
     return render(request, "data.html", {
@@ -142,6 +132,7 @@ def generateData(request):
     })
 
 
+@login_required
 def upvote_system(request):
     if request.is_ajax and request.method == "POST":
         print("UPVOTE: this is successfully an ajax & post method")
@@ -152,6 +143,7 @@ def upvote_system(request):
         return JsonResponse({"error": ""}, status=400)
 
 
+@login_required
 def downvote_system(request):
     if request.is_ajax and request.method == "POST":
         print("DOWNVOTE: this is successfully an ajax & post method")
@@ -160,3 +152,35 @@ def downvote_system(request):
         return redirect('/')
     else:
         return JsonResponse({"error": ""}, status=400)
+
+
+@login_required
+def profile(request, user_id):
+    my_trips = Trip.objects.filter(user_id=user_id)
+    my_items = Item.objects.filter(user=user_id)
+    return render(request, 'registration/profile.html', {
+        "mytrips": my_trips,
+        "myitems": my_items,
+    })
+
+
+def find_city(request):
+    return render(request, 'search/search.html')
+
+
+def results(request):
+    print(request.POST)
+    search = request.POST['search'].split(", ")
+    num_items = 15
+    items = Item.objects.filter(city=search[0], country=search[-1])[:num_items]
+    print(items)
+    categories = getChoices(category)
+    sorted_items = {}
+    for cat in categories:
+        sorted_items[cat] = []
+    for item in items:
+        if item.vote > 0:
+            sorted_items[item.category].append(item)
+    return render(request, 'search/results.html', {
+        "categories": sorted_items,
+    })
