@@ -20,10 +20,10 @@ def home(request):
             "trip": my_trip,
             "travelers": Traveler.objects.filter(trip_id=my_trip)
         })
+    trips.reverse()
 
     return render(request, 'index.html', {
         "trips": trips[:3],
-        "user": request.user
     })
 
 
@@ -51,10 +51,14 @@ def signup(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
+            user.first_name = request.POST["first_name"]
+            user.last_name = request.POST["last_name"]
+            user.save()
             login(request, user)
             return redirect('/')
         else:
             error_message = 'Invalid sign up - try again'
+            print("error")
     form = UserCreationForm()
     context = {'form': form, 'error_message': error_message}
     return render(request, 'registration/signup.html', context)
@@ -66,8 +70,6 @@ def new_trip(request):
         return render(request, "trips/trip_form.html", {
             "title": "Add New Trip",
             "activities": activities,
-            "user": request.user
-
         })
     elif request.method == "POST":
         body = request.POST
@@ -262,6 +264,7 @@ def results(request):
         "categories": sorted_items,
     })
 
+
 def add_item(request, trip_id):
     trip = Trip.objects.get(id=trip_id)
     new_item = Item.objects.create(
@@ -272,9 +275,9 @@ def add_item(request, trip_id):
         activity=request.POST['activities'],
         category=request.POST['categories'],
         trip_id=trip_id
-        #gender=
-        #age=
-        #public=
+        # gender=
+        # age=
+        # public=
     )
     new_item.save()
     return redirect("/trip/%s/" % (trip_id))

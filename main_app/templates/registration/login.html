@@ -3,12 +3,8 @@
 
 <div class="container px-4 mt-5" id="mobile-container">
   <text class="text-login-page">Hi,<br>traveller!</text>
-  <form method="POST" action="{% url 'login' %}">
+  <form method="POST" class="mt-2" action="{% url 'login' %}">
     {% csrf_token %}
-    {% comment %} <div class="mb-3">
-      <label for="login-email" class="form-label mb-1">Email Address</label>
-      <input type="email" class="form-control" id="login-email" name="email" aria-describedby="email" required>
-    </div> {% endcomment %}
     <div class="mb-3">
       <label for="login-username" class="form-label mb-1">Username</label>
       <input type="text" class="form-control" id="login-username" aria-describedby="username" name="username" required>
@@ -24,15 +20,21 @@
   </form>
   <p class="text-center text-muted my-2">or</p>
   <div class="d-grid">
-    <a href="#" class="btn rounded-pill py-2 button-shadow button-height">
-      <text class="text-header">Continue with Google</text>
+    <a href="{% url 'signup' %}" class="btn rounded-pill py-2 button-shadow button-height">
+      <text class="text-header">Sign Up</text>
     </a>
   </div>
+  {% comment %} <p class="text-center text-muted my-2">or</p>
   <div class="d-grid">
-    <a href="#" class="btn rounded-pill py-2 my-2 button-shadow button-height">
+    <a href="#" class="btn rounded-pill py-2 mb-2 button-shadow button-height">
       <text class="text-header">Continue with Facebook</text>
     </a>
   </div>
+  <div class="d-grid">
+    <a href="#" class="btn rounded-pill py-2 mb-2 button-shadow button-height">
+      <text class="text-header">Continue with Facebook</text>
+    </a>
+  </div> {% endcomment %}
 </div>
 
 {% endblock %}
