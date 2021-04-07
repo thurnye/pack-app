@@ -183,13 +183,17 @@ header {
 /* Login Page */
 
 .text-login-page {
-    font-weight: bold;
+    /* font-weight: bold; */
     font-size: 40px;
+}
+
+.text-login-page-2 {
+    font-weight: bold;
+    font-size: 60px;
 }
 
 .button-height {
     height: 42px;
-    /* justify-content: center; */
     vertical-align: middle;
 
 }

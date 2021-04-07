@@ -1,40 +1,41 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div class="container px-4 mt-5" id="mobile-container">
-  <text class="text-login-page">Hi,<br>traveller!</text>
-  <form method="POST" class="mt-2" action="{% url 'login' %}">
+<div class="container px-4 mt-3" id="mobile-container">
+  <div class="d-grid">
+    <div class="text-center">
+      <text class="text-login-page">Let's get you</text><br>
+    </div>
+    <div class="mt-3 text-center">
+      <svg width="219" height="196" viewBox="0 0 219 196" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M54.5 23.8974C55.7108 12.8205 62.5 8 67 8H152.892C158 8 162.693 12.8205 163.5 23.8974" stroke="#BFD7EA" stroke-width="15" stroke-linecap="round"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M30 39C13.4316 39 0 52.4316 0 69V166C0 182.568 13.4316 196 30 196H189C205.568 196 219 182.568 219 166V69C219 52.4316 205.568 39 189 39H171V46.5V58.5V63.5V65.5V66H170.983C170.726 69.9092 167.474 73 163.5 73C159.526 73 156.274 69.9092 156.017 66H156V65.5V63.5V58.5V46.5V39H62V46.5V58.5V63.5V65.5V66H61.9834C61.7261 69.9092 58.4741 73 54.5 73C50.5259 73 47.2739 69.9092 47.0166 66H47V65.5V63.5V58.5V46.5V39H30ZM137.855 84.1382C140.812 83.353 143.52 86.042 142.755 89.0034L141.667 93.2212C141.506 93.8457 141.216 94.3838 140.838 94.8257C140.705 95.0938 140.551 95.354 140.378 95.605C140.157 95.9253 139.904 96.2305 139.619 96.5156L127.232 108.902L141.106 150.228C141.442 151.228 140.202 151.999 139.454 151.256L112.069 124.065L104.811 131.323C104.332 131.803 103.796 132.192 103.225 132.49C102.728 132.96 102.094 133.312 101.346 133.479L98.3564 134.142L96.7437 149.612C96.6436 150.571 95.3765 150.847 94.8872 150.015L87.999 138.312L77.2139 131.569C76.4009 131.061 76.7002 129.81 77.6548 129.725L92.6938 128.381L93.6587 125.19C93.8257 124.638 94.0923 124.159 94.4297 123.76C94.6069 123.415 94.8169 123.082 95.0596 122.767C95.2295 122.546 95.416 122.333 95.6187 122.131L102.843 114.906L76.3013 88.5527C75.5527 87.8101 76.3154 86.5645 77.3174 86.8931L117.639 100.11L130.426 87.3232C130.615 87.1343 130.812 86.9595 131.018 86.7988C131.091 86.7417 131.165 86.686 131.24 86.6318C131.328 86.5693 131.417 86.5088 131.506 86.4512C131.646 86.3608 131.789 86.2764 131.934 86.1978C132.18 85.9673 132.459 85.7651 132.77 85.5996C133.039 85.4561 133.331 85.3403 133.645 85.2568L137.855 84.1382Z" fill="#BFD7EA"/>
+      </svg>
+    </div>
+    <div class="mt-2 text-center">
+      <text class="text-login-page-2">Pack'd</text><br>
+    </div>
+    <hr class="my-2"/>
+    <form method="POST" class="mt-2" action="{% url 'login' %}">
     {% csrf_token %}
-    <div class="mb-3">
-      <label for="login-username" class="form-label mb-1">Username</label>
-      <input type="text" class="form-control" id="login-username" aria-describedby="username" name="username" required>
+      <div class="mb-3">
+        <label for="login-username" class="form-label mb-1">Username</label>
+        <input type="text" class="form-control" id="login-username" aria-describedby="username" name="username" required>
+      </div>
+      <div class="mb-3">
+        <label for="login-password" class="form-label mb-1">Password</label>
+        <input type="password" class="form-control" id="login-password" name="password" required>
+      </div>
+      <div class="d-grid">
+        <input type="submit" class="btn py-2 mt-2 button-shadow button-primary button-height text-header" value="Login">
+        <input type="hidden" name="next" value="{{ next }}">
+      </div>
+    </form>
+    <div class="d-grid mt-3">
+      <a href="{% url 'signup' %}" class="btn rounded-pill py-2 button-shadow button-height">
+        <text class="text-header">Sign Up</text>
+      </a>
     </div>
-    <div class="mb-3">
-      <label for="login-password" class="form-label mb-1">Password</label>
-      <input type="password" class="form-control" id="login-password" name="password" required>
-    </div>
-    <div class="d-grid">
-      <input type="submit" class="btn py-2 mt-2 button-shadow button-primary button-height text-header" value="Login">
-      <input type="hidden" name="next" value="{{ next }}">
-    </div>
-  </form>
-  <p class="text-center text-muted my-2">or</p>
-  <div class="d-grid">
-    <a href="{% url 'signup' %}" class="btn rounded-pill py-2 button-shadow button-height">
-      <text class="text-header">Sign Up</text>
-    </a>
   </div>
-  {% comment %} <p class="text-center text-muted my-2">or</p>
-  <div class="d-grid">
-    <a href="#" class="btn rounded-pill py-2 mb-2 button-shadow button-height">
-      <text class="text-header">Continue with Facebook</text>
-    </a>
-  </div>
-  <div class="d-grid">
-    <a href="#" class="btn rounded-pill py-2 mb-2 button-shadow button-height">
-      <text class="text-header">Continue with Facebook</text>
-    </a>
-  </div> {% endcomment %}
 </div>
-
 {% endblock %}
