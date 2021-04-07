@@ -291,10 +291,14 @@ def downvote_system(request):
 @ login_required
 def profile(request, user_id):
     my_trips = Trip.objects.filter(user_id=user_id)
-    my_items = Item.objects.filter(user=user_id)
+    my_items = []
+    for trip in my_trips:
+        found_item = Item.objects.filter(trip_id=trip.id).first()
+        if found_item:
+            my_items.append(found_item)
     return render(request, 'registration/profile.html', {
         "mytrips": my_trips,
-        "myitems": my_items,
+        "my_items": my_items,
     })
 
 

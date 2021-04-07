@@ -52,9 +52,18 @@
     <nav class="navbar-dark" id="side-nav">
       <ul class="navbar-nav">
         <li>
+          <a href="{% url 'home' %}" class="nav-link py-1 px-3 my-0">Home</a>
+        </li>
+        <li>
           <a href="{% url 'findcity' %}" class="nav-link py-1 px-3 my-0">Search</a>
         </li>
         {% if user.is_authenticated %}
+        <li>
+          <a href="{% url 'upcoming_trips' %}" class="nav-link py-1 px-3 my-0">Upcoming Trips</a>
+        </li>
+        <li>
+          <a href="{% url 'past_trips' %}" class="nav-link py-1 px-3 my-0">Past Trips</a>
+        </li>
         <li>
           <a href="{% url 'profile' user.id %}" class="nav-link py-1 px-3 my-0">Profile</a>
         </li>
