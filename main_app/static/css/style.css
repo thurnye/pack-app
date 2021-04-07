@@ -24,8 +24,17 @@ body {
     line-height: 20px;
 }
 
+.text-small {
+    font-size: 12px;
+}
+
 .text-normal {
     color: #16056B;
+    font-size: 14px;
+}
+
+.text-normal-black {
+    color: black;
     font-size: 14px;
 }
 
@@ -55,7 +64,6 @@ body {
     line-height: 17px;
 }
 
-
 .text-normal-indent {
     margin-left: 20px;
 }
@@ -83,7 +91,7 @@ header {
 }
 
 .button-hover:hover {
-    background-color: #edcd62;
+    background-color: var(--button-primary);
 }
 
 /* Top Nav */
@@ -161,6 +169,23 @@ header {
     max-width: 840px;
 }
 
+/* Login Page */
+
+.text-login-page {
+    font-weight: bold;
+    font-size: 40px;
+}
+
+.button-height {
+    height: 42px;
+    /* justify-content: center; */
+    vertical-align: middle;
+
+}
+
+/* Index Home Page */
+
+
 /* Trip Form Items */
 .card-activity,
 .card-packing {
@@ -170,6 +195,13 @@ header {
     min-width: 100px;
 }
 
+.age {
+    max-width: 60px;
+}
+
+.gender {
+    max-width: 95px;
+}
 
 .card-activity-active,
 .card-packing-active {
@@ -182,6 +214,7 @@ header {
     background-color: var(--button-secondary);
     color: var(--background);
 }
+
 
 /* Trip Item */
 .score-div {
