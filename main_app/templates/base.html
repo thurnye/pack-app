@@ -28,40 +28,20 @@
         <ul class="nav d-flex" id="top-nav-right"></ul>
         <a class="navbar-brand position-absolute translate-middle-x start-50" href="/" id="top-nav-title">Pack'd</a>
         {% if user.is_authenticated %}
-<<<<<<< HEAD
-        <a class="navbar-brand position-absolute translate-middle-x start-50" href="/" id="top-nav-title">{{ title
-          }}</a>
+        <text class="navbar-brand position-absolute translate-middle-x start-50" id="top-nav-title">{{ title }}</text>
         <ul class="nav d-flex" id="top-nav-right">
           <li class="d-flex align-items-center">
-            <a href="{% url 'logout' %}" class="nav-link px-2">Log Out</a>
+            <a href="{% url 'signup' %}" class="nav-link px-2 my-0">Sign Up</a>
           </li>
           {% else %}
-          {% comment %} <a class="navbar-brand position-absolute translate-middle-x start-50" href="/">
-            Login</a>
-          {% endcomment %}
-=======
-          <text class="navbar-brand position-absolute translate-middle-x start-50" id="top-nav-title">{{ title }}</text>
->>>>>>> 83290c3c1b4a187446bb65bb331d7877497046ed
           <ul class="nav d-flex" id="top-nav-right">
             <li class="d-flex align-items-center">
               <a href="{% url 'signup' %}" class="nav-link px-2 my-0">Sign Up</a>
             </li>
-<<<<<<< HEAD
             <li class="d-flex align-items-center">
               <a href="{% url 'login' %}" class="nav-link px-2 my-0">Log In</a>
             </li>
             {% endif %}
-=======
-          {% else %}
-          <ul class="nav d-flex" id="top-nav-right">
-            <li class="d-flex align-items-center">
-              <a href="{% url 'signup' %}" class="nav-link px-2 my-0">Sign Up</a>
-            </li>
-            <li class="d-flex align-items-center">
-              <a href="{% url 'login' %}" class="nav-link px-2 my-0">Log In</a>
-            </li>
-          {% endif %}
->>>>>>> 83290c3c1b4a187446bb65bb331d7877497046ed
           </ul>
       </div>
     </nav>

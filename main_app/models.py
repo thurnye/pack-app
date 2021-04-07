@@ -58,12 +58,10 @@ class Item(models.Model):
     gender = models.CharField(max_length=25, choices=GENDERS, default=GENDERS[0][1])
     category = models.CharField(max_length=25, choices=CATEGORIES)
     trip_id = models.IntegerField(null=True)
+    public = models.BooleanField(default=True)
 
     def __str__(self):
         return (f"{self.get_season_display()} on {self.name}")
-
-    class Meta:
-        ordering = ['-vote']
 
 
 class Vote(models.Model):
@@ -72,6 +70,10 @@ class Vote(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     vote = models.IntegerField(default=0)
+    checked = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ['-vote']
 
 
 class Trip(models.Model):
