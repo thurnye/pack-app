@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 {% load static %}
-<div class="container px-4" id="mobile-container">
+<div class="container px-4 multi-collapse show" id="mobile-container" aria-expanded="true">
   <div class="card card-shadow border-0 mt-4">
     <div class="card-body">
       <text class="text-normal">Local Weather Forecast</text>
@@ -29,7 +29,11 @@
         <div class="form-check d-flex text-normal py-1 my-0 text-normal-indent">
           {% if item.personal %}
           <div class="me-auto">
-            <input class="form-check-input" type="checkbox" id="flexCheckDefault">
+            {% if item.vote.checked %}
+              <input class="form-check-input" type="checkbox" id="flexCheckDefault" checked>
+            {% else %}
+              <input class="form-check-input" type="checkbox" id="flexCheckDefault">
+            {% endif %}
             <label class="form-check-label text-personal" for="flexCheckDefault">{{ item.item.name|title }}</label>
           </div>
           {% comment %} <div class="ms-0 me-auto">
@@ -52,8 +56,7 @@
               class="score score-up me-auto">
               <path d="M13 8.35714L6.5 0L0 8.35714H3.28333V13H9.71667V8.35714H13Z" />
             </svg>
-            <label class="form-check-label score-value text-muted" name="{{ item.id }}" for="flexCheckDefault">{{
-              item.sum_votes }}</label>
+            <label class="form-check-label score-value text-muted" name="{{ item.id }}" for="flexCheckDefault">{{item.sum_votes }}</label>
             <svg width="16" height="24" viewBox="0 0 16 16" fill="#C4C4C4" xmlns="http://www.w3.org/2000/svg"
               class="score score-down ms-auto">
               <path d="M13 4.64286L6.5 13L0 4.64286H3.28333V3.57628e-07H9.71667V4.64286H13Z" />
@@ -66,17 +69,15 @@
       {% endfor %}
     </div>
   </div>
+  <div class="text-center">
+    <button class="btn button-hover button-shadow border-0 mt-4" type="button" data-toggle="collapse"
+      data-target=".multi-collapse" aria-expanded="false" aria-controls="collapseExample">
+      <text class="text-normal">+ Add item</text>
+    </button>
+  </div>
 </div>
 
-
-
-<div class="text-center">
-  <button class="btn button-hover button-shadow border-0 mt-4" type="button" data-toggle="collapse"
-    data-target="#container-item" aria-expanded="false" aria-controls="collapseExample">
-    <text class="text-normal">+ Add item</text>
-  </button>
-</div>
-<div class="collapse" id="container-item">
+<div class="collapse multi-collapse hide" id="container-item">
   <div class="container px-4" id="mobile-container">
     <form method="POST" action="{% url 'add_item' trip %}">
       {% csrf_token %}
@@ -138,7 +139,6 @@
           </button>
         </div>
     </form>
-
   </div>
 </div>
 
@@ -153,7 +153,4 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
   integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script defer src="/static/javascript/trip.js"></script>
-<script defer type="text/javascript"
-  src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyABt5_xdXjRl4pFDKfdUtAM4Bv5lgt1vo8&libraries=places"></script>
-<script defer type="text/javascript" src="/static/javascript/trip_form.js"></script>
 {% endblock %}

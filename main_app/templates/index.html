@@ -2,7 +2,7 @@
 {% block content %}
 {% load static %}
 
-  <div class="container px-4 mt-5" id="mobile-container">
+  <div class="container px-4 mt-3" id="mobile-container">
     {% if user.is_authenticated == False %}
       <div class="d-grid">
         <div class="">
@@ -10,6 +10,9 @@
           <text>Plan your first trip</text>
         </div>
         <hr />
+        <div>
+        
+        </div>
         <div class="d-grid">
           <a href="{% url 'new_trip' %}" class="btn rounded-pill py-2 mt-4 button-shadow button-primary button-height">
             <text class="text-header">Plan a new trip</text>
@@ -20,14 +23,14 @@
       <div class="d-grid">
         <div class="">
           {% if user.first_name %}
-            <text class="text-login-page">Welcome {{ user.first_name}}</text><br>
+            <text class="text-login-page">Welcome {{ user.first_name|title}}</text><br>
           {% else %}
             <text class="text-login-page">Welcome back</text><br>
           {% endif %}
         </div>
         {% if trips %}
           <div class="mt-1">
-            <text>Here are your upcoming trips</text>
+            <text>Check out your recent trips!</text>
           </div>
         {% else %}
           <div class="mt-1">
@@ -38,63 +41,73 @@
         {% for trip in trips %}
         <div class="card card-shadow border-0 my-2">
           <div class="card-body">
-            <div class="d-flex">
-              <div class="me-0">
-                <text class="text-header">{{ trip.trip.city }}, {{ trip.trip.country }}</text>
+            <a href="{% url 'trip' trip.trip.id %}">
+              <div class="row">
+                <div class="col col-7 me-0">
+                  <text class="text-header">{{ trip.trip.city }}, {{ trip.trip.country }}</text>
+                </div>
+                <div class="col col-5 text-end">
+                  <text class="text-normal-black">{{ trip.trip.date }}</text>
+                </div>
               </div>
-              <div class="ms-auto d-flex score-div">
-                <text class="text-normal-black">{{ trip.trip.date }}</text>
-              </div>
-            </div>
-            <ol class="text-small ps-4 pe-2 my-0">
-              <li class="my-1">
+              <ol class="text-small ps-4 pe-2 my-0">
+                <li class="my-1">
+                    <div class="row">
+                      <div class="col-7">
+                        {% if user.first_name %} 
+                          <text class="text-small ms-2">{{ user.first_name }} {{ user.last_name }}</text>
+                        {% else %}
+                          <text class="text-small ms-2">{{ user.username }}</text>
+                        {% endif %}
+                      </div>
+                      {% comment %} <div class="col-5 text-end">
+                        <text class="text-small text-end me-2">{{ traveler.gender }}, {{ traveler.age }}</text>
+                      </div> {% endcomment %}
+                    </div>
+                  </li>
+                {% for traveler in trip.travelers %}
+                <li class="my-1">
                   <div class="row">
                     <div class="col-7">
-                      {% if user.name %} 
-                        <text class="text-small ms-2">{{ user.first_name }} {{ user.last_name }}</text>
-                      {% else %}
-                        <text class="text-small ms-2">{{ user.username }}</text>
-                      {% endif %}
+                      <text class="text-small ms-2">{{ traveler.name }}</text>
                     </div>
-                    {% comment %} <div class="col-5 text-end">
-                      <text class="text-small text-end me-2">{{ traveler.gender }}, {{ traveler.age }}</text>
-                    </div> {% endcomment %}
+                    <div class="col-5 text-end">
+                      <text class="text-small text-end me-2">{{ traveler.gender }},&nbsp;&nbsp;{{ traveler.age }}</text>
+                    </div>
                   </div>
                 </li>
-              {% for traveler in trip.travelers %}
-              <li class="my-1">
-                <div class="row">
-                  <div class="col-7">
-                    <text class="text-small ms-2">{{ traveler.name }}</text>
-                  </div>
-                  <div class="col-5 text-end">
-                    <text class="text-small text-end me-2">{{ traveler.gender }},&nbsp;&nbsp;{{ traveler.age }}</text>
-                  </div>
-                </div>
-              </li>
-              {% endfor %}
-            </ol>
+                {% endfor %}
+              </ol>
+            </a>
           </div>
         </div>
         {% endfor %}
         <div class="d-grid">
           {% if trips %}
-            <div class="text-center">
-              <button class="btn button-hover px-4 button-shadow border-0 mt-2">
-                <text class="text-normal">View All Trips</text>
-              </button>
+            <div class="d-flex justify-content-center">
+              <div class="text-center">
+              {% if past_trips %}
+                <a href="{% url "past_trips" %}" class="btn button-hover px-4 button-shadow border-0 mt-2">
+              {% else %}
+                <a class="btn disabled button-hover px-4 button-shadow border-0 mt-2">
+              {% endif %}
+                  <text class="text-normal">Past Trips</text>
+                </a>
+              </div>
+              <div class="text-center">
+                <a href="{% url "upcoming_trips" %}" class="btn button-hover px-4 button-shadow border-0 mt-2">
+                  <text class="text-normal">Upcoming Trips</text>
+                </a>
+              </div>
             </div>
-            <a href="{% url 'new_trip' %}" class="btn rounded-pill py-2 mt-5 button-shadow button-primary button-height">
+            <a href="{% url 'new_trip' %}" class="btn rounded-pill py-2 mt-3 button-shadow button-primary button-height">
               <text class="text-header">Add New Trip</text>
             </a>
           {% else %}
-            <a href="{% url 'new_trip' %}" class="btn rounded-pill py-2 mt-5 button-shadow button-primary button-height">
+            <a href="{% url 'new_trip' %}" class="btn rounded-pill py-2 mt-3 button-shadow button-primary button-height">
               <text class="text-header">Click here to get started</text>
             </a>
           {% endif %}
-          <a href="{% url 'new_trip' %}" class="btn rounded-pill py-2 mt-3 button-shadow button-height">
-            <text class="text-header">View Past Trips</text>
-          </a>
         </div>
       </div>
     {% endif %}

@@ -8,6 +8,7 @@ from django.core import serializers
 from django.db.models import Sum, Q
 from .models import User, Trip, Vote, Item, Activity, Traveler, CATEGORIES, ACTIVITIES, getChoices
 import re
+from datetime import date
 
 # Create your views here.
 
@@ -15,7 +16,11 @@ import re
 def home(request):
     trips = []
     my_trips = Trip.objects.filter(user_id=request.user.id)
+    past_trips = False
+    today = date.today()
     for my_trip in my_trips:
+        if my_trip.date < today:
+            past_trips = True
         trips.append({
             "trip": my_trip,
             "travelers": Traveler.objects.filter(trip_id=my_trip)
@@ -24,6 +29,7 @@ def home(request):
 
     return render(request, 'index.html', {
         "trips": trips[:3],
+        "past_trips": past_trips
     })
 
 
@@ -44,7 +50,8 @@ def searched_filters(request):
 def create(request):
     return redirect('search/new/filters')
 
-@user_passes_test(lambda u: u.is_anonymous, '/')
+
+@ user_passes_test(lambda u: u.is_anonymous, '/')
 def signup(request):
     error_message = ''
     if request.method == 'POST':
@@ -63,12 +70,17 @@ def signup(request):
     context = {'form': form, 'error_message': error_message}
     return render(request, 'registration/signup.html', context)
 
-@login_required
+
+@ login_required
 def new_trip(request):
     if request.method == "GET":
         activities = getChoices(ACTIVITIES)
         return render(request, "trips/trip_form.html", {
             "title": "Add New Trip",
+            "previous_url": {
+                "url": "/",
+                "text": "All Trips"
+            },
             "activities": activities,
         })
     elif request.method == "POST":
@@ -122,7 +134,7 @@ def new_trip(request):
         return redirect("/trip/%s/" % (trip.id))
 
 
-@login_required
+@ login_required
 def trip(request, trip_id):
     if request.method == "GET":
         trip = Trip.objects.get(id=trip_id)
@@ -187,7 +199,50 @@ def trip(request, trip_id):
             "trip": trip_id,
             "activities": activities,
             "categories": categories,
+            "checked": "checked",
         })
+
+
+@ login_required
+def upcoming_trips(request):
+    trips = []
+    my_trips = Trip.objects.filter(user_id=request.user.id)
+    today = date.today()
+    for my_trip in my_trips:
+        if my_trip.date >= today:
+            trips.append({
+                "trip": my_trip,
+                "travelers": Traveler.objects.filter(trip_id=my_trip)
+            })
+    trips.reverse()
+    return render(request, "trips/upcoming_trips.html", {
+        "previous_url": {
+            "url": "/",
+            "text": "All Trips"
+        },
+        "trips": trips,
+    })
+
+
+@ login_required
+def past_trips(request):
+    trips = []
+    my_trips = Trip.objects.filter(user_id=request.user.id)
+    today = date.today()
+    for my_trip in my_trips:
+        if my_trip.date < today:
+            trips.append({
+                "trip": my_trip,
+                "travelers": Traveler.objects.filter(trip_id=my_trip)
+            })
+    trips.reverse()
+    return render(request, "trips/past_trips.html", {
+        "previous_url": {
+            "url": "/",
+            "text": "All Trips"
+        },
+        "trips": trips,
+    })
 
 
 def itemData(request, n=100):
@@ -281,4 +336,3 @@ def add_item(request, trip_id):
     )
     new_item.save()
     return redirect("/trip/%s/" % (trip_id))
-
