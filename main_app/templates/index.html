@@ -2,65 +2,102 @@
 {% block content %}
 {% load static %}
 
-{% comment %} <div class="mt-5 position-absolute translate-middle-x start-50">
-  <form action="{% url 'search' %}" method="POST" class="d-flex" id="search-form">
-    {% csrf_token %}
-    <div class="input-group input-group-lg">
-      <input class="form-control py-1 btn-outline-light btn-light text-dark" type="search" placeholder="Destination"
-        aria-label="Destination" name="destination" id="searchTextField" required>
-      <select class="form-control py-1 btn-outline-light btn-light text-dark" type="text" placeholder="Activity"
-        aria-label="Activity" name="activity" list="activities" id="ActivityField">
-        <datalist id="activities">
-          <option value="">Select Activity</option>
-          {% for activity in activities %}
-          <option value="{{ activity }}">{{ activity }}</option>
-          {% endfor %}
-        </datalist>
-        <input class="form-control py-1 btn-outline-light btn-light text-dark" type="date" placeholder="Date"
-          aria-label="Date" name="date" id="DateField">
-        <button class="btn btn-outline-dark py-1" type="submit" arial-label="search" id="search-button">
-          <svg xmlns="http://www.w3.org/2000/svg" width="36" height="18" fill="currentColor" class="bi bi-search"
-            viewBox="0 0 18 18" id="basic-addon2">
-            <path
-              d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-          </svg>
-        </button>
-    </div>
-  </form>
-</div> {% endcomment %}
-<div class="container mt-5" id="index-container">
-  <div class="container" id="mobile-container">
-    <div class="d-grid">
-      {% if user.is_authenticated == False %}
-      <img class="img-fluid" src="{% static 'images/globe.png' %}" alt="">
-      {% else %}
-      <h4>Welcome back</h4>
-      Here are your upcoming trips
-      <hr />
-      {% for trip in mytrips %}
-      <div>
-        {{ trip.city }} - {{ trip.country }}<br>
-        {{ trip.date }}<br>
-
-        {% if trip.travelers == True %}
-        {{ trip.travelers }}
-        {% else %}
-        No travel companions
-        {% endif %}
-
-        {{ trip.activity }}
+  <div class="container px-4 mt-5" id="mobile-container">
+    {% if user.is_authenticated == False %}
+      <div class="d-grid">
+        <div class="">
+          <text class="text-login-page">Welcome</text><br>
+          <text>Plan your first trip</text>
+        </div>
+        <hr />
+        <div class="d-grid">
+          <a href="{% url 'new_trip' %}" class="btn rounded-pill py-2 mt-4 button-shadow button-primary button-height">
+            <text class="text-header">Plan a new trip</text>
+          </a>
+        </div>
       </div>
-      {% endfor %}
-      {% endif %}
-    </div>
-    <div class="d-grid">
-      <a href="{% url 'new_trip' %}" class="btn rounded-pill py-2 mt-4 button-primary">Add New Trip</a>
-    </div>
-    <div class="d-grid">
-      <a href="/trip/new" class="btn rounded-pill py-2 mt-3 btn-secondary disabled">View Trips</a>
-    </div>
-
+    {% else %}
+      <div class="d-grid">
+        <div class="">
+          {% if user.first_name %}
+            <text class="text-login-page">Welcome {{ user.first_name}}</text><br>
+          {% else %}
+            <text class="text-login-page">Welcome back</text><br>
+          {% endif %}
+        </div>
+        {% if trips %}
+          <div class="mt-1">
+            <text>Here are your upcoming trips</text>
+          </div>
+        {% else %}
+          <div class="mt-1">
+            <text>Plan your first trip!</text>
+          </div>
+        {% endif %}
+        <hr/>
+        {% for trip in trips %}
+        <div class="card card-shadow border-0 my-2">
+          <div class="card-body">
+            <div class="d-flex">
+              <div class="me-0">
+                <text class="text-header">{{ trip.trip.city }}, {{ trip.trip.country }}</text>
+              </div>
+              <div class="ms-auto d-flex score-div">
+                <text class="text-normal-black">{{ trip.trip.date }}</text>
+              </div>
+            </div>
+            <ol class="text-small ps-4 pe-2 my-0">
+              <li class="my-1">
+                  <div class="row">
+                    <div class="col-7">
+                      {% if user.name %} 
+                        <text class="text-small ms-2">{{ user.first_name }} {{ user.last_name }}</text>
+                      {% else %}
+                        <text class="text-small ms-2">{{ user.username }}</text>
+                      {% endif %}
+                    </div>
+                    {% comment %} <div class="col-5 text-end">
+                      <text class="text-small text-end me-2">{{ traveler.gender }}, {{ traveler.age }}</text>
+                    </div> {% endcomment %}
+                  </div>
+                </li>
+              {% for traveler in trip.travelers %}
+              <li class="my-1">
+                <div class="row">
+                  <div class="col-7">
+                    <text class="text-small ms-2">{{ traveler.name }}</text>
+                  </div>
+                  <div class="col-5 text-end">
+                    <text class="text-small text-end me-2">{{ traveler.gender }},&nbsp;&nbsp;{{ traveler.age }}</text>
+                  </div>
+                </div>
+              </li>
+              {% endfor %}
+            </ol>
+          </div>
+        </div>
+        {% endfor %}
+        <div class="d-grid">
+          {% if trips %}
+            <div class="text-center">
+              <button class="btn button-hover px-4 button-shadow border-0 mt-2">
+                <text class="text-normal">View All Trips</text>
+              </button>
+            </div>
+            <a href="{% url 'new_trip' %}" class="btn rounded-pill py-2 mt-5 button-shadow button-primary button-height">
+              <text class="text-header">Add New Trip</text>
+            </a>
+          {% else %}
+            <a href="{% url 'new_trip' %}" class="btn rounded-pill py-2 mt-5 button-shadow button-primary button-height">
+              <text class="text-header">Click here to get started</text>
+            </a>
+          {% endif %}
+          <a href="{% url 'new_trip' %}" class="btn rounded-pill py-2 mt-3 button-shadow button-height">
+            <text class="text-header">View Past Trips</text>
+          </a>
+        </div>
+      </div>
+    {% endif %}
   </div>
-</div>
 
 {% endblock %}

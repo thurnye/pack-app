@@ -3,19 +3,27 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core import serializers
 from django.db.models import Sum, Q
-from .models import User, Trip, Vote, Item, Activity, CATEGORIES, ACTIVITIES, getChoices
+from .models import User, Trip, Vote, Item, Activity, Traveler, CATEGORIES, ACTIVITIES, getChoices
 import re
 
 # Create your views here.
 
 
 def home(request):
+    trips = []
     my_trips = Trip.objects.filter(user_id=request.user.id)
+    for my_trip in my_trips:
+        trips.append({
+            "trip": my_trip,
+            "travelers": Traveler.objects.filter(trip_id=my_trip)
+        })
+    trips.reverse()
+
     return render(request, 'index.html', {
-        "mytrips": my_trips,
+        "trips": trips[:3],
     })
 
 
@@ -36,21 +44,24 @@ def searched_filters(request):
 def create(request):
     return redirect('search/new/filters')
 
-
+@user_passes_test(lambda u: u.is_anonymous, '/')
 def signup(request):
     error_message = ''
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
+            user.first_name = request.POST["first_name"]
+            user.last_name = request.POST["last_name"]
+            user.save()
             login(request, user)
             return redirect('/')
         else:
             error_message = 'Invalid sign up - try again'
+            print("error")
     form = UserCreationForm()
     context = {'form': form, 'error_message': error_message}
     return render(request, 'registration/signup.html', context)
-
 
 @login_required
 def new_trip(request):
@@ -58,13 +69,13 @@ def new_trip(request):
         activities = getChoices(ACTIVITIES)
         return render(request, "trips/trip_form.html", {
             "title": "Add New Trip",
-            "activities": activities
-
+            "activities": activities,
         })
     elif request.method == "POST":
-        print(request.POST)
-        search = re.split(', | - ', request.POST['search'])
-        date = request.POST["date"]
+        body = request.POST
+
+        search = re.split(', | - ', body['search'])
+        date = body["date"]
         month = date.split("-")[1]
         day = date.split("-")[2]
         if (month == "12" or month == "01" or month == "02" or month == "03"):
@@ -75,7 +86,7 @@ def new_trip(request):
             season = "Summer"
         elif(month == "10" or month == "11"):
             season = "Fall"
-        number_items = int(request.POST["number_items"])
+        number_items = int(body["number_items"])
 
         trip = Trip.objects.create(
             user=request.user,
@@ -87,13 +98,27 @@ def new_trip(request):
         )
         trip.save()
 
-        activities = request.POST.getlist("activities")
+        activities = body.getlist("activities")
         for activity in activities:
             newActivity = Activity.objects.create(
                 trip=trip,
                 activity=activity,
             )
             newActivity.save()
+
+        traveler_names = body.getlist("name")
+        genders = body.getlist("gender")
+        ages = body.getlist("age")
+
+        for i in range(len(traveler_names)):
+            traveler = Traveler.objects.create(
+                trip=trip,
+                name=traveler_names[i],
+                gender=genders[i],
+                age=ages[i]
+            )
+            traveler.save()
+
         return redirect("/trip/%s/" % (trip.id))
 
 
@@ -129,7 +154,7 @@ def trip(request, trip_id):
                 )
 
             if sum_votes == None or sum_votes >= 0:
-                if item.trip_id:
+                if item.trip_id == trip.id:
                     personal_items.append({
                         "item": item,
                         "sum_votes": sum_votes,
@@ -155,9 +180,13 @@ def trip(request, trip_id):
             old_item = sorted_items[i]
             categorized_items[old_item["item"].category].append(old_item)
 
+        activities = getChoices(ACTIVITIES)
         return render(request, "trips/trip.html", {
             "title": "%s, %s" % (trip.city, trip.country),
             "categorized_items": categorized_items,
+            "trip": trip_id,
+            "activities": activities,
+            "categories": categories,
         })
 
 
@@ -222,9 +251,8 @@ def find_city(request):
 
 
 def results(request):
-    print(request.POST)
     search = re.split(', | - ', request.POST['search'])
-    num_items = 15
+    num_items = int(request.POST['number_items'])
     items = Item.objects.filter(city__contains=search[0])[:num_items]
     categories = getChoices(CATEGORIES)
     sorted_items = {}
@@ -235,3 +263,22 @@ def results(request):
     return render(request, 'search/results.html', {
         "categories": sorted_items,
     })
+
+
+def add_item(request, trip_id):
+    trip = Trip.objects.get(id=trip_id)
+    new_item = Item.objects.create(
+        name=request.POST['name'],
+        city=trip.city,
+        country=trip.country,
+        season=request.POST['season'],
+        activity=request.POST['activities'],
+        category=request.POST['categories'],
+        trip_id=trip_id
+        # gender=
+        # age=
+        # public=
+    )
+    new_item.save()
+    return redirect("/trip/%s/" % (trip_id))
+
