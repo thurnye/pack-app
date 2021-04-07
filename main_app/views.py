@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.core import serializers
 from django.db.models import Sum, Q
 from .models import User, Trip, Vote, Item, Activity, CATEGORIES, ACTIVITIES, getChoices
+import requests
 import re
 
 # Create your views here.
@@ -154,11 +155,26 @@ def trip(request, trip_id):
         for i in range(len(sorted_items)):
             old_item = sorted_items[i]
             categorized_items[old_item["item"].category].append(old_item)
-
+        
+        # weather api call below this line
+        city = "%s,%s" % (trip.city,trip.country)
+        key = 'CHP8CT5EV5KXE6QSLWW6EA69C'
+        api = f"https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{city}?unitGroup=uk&key={key}&include=obs%2Cfcst%2Calerts%2Ccurrent%2Chistfcst"
+        data = requests.get(api).json()
+        weather_forecast = data['days']
+        current_temp_high = f"{int(data['days'][0]['tempmax'])}\u00B0C"
+        current_temp_low = f"{int(data['days'][0]['tempmin'])}\u00B0C"
+        current_condition = data['days'][0]['conditions']
+        print()
         return render(request, "trips/trip.html", {
             "title": "%s, %s" % (trip.city, trip.country),
             "categorized_items": categorized_items,
+            "today_temp_high" : current_temp_high,
+            "today_temp_low" : current_temp_low,
+            "condition" : current_condition,
+            "address" : data['resolvedAddress']
         })
+    
 
 
 def itemData(request, n=100):
