@@ -29,7 +29,7 @@ def home(request):
 
     return render(request, 'index.html', {
         "trips": trips[:3],
-        "past_trips": past_trips
+        "past_trips": past_trips,
     })
 
 
