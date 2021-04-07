@@ -85,16 +85,17 @@
       <label for="number_items" class="form-label text-header">What will you be doing there?</label>
       <div class="row g-3 mt-1">
         {% for activity in activities %}
-          {% if activity != "All" %}
-          <div class="col-4">
-            <label class="card card-shadow card-activity" for="activity-{{ activity }}">
-              <input type="checkbox" class="btn-check" name="activities" value="{{ activity }}" id="activity-{{ activity }}">
-              <div class="card-body p-1 d-flex flex-column justify-content-center align-items-center">
-                  <text class="text-activities align-middle">{{ activity }}</text>
-              </div>
-            </label>
-          </div>
-          {% endif %}
+        {% if activity != "All" %}
+        <div class="col-4">
+          <label class="card card-shadow card-activity" for="activity-{{ activity }}">
+            <input type="checkbox" class="btn-check" name="activities" value="{{ activity }}"
+              id="activity-{{ activity }}">
+            <div class="card-body p-1 d-flex flex-column justify-content-center align-items-center">
+              <text class="text-activities align-middle">{{ activity }}</text>
+            </div>
+          </label>
+        </div>
+        {% endif %}
         {% endfor %}
       </div>
     </div>
@@ -111,8 +112,8 @@
     </div> {% endcomment %}
   </form>
 
-{% comment %} 
-<form method="POST" action="{% url 'new_trip' %}">
+  {% comment %}
+  <form method="POST" action="{% url 'new_trip' %}">
     {% csrf_token %}
     where are you going?<br>
     <input type="text" id="searchTextField" name="search" placeholder="Search City..."><br>
@@ -124,10 +125,10 @@
     <input type="text" name="traveler-name" placeholder="Name..."><br>
     age group<br>
     <select name="agegroup" default="none">
-        <option value="" disabled selected hidden>choose age group</option>
-        <option value="infant">Infant/Young Child (0-3)</option>
-        <option value="child">Child (3-17)</option>
-        <option value="adult">Adult (18+)</option>
+      <option value="" disabled selected hidden>choose age group</option>
+      <option value="infant">Infant/Young Child (0-3)</option>
+      <option value="child">Child (3-17)</option>
+      <option value="adult">Adult (18+)</option>
     </select><br>
     how much do you want to pack?<br>
     light
@@ -149,9 +150,10 @@
     <input type="checkbox" name="option9"><br>
 
     <button>create my list</button>
-</form> {% endcomment %}
+  </form> {% endcomment %}
 
-<script defer type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyABt5_xdXjRl4pFDKfdUtAM4Bv5lgt1vo8&libraries=places"></script>
-<script defer type="text/javascript" src="/static/javascript/trip_form.js"></script>
+  <script defer type="text/javascript"
+    src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyABt5_xdXjRl4pFDKfdUtAM4Bv5lgt1vo8&libraries=places"></script>
+  <script defer type="text/javascript" src="/static/javascript/trip_form.js"></script>
 
-{% endblock %}
+  {% endblock %}

@@ -181,23 +181,23 @@ def profile(request, user_id):
 
 
 def find_city(request):
-    return render(request, 'search/search.html')
+    activities = getChoices(ACTIVITIES)
+    return render(request, 'search/search.html', {
+        "activities": activities,
+    })
 
 
 def results(request):
     print(request.POST)
     search = re.split(', | - ', request.POST['search'])
     num_items = 15
-    print(f"{search[0]}, ||||, {search[-1]}")
     items = Item.objects.filter(city__contains=search[0])[:num_items]
-    print(items)
-    categories = getChoices(category)
+    categories = getChoices(CATEGORIES)
     sorted_items = {}
     for cat in categories:
         sorted_items[cat] = []
     for item in items:
-        if item.vote > 0:
-            sorted_items[item.category].append(item)
+        sorted_items[item.category].append(item)
     return render(request, 'search/results.html', {
         "categories": sorted_items,
     })
