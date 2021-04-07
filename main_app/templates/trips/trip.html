@@ -6,7 +6,25 @@
     <div class="card-body">
       <text class="text-normal">Local Weather - {{address}}</text>
       <div class="d-flex justify-content-around align-items-start">
-        <img src="../../static/images/cloudy.png" alt="..." style="max-width: 100px;">
+        {% if weather_icon == 'rain' %}
+          <img src="../../static/images/rain.png" alt="..." style="max-width: 100px;">
+        {% endif %}
+        {% if weather_icon == 'cloudy' %}
+          <img src="../../static/images/cloudy.png" alt="..." style="max-width: 100px;">
+        {% endif %}
+        {% if weather_icon == 'snow' %}
+          <img src="../../static/images/snow.png" alt="..." style="max-width: 100px;">
+        {% endif %}
+        {% if weather_icon == 'clear-day' %}
+          <img src="../../static/images/clear-day.png" alt="..." style="max-width: 100px;">
+        {% endif %}
+        {% if weather_icon == 'partly-cloudy-day' %}
+          <img src="../../static/images/partly-cloudy.png" alt="..." style="max-width: 100px;">
+        {% endif %}
+        {% if weather_icon == 'clear-day' %}
+          <img src="../../static/images/clear-day.png" alt="..." style="max-width: 100px;">
+        {% endif %}
+        
         <div>
           <h1>{{today_temp_high}}</h1>
         </div>
