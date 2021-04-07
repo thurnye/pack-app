@@ -8,9 +8,47 @@ function initialize() {
 }
 google.maps.event.addDomListener(window, 'load', initialize);
 
+const addTravellerButton = document.querySelector("#add-traveller-button")
+const travellersList = document.querySelector("#travellers-list")
+let removeTravellerButtons = document.querySelectorAll(".remove-traveller-button")
+let travellerTemplate = document.querySelector("#traveller-template");
+addTravellerButton.addEventListener("click", e => {
+    const clone = travellerTemplate.cloneNode(true);
+    clone.removeAttribute("id");
+    clone.querySelectorAll("input").forEach(input => {
+        input.value="";
+    })
+    travellersList.appendChild(clone)
+    removeButtons();
+})
+
+function removeButtons() {
+    removeTravellerButtons = document.querySelectorAll(".remove-traveller-button")
+    removeTravellerButtons.forEach(removeTravellerButton => {
+        removeTravellerButton.addEventListener("click", e => {
+            const target = e.target
+            if (target == removeTravellerButton) {
+                let removed = false
+                let parent = target.parentElement
+                while (removed == false) {
+                    if (parent.nodeName == "LI" ) {
+                        parent.remove();
+                        removed = true
+                    } else {
+                        parent = parent.parentElement
+                    }
+                }
+            }
+        })
+    })
+}
+
+
+
+
 const packingCards = document.querySelectorAll(".card-packing");
 packingCards.forEach(item => {
-    item.addEventListener("click", (e) => {
+    item.addEventListener("click", e => {
         let target = e.target
         let rightTarget = false;
         while (!rightTarget) {
@@ -25,7 +63,7 @@ packingCards.forEach(item => {
 
         const parent = target.parentElement;
         const grandparent = parent.parentElement
-        for (let i = 0; i < grandparent.children.length; i++ ) {
+        for (let i = 0; i < grandparent.children.length; i++) {
             const uncle = grandparent.children[i]
             if (uncle != parent && uncle.children[0].classList.contains("card-packing-active")) {
                 uncle.children[0].classList.remove("card-packing-active")
@@ -38,7 +76,7 @@ packingCards.forEach(item => {
 
 const activityCards = document.querySelectorAll(".card-activity");
 activityCards.forEach(item => {
-    item.addEventListener("click", (e) => {
+    item.addEventListener("click", e => {
         e.preventDefault();
         let target = e.target
         let rightTarget = false;
@@ -52,7 +90,7 @@ activityCards.forEach(item => {
 
         if (target.classList.contains("card-activity-active") == false) {
             target.classList.add("card-activity-active");
-            target.children[0].checked = true;            
+            target.children[0].checked = true;
         } else {
             target.classList.remove("card-activity-active")
             target.children[0].checked = false;
