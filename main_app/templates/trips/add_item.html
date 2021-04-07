@@ -1,109 +1,52 @@
 {% extends 'base.html' %}
-{% load static %}
-
 {% block content %}
 {% load static %}
+
+
 <div class="container px-4" id="mobile-container">
-  <div class="card card-shadow border-0 mt-4">
-    <div class="card-body">
-      <text class="text-normal">Local Weather Forecast</text>
-      <div class="text-center">
-        weather
+  <form method="POST" action="{% url 'new_trip' %}">
+    {% csrf_token %}
+    <div class="mt-4">
+      <text class="text-header">Add item</text>
+    </div>
+    <div class="mt-4">
+      <label for="searchTextField" class="form-label text-header">Name of item</label>
+      <div class="input-group input-group-sm mb-3">
+        <input type="text" class="form-control" name="name" placeholder="item-name" required>
       </div>
     </div>
-  </div>
-  <div class="card card-shadow border-0 mt-4 ">
-    <div class="card-body">
-      <div class="card-title">
-        <text class="text-normal">Packing List</text>
-      </div>
-      <div>
-        <hr class="my-1"/>
-        <div class="d-flex pt-1">
-          <text class="text-normal-bold me-auto">Category 1</text>
-          <text class="text-normal ms-auto">2</text>
-          <text class="text-normal">&nbsp;/</text>
-          <text class="text-normal">&nbsp;2</text>
-        </div>
-        <div class="form-check d-flex text-normal py-1 my-0 text-normal-indent">
-          <div class="ms-0">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">Item 1</label>
-          </div>
-          <div class="ms-auto d-flex score-div">
-            <svg width="16" height="24" viewBox="0 0 16 16" fill="#C4C4C4" xmlns="http://www.w3.org/2000/svg" class="score score-up me-auto">
-              <path d="M13 8.35714L6.5 0L0 8.35714H3.28333V13H9.71667V8.35714H13Z"/>
-            </svg>
-            <label class="form-check-label score-value" for="flexCheckDefault">0</label>
-            <svg width="16" height="24" viewBox="0 0 16 16" fill="#C4C4C4" xmlns="http://www.w3.org/2000/svg" class="score score-down ms-auto">
-              <path d="M13 4.64286L6.5 13L0 4.64286H3.28333V3.57628e-07H9.71667V4.64286H13Z"/>
-            </svg>
-          </div>
-        </div>
-        <div class="form-check d-flex text-normal py-1 my-0 text-normal-indent">
-          <div class="ms-0">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">Item 1</label>
-          </div>
-          <div class="ms-auto d-flex score-div">
-            <svg width="16" height="24" viewBox="0 0 16 16" fill="#C4C4C4" xmlns="http://www.w3.org/2000/svg" class="score score-up me-auto">
-              <path d="M13 8.35714L6.5 0L0 8.35714H3.28333V13H9.71667V8.35714H13Z"/>
-            </svg>
-            <label class="form-check-label score-value" for="flexCheckDefault">0</label>
-            <svg width="16" height="24" viewBox="0 0 16 16" fill="#C4C4C4" xmlns="http://www.w3.org/2000/svg" class="score score-down ms-auto">
-              <path d="M13 4.64286L6.5 13L0 4.64286H3.28333V3.57628e-07H9.71667V4.64286H13Z"/>
-            </svg>
-          </div>
-        </div>
-      </div>
-      <div>
-        <hr class="my-1"/>
-        <div class="d-flex pt-1">
-          <text class="text-normal-bold me-auto">Category 2</text>
-          <text class="text-normal ms-auto">2</text>
-          <text class="text-normal">&nbsp;/</text>
-          <text class="text-normal">&nbsp;2</text>
-        </div>
-        <div class="form-check d-flex text-normal py-1 my-0 text-normal-indent">
-          <div class="ms-0">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">Item 1</label>
-          </div>
-          <div class="ms-auto d-flex score-div">
-            <svg width="16" height="24" viewBox="0 0 16 16" fill="#C4C4C4" xmlns="http://www.w3.org/2000/svg" class="score score-up me-auto">
-              <path d="M13 8.35714L6.5 0L0 8.35714H3.28333V13H9.71667V8.35714H13Z"/>
-            </svg>
-            <label class="form-check-label score-value" for="flexCheckDefault">0</label>
-            <svg width="16" height="24" viewBox="0 0 16 16" fill="#C4C4C4" xmlns="http://www.w3.org/2000/svg" class="score score-down ms-auto">
-              <path d="M13 4.64286L6.5 13L0 4.64286H3.28333V3.57628e-07H9.71667V4.64286H13Z"/>
-            </svg>
-          </div>
-        </div>
-        <div class="form-check d-flex text-normal py-1 my-0 text-normal-indent">
-          <div class="ms-0">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">Item 1</label>
-          </div>
-          <div class="ms-auto d-flex score-div">
-            <svg width="16" height="24" viewBox="0 0 16 16" fill="#C4C4C4" xmlns="http://www.w3.org/2000/svg" class="score score-up me-auto">
-              <path d="M13 8.35714L6.5 0L0 8.35714H3.28333V13H9.71667V8.35714H13Z"/>
-            </svg>
-            <label class="form-check-label score-value" for="flexCheckDefault">0</label>
-            <svg width="16" height="24" viewBox="0 0 16 16" fill="#C4C4C4" xmlns="http://www.w3.org/2000/svg" class="score score-down ms-auto">
-              <path d="M13 4.64286L6.5 13L0 4.64286H3.28333V3.57628e-07H9.71667V4.64286H13Z"/>
-            </svg>
-          </div>
-        </div>
+    <div class="mt-4">
+      <label for="searchTextField" class="form-label text-header">What day do you arrive?</label>
+      <div class="input-group input-group-sm mb-3">
+        <input type="date" class="form-control" name="date" id="date" required>
       </div>
     </div>
-  </div>
-  <div class="text-center">
-    <button class="btn button-hover button-shadow border-0 mt-4">
-      <text class="text-normal">+ Add item</text>
-    </button>
-  </div>
-</div>
 
-<script defer src="/static/javascript/trip.js"></script>
+    <div class="mt-4">
+      <label for="number_items" class="form-label text-header">Add to which activiy?</label>
+      <div class="row g-3 mt-1">
+        {% for activity in activities %}
+        <div class="col-4">
+          <label class="card card-shadow card-activity" for="activity-{{ activity }}">
+            <input type="checkbox" class="btn-check" name="activities" value="{{ activity }}"
+              id="activity-{{ activity }}">
+            <div class="card-body p-1 d-flex flex-column justify-content-center align-items-center">
+              <text class="text-activities align-middle">{{ activity }}</text>
+            </div>
+          </label>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="text-center">
+      <button class="btn button-hover button-shadow border-0 mt-4">
+        <text class="text-normal">+ Add item</text>
+      </button>
+    </div>
+  </form>
 
-{% endblock %}
+  <script defer type="text/javascript"
+    src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyABt5_xdXjRl4pFDKfdUtAM4Bv5lgt1vo8&libraries=places"></script>
+  <script defer type="text/javascript" src="/static/javascript/trip_form.js"></script>
+
+  {% endblock %}
