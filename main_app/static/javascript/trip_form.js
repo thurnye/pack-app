@@ -25,7 +25,7 @@ packingCards.forEach(item => {
 
         const parent = target.parentElement;
         const grandparent = parent.parentElement
-        for (let i = 0; i < grandparent.children.length; i++ ) {
+        for (let i = 0; i < grandparent.children.length; i++) {
             const uncle = grandparent.children[i]
             if (uncle != parent && uncle.children[0].classList.contains("card-packing-active")) {
                 uncle.children[0].classList.remove("card-packing-active")
@@ -52,7 +52,7 @@ activityCards.forEach(item => {
 
         if (target.classList.contains("card-activity-active") == false) {
             target.classList.add("card-activity-active");
-            target.children[0].checked = true;            
+            target.children[0].checked = true;
         } else {
             target.classList.remove("card-activity-active")
             target.children[0].checked = false;

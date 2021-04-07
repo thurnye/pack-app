@@ -8,6 +8,7 @@ urlpatterns = [
     path('accounts/signup', views.signup, name='signup'),
     path("trip/new/", views.new_trip, name="new_trip"),
     path("trip/<int:trip_id>/", views.trip, name="trip"),
+    path("trip/<int:trip_id>/add", views.add_item, name="add_item"),
     path("profile/<int:user_id>/", views.profile, name="profile"),
 
     path("search/", views.search, name="search"),

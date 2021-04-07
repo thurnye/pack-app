@@ -155,9 +155,13 @@ def trip(request, trip_id):
             old_item = sorted_items[i]
             categorized_items[old_item["item"].category].append(old_item)
 
+        activities = getChoices(ACTIVITIES)
         return render(request, "trips/trip.html", {
             "title": "%s, %s" % (trip.city, trip.country),
             "categorized_items": categorized_items,
+            "trip": trip_id,
+            "activities": activities,
+            "categories": categories,
         })
 
 
@@ -222,7 +226,6 @@ def find_city(request):
 
 
 def results(request):
-    print(request.POST)
     search = re.split(', | - ', request.POST['search'])
     num_items = int(request.POST['number_items'])
     items = Item.objects.filter(city__contains=search[0])[:num_items]
@@ -235,3 +238,20 @@ def results(request):
     return render(request, 'search/results.html', {
         "categories": sorted_items,
     })
+
+def add_item(request, trip_id):
+    trip = Trip.objects.get(id=trip_id)
+    new_item = Item.objects.create(
+        name=request.POST['name'],
+        city=trip.city,
+        country=trip.country,
+        season=request.POST['season'],
+        activity=request.POST['activities'],
+        category=request.POST['categories'],
+        trip_id=trip_id
+        #gender=
+        #age=
+        #public=
+    )
+    new_item.save()
+    return redirect("/trip/%s/" % (trip_id))
