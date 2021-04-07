@@ -1,11 +1,14 @@
 from django.contrib.auth import views
 from django.urls import path
 from . import views
+from django.contrib.auth import views as auth_views
+
 
 
 urlpatterns = [
+    path('accounts/login/', auth_views.LoginView.as_view(redirect_authenticated_user=True), name='login'), 
     path('', views.home, name='home'),
-    path('accounts/signup', views.signup, name='signup'),
+    path('accounts/signup/', views.signup, name='signup'),
     path("trip/new/", views.new_trip, name="new_trip"),
     path("trip/<int:trip_id>/", views.trip, name="trip"),
     path("trip/<int:trip_id>/add", views.add_item, name="add_item"),
