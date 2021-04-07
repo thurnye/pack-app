@@ -1,4 +1,4 @@
-from .generateData import getData
+from .generateData import generateItemData, generateUserData, generateVoteData
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import login, authenticate
@@ -12,7 +12,7 @@ from .models import Item, Trip, User, Activity, CATEGORIES, ACTIVITIES, getChoic
 
 def home(request):
     my_trips = Trip.objects.filter(user_id=request.user.id)
-    activities = [x[1] for x in activity]
+    activities = getChoices(ACTIVITIES)
     return render(request, 'index.html', {
         "mytrips": my_trips,
         "activities": activities,
@@ -125,8 +125,22 @@ def trip(request, trip_id):
         })
 
 
-def generateData(request):
-    data = getData(1000)
+def itemData(request, n=1000):
+    data = generateItemData(n)
+    return render(request, "data.html", {
+        "data": data
+    })
+
+
+def userData(request, n=1000):
+    data = generateUserData(n)
+    return render(request, "data.html", {
+        "data": data
+    })
+
+
+def voteData(request, n=1000):
+    data = generateVoteData(n)
     return render(request, "data.html", {
         "data": data
     })
