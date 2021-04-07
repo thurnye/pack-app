@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core import serializers
 from django.db.models import Sum, Q
 from .models import User, Trip, Vote, Item, Activity, Traveler, CATEGORIES, ACTIVITIES, getChoices
@@ -20,10 +20,10 @@ def home(request):
             "trip": my_trip,
             "travelers": Traveler.objects.filter(trip_id=my_trip)
         })
+    trips.reverse()
 
     return render(request, 'index.html', {
         "trips": trips[:3],
-        "user": request.user
     })
 
 
@@ -44,21 +44,24 @@ def searched_filters(request):
 def create(request):
     return redirect('search/new/filters')
 
-
+@user_passes_test(lambda u: u.is_anonymous, '/')
 def signup(request):
     error_message = ''
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
+            user.first_name = request.POST["first_name"]
+            user.last_name = request.POST["last_name"]
+            user.save()
             login(request, user)
             return redirect('/')
         else:
             error_message = 'Invalid sign up - try again'
+            print("error")
     form = UserCreationForm()
     context = {'form': form, 'error_message': error_message}
     return render(request, 'registration/signup.html', context)
-
 
 @login_required
 def new_trip(request):
@@ -67,8 +70,6 @@ def new_trip(request):
         return render(request, "trips/trip_form.html", {
             "title": "Add New Trip",
             "activities": activities,
-            "user": request.user
-
         })
     elif request.method == "POST":
         body = request.POST
@@ -263,6 +264,7 @@ def results(request):
         "categories": sorted_items,
     })
 
+
 def add_item(request, trip_id):
     trip = Trip.objects.get(id=trip_id)
     new_item = Item.objects.create(
@@ -273,9 +275,10 @@ def add_item(request, trip_id):
         activity=request.POST['activities'],
         category=request.POST['categories'],
         trip_id=trip_id
-        #gender=
-        #age=
-        #public=
+        # gender=
+        # age=
+        # public=
     )
     new_item.save()
     return redirect("/trip/%s/" % (trip_id))
+

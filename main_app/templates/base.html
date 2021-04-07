@@ -27,7 +27,8 @@
 
         <a class="navbar-brand position-absolute translate-middle-x start-50" href="/" id="top-nav-title">Pack'd</a>
         {% if user.is_authenticated %}
-        {% comment %} <text class="navbar-brand position-absolute translate-middle-x start-50" id="top-nav-title">{{ title }}</text> {% endcomment %}
+        {% comment %} <text class="navbar-brand position-absolute translate-middle-x start-50" id="top-nav-title">{{
+          title }}</text> {% endcomment %}
         <ul class="nav d-flex" id="top-nav-right">
           <li class="d-flex align-items-center">
             <a href="{% url 'logout' %}" class="nav-link px-2 my-0">Log Out</a>
@@ -36,11 +37,11 @@
         {% else %}
         <ul class="nav d-flex" id="top-nav-right">
           <li class="d-flex align-items-center">
-            <a href="{% url 'signup' %}" class="nav-link px-2 my-0">Sign Up</a>
+            <a href="{% url 'login' %}" class="nav-link px-2 my-0">Sign In</a>
           </li>
-          <li class="d-flex align-items-center">
+          {% comment %} <li class="d-flex align-items-center">
             <a href="{% url 'login' %}" class="nav-link px-2 my-0">Log In</a>
-          </li>
+          </li> {% endcomment %}
         </ul>
         {% endif %}
       </div>
@@ -62,7 +63,7 @@
         </li>
         {% else %}
         <li>
-          <a href="{% url 'signup' %}" class="nav-link py-1 px-3 my-0">Sign Up</a>
+          <a href="{% url 'signup' %}" class="nav-link py-1 px-3 my-0">Sign In</a>
         </li>
         <li>
           <a href="{% url 'login' %}" class="nav-link py-1 px-3 my-0">Log In</a>
