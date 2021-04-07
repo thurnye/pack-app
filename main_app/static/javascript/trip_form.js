@@ -10,8 +10,9 @@ google.maps.event.addDomListener(window, 'load', initialize);
 
 const addTravellerButton = document.querySelector("#add-traveller-button")
 const travellersList = document.querySelector("#travellers-list")
-let removeTravellerButtons = document.querySelectorAll(".remove-traveller-button")
 let travellerTemplate = document.querySelector("#traveller-template");
+let removeTravellerButtons = document.querySelectorAll(".remove-traveller-button")
+
 addTravellerButton.addEventListener("click", e => {
     const clone = travellerTemplate.cloneNode(true);
     clone.removeAttribute("id");
@@ -20,6 +21,10 @@ addTravellerButton.addEventListener("click", e => {
     })
     travellersList.appendChild(clone)
     removeButtons();
+})
+
+document.querySelector(".remove-traveller-button").addEventListener("click", e => {
+    removeButtons()
 })
 
 function removeButtons() {
@@ -42,9 +47,6 @@ function removeButtons() {
         })
     })
 }
-
-
-
 
 const packingCards = document.querySelectorAll(".card-packing");
 packingCards.forEach(item => {
@@ -73,7 +75,6 @@ packingCards.forEach(item => {
     })
 })
 
-
 const activityCards = document.querySelectorAll(".card-activity");
 activityCards.forEach(item => {
     item.addEventListener("click", e => {
@@ -94,7 +95,6 @@ activityCards.forEach(item => {
         } else {
             target.classList.remove("card-activity-active")
             target.children[0].checked = false;
-
         }
     })
 })
