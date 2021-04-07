@@ -213,3 +213,8 @@ header {
     color: var(--score-down);
     fill: var(--score-down);
 }
+
+.text-personal {
+    font-weight: bold;
+    color: red;
+}
