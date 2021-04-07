@@ -1,6 +1,4 @@
 {% extends 'base.html' %}
-{% load static %}
-
 {% block content %}
 {% load static %}
 <div class="container px-4" id="mobile-container">
@@ -18,58 +16,144 @@
         <text class="text-normal">Packing List</text>
       </div>
       {% for category, items in categorized_items.items %}
-        {% if items|length > 0 %}
-        <div>
-          <hr class="my-1"/>
-          <div class="d-flex pt-1">
-            <text class="text-normal-bold me-auto">{{ category }}</text>
-            <text class="text-normal ms-auto" id="{{ category }}-checks">0</text>
-            <text class="text-normal">&nbsp;/</text>
-            <text class="text-normal">&nbsp;{{ items|length }}</text>
-          </div>
-          {% for item in items %}
-            <div class="form-check d-flex text-normal py-1 my-0 text-normal-indent">
-              {% if item.personal %}
-                <div class="me-auto">
-                  <input class="form-check-input" type="checkbox" id="flexCheckDefault">
-                  <label class="form-check-label text-personal" for="flexCheckDefault">{{ item.item.name|title }}</label>
-                </div>
-                {% comment %} <div class="ms-0 me-auto">
-                  <a>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
-                    <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
-                  </svg>
-                  </a>
-                </div> {% endcomment %}
-              {% else %}
-                <div class="me-auto">
-                  <input class="form-check-input" type="checkbox" id="flexCheckDefault">
-                  <label class="form-check-label" for="flexCheckDefault">{{ item.item.name|title }}</label>
-                </div>
-              {% endif %}
-              <div class="ms-3 d-flex score-div">
-                <svg width="16" height="24" viewBox="0 0 16 16" fill="#C4C4C4" xmlns="http://www.w3.org/2000/svg" class="score score-up me-auto">
-                  <path d="M13 8.35714L6.5 0L0 8.35714H3.28333V13H9.71667V8.35714H13Z"/>
-                </svg>
-                <label class="form-check-label score-value text-muted" name="{{ item.id }}" for="flexCheckDefault">{{ item.sum_votes }}</label>
-                <svg width="16" height="24" viewBox="0 0 16 16" fill="#C4C4C4" xmlns="http://www.w3.org/2000/svg" class="score score-down ms-auto">
-                  <path d="M13 4.64286L6.5 13L0 4.64286H3.28333V3.57628e-07H9.71667V4.64286H13Z"/>
-                </svg>
-              </div>
-            </div>
-          {% endfor %}
+      {% if items|length > 0 %}
+      <div>
+        <hr class="my-1" />
+        <div class="d-flex pt-1">
+          <text class="text-normal-bold me-auto">{{ category }}</text>
+          <text class="text-normal ms-auto" id="{{ category }}-checks">0</text>
+          <text class="text-normal">&nbsp;/</text>
+          <text class="text-normal">&nbsp;{{ items|length }}</text>
         </div>
-        {% endif %}
+        {% for item in items %}
+        <div class="form-check d-flex text-normal py-1 my-0 text-normal-indent">
+          {% if item.personal %}
+          <div class="me-auto">
+            <input class="form-check-input" type="checkbox" id="flexCheckDefault">
+            <label class="form-check-label text-personal" for="flexCheckDefault">{{ item.item.name|title }}</label>
+          </div>
+          {% comment %} <div class="ms-0 me-auto">
+            <a>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-three-dots" viewBox="0 0 16 16">
+                <path
+                  d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
+              </svg>
+            </a>
+          </div> {% endcomment %}
+          {% else %}
+          <div class="me-auto">
+            <input class="form-check-input" type="checkbox" id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault">{{ item.item.name|title }}</label>
+          </div>
+          {% endif %}
+          <div class="ms-3 d-flex score-div">
+            <svg width="16" height="24" viewBox="0 0 16 16" fill="#C4C4C4" xmlns="http://www.w3.org/2000/svg"
+              class="score score-up me-auto">
+              <path d="M13 8.35714L6.5 0L0 8.35714H3.28333V13H9.71667V8.35714H13Z" />
+            </svg>
+            <label class="form-check-label score-value text-muted" name="{{ item.id }}" for="flexCheckDefault">{{
+              item.sum_votes }}</label>
+            <svg width="16" height="24" viewBox="0 0 16 16" fill="#C4C4C4" xmlns="http://www.w3.org/2000/svg"
+              class="score score-down ms-auto">
+              <path d="M13 4.64286L6.5 13L0 4.64286H3.28333V3.57628e-07H9.71667V4.64286H13Z" />
+            </svg>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
       {% endfor %}
     </div>
   </div>
-  <div class="text-center">
-    <button class="btn button-hover button-shadow border-0 mt-4">
-      <text class="text-normal">+ Add item</text>
-    </button>
+</div>
+
+
+
+<div class="text-center">
+  <button class="btn button-hover button-shadow border-0 mt-4" type="button" data-toggle="collapse"
+    data-target="#container-item" aria-expanded="false" aria-controls="collapseExample">
+    <text class="text-normal">+ Add item</text>
+  </button>
+</div>
+<div class="collapse" id="container-item">
+  <div class="container px-4" id="mobile-container">
+    <form method="POST" action="{% url 'add_item' trip %}">
+      {% csrf_token %}
+      <div class="mt-4">
+        <text class="text-header">Add item</text>
+      </div>
+      <div class="mt-4">
+        <label for="searchTextField" class="form-label text-header">Name of item</label>
+        <div class="input-group input-group-sm mb-3">
+          <input type="text" class="form-control" name="name" placeholder="item-name" required>
+        </div>
+      </div>
+      <div class="mt-4">
+        <label for="searchTextField" class="form-label text-header">Choose a season</label>
+        <div class="input-group input-group-sm mb-3">
+          <select type="date" class="form-control" name="season" id="date" required>
+            <option value="" disabled selected>Select your option</option>
+            <option value="Fall">Fall</option>
+            <option value="Winter">Winter</option>
+            <option value="Spring">Spring</option>
+            <option value="Summer">Summer</option>
+            <option value="All">All</option>
+          </select>
+        </div>
+      </div>
+      <div class="mt-4">
+        <label for="number_items" class="form-label text-header">Add to which activiy?</label>
+        <div class="row g-3 mt-1">
+          {% for activity in activities %}
+          <div class="col-4">
+            <label class="card card-shadow card-activity" for="activity-{{ activity }}">
+              <input type="checkbox" class="btn-check" name="activities" value="{{ activity }}"
+                id="activity-{{ activity }}">
+              <div class="card-body p-1 d-flex flex-column justify-content-center align-items-center">
+                <text class="text-activities align-middle">{{ activity }}</text>
+              </div>
+            </label>
+          </div>
+          {% endfor %}
+        </div>
+        <div class="mt-4">
+          <label for="number_items" class="form-label text-header">Which category</label>
+          <div class="row g-3 mt-1">
+            {% for cat in categories %}
+            <div class="col-4">
+              <label class="card card-shadow card-activity" for="cat-{{ cat }}">
+                <input type="checkbox" class="btn-check" name="categories" value="{{ cat }}" id="cat-{{ cat }}">
+                <div class="card-body p-1 d-flex flex-column justify-content-center align-items-center">
+                  <text class="text-activities align-middle">{{ cat }}</text>
+                </div>
+              </label>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="text-center">
+          <button class="btn button-hover button-shadow border-0 mt-4">
+            <text class="text-normal">+ Create item</text>
+          </button>
+        </div>
+    </form>
+
   </div>
 </div>
 
-<script defer src="/static/javascript/trip.js"></script>
 
+
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+  integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+  integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+  integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script defer src="/static/javascript/trip.js"></script>
+<script defer type="text/javascript"
+  src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyABt5_xdXjRl4pFDKfdUtAM4Bv5lgt1vo8&libraries=places"></script>
+<script defer type="text/javascript" src="/static/javascript/trip_form.js"></script>
 {% endblock %}
