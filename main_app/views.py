@@ -6,12 +6,9 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core import serializers
 from django.db.models import Sum, Q
-<<<<<<< HEAD
-from .models import User, Trip, Vote, Item, Activity, CATEGORIES, ACTIVITIES, getChoices
+
 import requests
-=======
 from .models import User, Trip, Vote, Item, Activity, Traveler, CATEGORIES, ACTIVITIES, getChoices
->>>>>>> master
 import re
 
 # Create your views here.
@@ -201,17 +198,11 @@ def trip(request, trip_id):
             "today_temp_high" : current_temp_high,
             "today_temp_low" : current_temp_low,
             "condition" : current_condition,
-            "address" : data['resolvedAddress']
+            "address" : data['resolvedAddress'],
             "trip": trip_id,
             "activities": activities,
             "categories": categories,
-
-        
-        # return render(request, "trips/trip.html", {
-        #     "title": "%s, %s" % (trip.city, trip.country),
-        #     "categorized_items": categorized_items,
-            
-        # })
+        })
     
 
 
