@@ -44,7 +44,9 @@ def home(request):
 def signup(request):
     error_message = ''
     if request.method == 'POST':
+        print(request.POST)
         form = UserCreationForm(request.POST)
+        print(form)
         if form.is_valid():
             user = form.save()
             user.first_name = request.POST["first_name"]
@@ -54,7 +56,7 @@ def signup(request):
             return redirect('/')
         else:
             error_message = 'Invalid sign up - try again'
-            print("error")
+            print("Invalid sign up - try again")
     form = UserCreationForm()
     context = {'form': form, 'error_message': error_message}
     return render(request, 'registration/signup.html', context)
@@ -202,7 +204,7 @@ def trip(request, trip_id):
         activities = getChoices(ACTIVITIES)
         # weather api call below this line
         city = "%s,%s" % (trip.city,trip.country)
-        key = os.environ.get("KEY")
+        key = os.environ.get("WEATHER_KEY")
         api = f"https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{city}?unitGroup=metric&key={key}&include=obs%2Cfcst%2Calerts%2Ccurrent%2Chistfcst"
         data = requests.get(api).json()
         weather_forecast = data['days']
@@ -210,6 +212,8 @@ def trip(request, trip_id):
         current_temp_low = f"{int(data['days'][0]['tempmin'])}\u00B0C"
         icon = data['days'][0]['icon']
         current_condition = data['days'][0]['conditions']
+
+        
         return render(request, "trips/trip.html", {
             "title": "%s, %s" % (trip.city, trip.country),
             "forecast" : weather_forecast,
