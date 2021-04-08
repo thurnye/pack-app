@@ -77,67 +77,90 @@
   </div>
 </div>
 
+      
 <div class="collapse multi-collapse hide" id="container-item">
+  <a href="{{ previous_url.url }}">
+    <div class="mt-4 px-4">
+      <svg width="12" height="21" viewBox="0 0 12 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M9.60938 20.3906C9.86719 20.6484 10.1953 20.7891 10.582 20.7891C11.3555 20.7891 11.9766 20.1797 11.9766 19.4062C11.9766 19.0195 11.8125 18.668 11.543 18.3984L3.33984 10.3828L11.543 2.39062C11.8125 2.12109 11.9766 1.75781 11.9766 1.38281C11.9766 0.609375 11.3555 0 10.582 0C10.1953 0 9.86719 0.140625 9.60938 0.398438L0.492188 9.30469C0.164062 9.60938 0.0117188 9.98438 0 10.3945C0 10.8047 0.164062 11.1562 0.492188 11.4727L9.60938 20.3906Z" fill="#16056B"/>
+      </svg>
+      <text class="text-header ms-1 align-middle">{{ trip.city }}, {{ trip.country}}</text>
+    </div>
+  </a>
   <div class="container px-4" id="mobile-container">
-    <form method="POST" action="{% url 'add_item' trip %}">
+    <form method="POST" action="{% url 'add_item' trip.id %}">
       {% csrf_token %}
-      <div class="mt-4">
-        <text class="text-header">Add item</text>
-      </div>
-      <div class="mt-4">
-        <label for="searchTextField" class="form-label text-header">Name of item</label>
-        <div class="input-group input-group-sm mb-3">
-          <input type="text" class="form-control" name="name" placeholder="item-name" required>
-        </div>
-      </div>
-      <div class="mt-4">
-        <label for="searchTextField" class="form-label text-header">Choose a season</label>
-        <div class="input-group input-group-sm mb-3">
-          <select type="date" class="form-control" name="season" id="date" required>
-            <option value="" disabled selected>Select your option</option>
-            <option value="Fall">Fall</option>
-            <option value="Winter">Winter</option>
-            <option value="Spring">Spring</option>
-            <option value="Summer">Summer</option>
-            <option value="All">All</option>
-          </select>
-        </div>
-      </div>
-      <div class="mt-4">
-        <label for="number_items" class="form-label text-header">Add to which activiy?</label>
-        <div class="row g-3 mt-1">
-          {% for activity in activities %}
-          <div class="col-4">
-            <label class="card card-shadow card-activity" for="activity-{{ activity }}">
-              <input type="checkbox" class="btn-check" name="activities" value="{{ activity }}"
-                id="activity-{{ activity }}">
-              <div class="card-body p-1 d-flex flex-column justify-content-center align-items-center">
-                <text class="text-activities align-middle">{{ activity }}</text>
-              </div>
-            </label>
+      <div class="row g-3 mt-4">
+        <div class="col-12">
+          <div class="input-group-sm mb-3">
+            <label for="name" class="form-label text-header">Item Name</label>
+            <input type="text" class="form-control" name="name" required>
           </div>
-          {% endfor %}
         </div>
-        <div class="mt-4">
-          <label for="number_items" class="form-label text-header">Which category</label>
-          <div class="row g-3 mt-1">
-            {% for cat in categories %}
-            <div class="col-4">
-              <label class="card card-shadow card-activity" for="cat-{{ cat }}">
-                <input type="checkbox" class="btn-check" name="categories" value="{{ cat }}" id="cat-{{ cat }}">
-                <div class="card-body p-1 d-flex flex-column justify-content-center align-items-center">
-                  <text class="text-activities align-middle">{{ cat }}</text>
-                </div>
-              </label>
-            </div>
+        <div class="col-6">
+          <div class="input-group-sm mb-3">
+            <label for="category" class="form-label text-header">Category</label>
+            <select type="select" class="form-select form-select-sm px-2" name="category" id="category" required>
+              <option value="" disabled selected>Select Option</option>
+              {% for category in categories  %}
+              <option value="{{ category }}">{{ category }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="input-group-sm mb-3">
+            <label for="season" class="form-label text-header">Season</label>
+            <select type="select" class="form-select form-select-sm px-2" name="season" id="season">
+              {% for season in seasons %}
+              <option value="{{ season}}">{{ season}}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="input-group-sm mb-3">
+            <label for="age" class="form-label text-header">Age Group</label>
+            <select type="select" class="form-select form-select-sm px-2" name="age" id="age">
+              {% for age in ages %}
+              <option value="{{ age}}">{{ age}}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="input-group-sm mb-3">
+            <label for="gender" class="form-label text-header">Gender</label>
+            <select type="select" class="form-select form-select-sm px-2" name="gender" id="gender">
+              {% for gender in genders %}
+              <option value="{{ gender }}">{{ gender }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="col-12">
+          <label for="activities" class="form-label text-header">Activities</label>
+          <div class="row g-3">
+            {% for activity in activities %}
+              {% if activity != "All" %}
+              <div class="col-4">
+                <label class="card card-shadow card-activity" for="activity-{{ activity }}">
+                  <input type="checkbox" class="btn-check" name="activities" value="{{ activity }}" id="activity-{{ activity }}">
+                  <div class="card-body p-1 d-flex flex-column justify-content-center align-items-center">
+                    <text class="text-activities align-middle">{{ activity }}</text>
+                  </div>
+                </label>
+              </div>
+              {% endif %}
             {% endfor %}
           </div>
         </div>
-        <div class="text-center">
-          <button class="btn button-hover button-shadow border-0 mt-4">
-            <text class="text-normal">+ Create item</text>
-          </button>
-        </div>
+      </div>
+      <div class="text-center mt-1">
+        <button type="submit" class="btn button-hover button-shadow border-0 mt-4">
+          <text class="text-normal">+ Create Item</text>
+        </button>
+      </div>
     </form>
   </div>
 </div>
@@ -146,11 +169,8 @@
 
 
 
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-  integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-  integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-  integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-<script defer src="/static/javascript/trip.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="/static/javascript/trip.js"></script>
 {% endblock %}

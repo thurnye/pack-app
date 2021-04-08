@@ -46,3 +46,25 @@ scores.forEach(item => {
     })
 })
 
+const activityCards = document.querySelectorAll(".card-activity");
+activityCards.forEach(item => {
+    item.addEventListener("click", e => {
+        let target = e.target
+        let rightTarget = false;
+        while (!rightTarget) {
+            if (target.classList.contains("card-activity")) {
+                rightTarget = true
+            } else {
+                target = target.parentElement
+            }
+        }
+        if (target.classList.contains("card-activity-active,") == false) {
+            target.classList.add("card-activity-active,");
+            target.children[0].checked = true;
+
+        } else {
+            target.classList.remove("card-activity-active,")
+            target.children[0].checked = false;
+        }
+    })
+})

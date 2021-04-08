@@ -6,7 +6,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core import serializers
 from django.db.models import Sum, Q
-from .models import User, Trip, Vote, Item, Activity, Traveler, CATEGORIES, ACTIVITIES, getChoices
+from .models import User, Trip, Vote, Item, Activity, Traveler, CATEGORIES, ACTIVITIES, SEASONS, AGES, GENDERS, getChoices
 import re
 from datetime import date
 
@@ -29,7 +29,7 @@ def home(request):
 
     return render(request, 'index.html', {
         "trips": trips[:3],
-        "past_trips": past_trips
+        "past_trips": past_trips,
     })
 
 
@@ -165,7 +165,10 @@ def trip(request, trip_id):
                     checked=False
                 )
 
-            if sum_votes == None or sum_votes >= 0:
+            if sum_votes == None:
+                sum_votes = 0
+            
+            if sum_votes >= 0:
                 if item.trip_id == trip.id:
                     personal_items.append({
                         "item": item,
@@ -196,9 +199,12 @@ def trip(request, trip_id):
         return render(request, "trips/trip.html", {
             "title": "%s, %s" % (trip.city, trip.country),
             "categorized_items": categorized_items,
-            "trip": trip_id,
-            "activities": activities,
+            "trip": trip,
             "categories": categories,
+            "activities": activities,
+            "seasons" : getChoices(SEASONS),
+            "ages" : getChoices(AGES),
+            "genders" : getChoices(GENDERS),
             "checked": "checked",
         })
 
