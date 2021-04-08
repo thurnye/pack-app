@@ -216,26 +216,30 @@ def trip(request, trip_id):
         
         return render(request, "trips/trip.html", {
             "title": "%s, %s" % (trip.city, trip.country),
-            "forecast" : weather_forecast,
             "categorized_items": categorized_items,
+            "activities": activities,
+            "categories": categories,
+            "seasons" : getChoices(SEASONS),
+            "ages" : getChoices(AGES),
+            "genders" : getChoices(GENDERS),
             "trip": trip,
+            "forecast" : weather_forecast,
             "today_temp_high" : current_temp_high,
             "today_temp_low" : current_temp_low,
             "condition" : current_condition,
             'weather_icon' : icon,
-            "address" : data['resolvedAddress'],
-            "activities": activities,
-            "categories": categories,
-            "activities": activities,
-            "seasons" : getChoices(SEASONS),
-            "ages" : getChoices(AGES),
-            "genders" : getChoices(GENDERS),
-            "checked": "checked",
         })
 
 @login_required
 def edit_trip(request, trip_id):
-    pass
+    trip = Trip.objects.get(id=trip_id)
+    travelers = Traveler.objects.filter(trip_id=trip.id)
+    return render(request, "trips/trip_form.html", {
+        "trip": trip,
+        "travellers": travelers,
+        "activities" : getChoices(ACTIVITIES),
+        "genders" : getChoices(GENDERS),
+    })
 
 @login_required
 def delete_trip(request, trip_id):
