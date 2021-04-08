@@ -1,1 +1,1 @@
-WSGI_APPLICATION = 'packapp1.wsgi.application'
+web: gunicorn packapp1.wsgi
