@@ -22,6 +22,7 @@ urlpatterns = [
     path("trip/pasts/", views.past_trips, name="past_trips"),
 
 
+    path("index_search/", views.index_search, name="index_search"),
     path("profile/<int:user_id>/", views.profile, name="profile"),
 
     path("search/", views.search, name="search"),
