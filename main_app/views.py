@@ -8,8 +8,9 @@ from django.core import serializers
 from django.db.models import Sum, Q
 
 import requests
-from .models import User, Trip, Vote, Item, Activity, Traveler, CATEGORIES, ACTIVITIES, getChoices
+from .models import User, Trip, Vote, Item, Activity, Traveler, CATEGORIES, ACTIVITIES, SEASONS, AGES, GENDERS, getChoices
 import re
+from datetime import date
 
 # Create your views here.
 
@@ -17,7 +18,11 @@ import re
 def home(request):
     trips = []
     my_trips = Trip.objects.filter(user_id=request.user.id)
+    past_trips = False
+    today = date.today()
     for my_trip in my_trips:
+        if my_trip.date < today:
+            past_trips = True
         trips.append({
             "trip": my_trip,
             "travelers": Traveler.objects.filter(trip_id=my_trip)
@@ -26,6 +31,7 @@ def home(request):
 
     return render(request, 'index.html', {
         "trips": trips[:3],
+        "past_trips": past_trips,
     })
 
 
@@ -46,7 +52,8 @@ def searched_filters(request):
 def create(request):
     return redirect('search/new/filters')
 
-@user_passes_test(lambda u: u.is_anonymous, '/')
+
+@ user_passes_test(lambda u: u.is_anonymous, '/')
 def signup(request):
     error_message = ''
     if request.method == 'POST':
@@ -65,12 +72,17 @@ def signup(request):
     context = {'form': form, 'error_message': error_message}
     return render(request, 'registration/signup.html', context)
 
-@login_required
+
+@ login_required
 def new_trip(request):
     if request.method == "GET":
         activities = getChoices(ACTIVITIES)
         return render(request, "trips/trip_form.html", {
             "title": "Add New Trip",
+            "previous_url": {
+                "url": "/",
+                "text": "All Trips"
+            },
             "activities": activities,
         })
     elif request.method == "POST":
@@ -124,7 +136,7 @@ def new_trip(request):
         return redirect("/trip/%s/" % (trip.id))
 
 
-@login_required
+@ login_required
 def trip(request, trip_id):
     if request.method == "GET":
         trip = Trip.objects.get(id=trip_id)
@@ -155,7 +167,10 @@ def trip(request, trip_id):
                     checked=False
                 )
 
-            if sum_votes == None or sum_votes >= 0:
+            if sum_votes == None:
+                sum_votes = 0
+            
+            if sum_votes >= 0:
                 if item.trip_id == trip.id:
                     personal_items.append({
                         "item": item,
@@ -203,9 +218,57 @@ def trip(request, trip_id):
             "address" : data['resolvedAddress'],
             "trip": trip_id,
             "activities": activities,
+            "trip": trip,
             "categories": categories,
+            "activities": activities,
+            "seasons" : getChoices(SEASONS),
+            "ages" : getChoices(AGES),
+            "genders" : getChoices(GENDERS),
+            "checked": "checked",
         })
     
+
+
+@ login_required
+def upcoming_trips(request):
+    trips = []
+    my_trips = Trip.objects.filter(user_id=request.user.id)
+    today = date.today()
+    for my_trip in my_trips:
+        if my_trip.date >= today:
+            trips.append({
+                "trip": my_trip,
+                "travelers": Traveler.objects.filter(trip_id=my_trip)
+            })
+    trips.reverse()
+    return render(request, "trips/upcoming_trips.html", {
+        "previous_url": {
+            "url": "/",
+            "text": "All Trips"
+        },
+        "trips": trips,
+    })
+
+
+@ login_required
+def past_trips(request):
+    trips = []
+    my_trips = Trip.objects.filter(user_id=request.user.id)
+    today = date.today()
+    for my_trip in my_trips:
+        if my_trip.date < today:
+            trips.append({
+                "trip": my_trip,
+                "travelers": Traveler.objects.filter(trip_id=my_trip)
+            })
+    trips.reverse()
+    return render(request, "trips/past_trips.html", {
+        "previous_url": {
+            "url": "/",
+            "text": "All Trips"
+        },
+        "trips": trips,
+    })
 
 
 def itemData(request, n=100):
@@ -254,10 +317,14 @@ def downvote_system(request):
 @ login_required
 def profile(request, user_id):
     my_trips = Trip.objects.filter(user_id=user_id)
-    my_items = Item.objects.filter(user=user_id)
+    my_items = []
+    for trip in my_trips:
+        found_item = Item.objects.filter(trip_id=trip.id).first()
+        if found_item:
+            my_items.append(found_item)
     return render(request, 'registration/profile.html', {
         "mytrips": my_trips,
-        "myitems": my_items,
+        "my_items": my_items,
     })
 
 
@@ -299,4 +366,3 @@ def add_item(request, trip_id):
     )
     new_item.save()
     return redirect("/trip/%s/" % (trip_id))
-

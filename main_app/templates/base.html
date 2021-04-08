@@ -27,8 +27,7 @@
 
         <a class="navbar-brand position-absolute translate-middle-x start-50" href="/" id="top-nav-title">Pack'd</a>
         {% if user.is_authenticated %}
-        {% comment %} <text class="navbar-brand position-absolute translate-middle-x start-50" id="top-nav-title">{{
-          title }}</text> {% endcomment %}
+        {% comment %} <text class="navbar-brand position-absolute translate-middle-x start-50" id="top-nav-title">{{ title }}</text> {% endcomment %}
         <ul class="nav d-flex" id="top-nav-right">
           <li class="d-flex align-items-center">
             <a href="{% url 'logout' %}" class="nav-link px-2 my-0">Log Out</a>
@@ -50,30 +49,66 @@
 
   <div id="side-nav-container">
     <nav class="navbar-dark" id="side-nav">
-      <ul class="navbar-nav">
-        <li>
-          <a href="{% url 'findcity' %}" class="nav-link py-1 px-3 my-0">Search</a>
-        </li>
-        {% if user.is_authenticated %}
-        <li>
-          <a href="{% url 'profile' user.id %}" class="nav-link py-1 px-3 my-0">Profile</a>
-        </li>
-        <li>
-          <a href="{% url 'logout' %}" class="nav-link py-1 px-3 my-0">Log Out</a>
-        </li>
-        {% else %}
-        <li>
-          <a href="{% url 'signup' %}" class="nav-link py-1 px-3 my-0">Sign In</a>
-        </li>
-        <li>
-          <a href="{% url 'login' %}" class="nav-link py-1 px-3 my-0">Log In</a>
-        </li>
-        {% endif %}
-      </ul>
+        <ul class="navbar-nav" id="side-nav-list">
+          <li class="ms-2">
+            <a href="{% url 'home' %}" class="nav-link py-1 px-3 my-0">
+              <text class="text-sidebar">Home</text>
+            </a>
+          </li>
+          <li class="ms-2">
+            <a href="{% url 'findcity' %}" class="nav-link py-1 px-3 my-0">
+              <text class="text-sidebar">Search</text>
+            </a>
+          </li>
+          {% if user.is_authenticated %}
+          <li class="ms-2">
+            <a href="{% url 'upcoming_trips' %}" class="nav-link py-1 px-3 my-0">
+              <text class="text-sidebar">Upcoming Trips</text>
+            </a>
+          </li>
+          <li class="ms-2">
+            <a href="{% url 'past_trips' %}" class="nav-link py-1 px-3 my-0">
+              <text class="text-sidebar">Past Trips</text>
+            </a>
+          </li>
+          <li class="ms-2">
+            <a href="{% url 'profile' user.id %}" class="nav-link py-1 px-3 my-0">
+              <text class="text-sidebar">Profile</text>
+            </a>
+          </li>
+          <li class="ms-2">
+            <a href="{% url 'logout' %}" class="nav-link py-1 px-3 my-0">
+              <text class="text-sidebar">Log Out</text>
+            </a>
+          </li>
+          {% else %}
+          <li class="ms-2">
+            <a href="{% url 'login' %}" class="nav-link py-1 px-3 my-0">
+              <text class="text-sidebar">Login</text>
+            </a>
+          </li>
+          <li class="ms-2">
+            <a href="{% url 'signup' %}" class="nav-link py-1 px-3 my-0">
+              <text class="text-sidebar">Sign Up</text>
+            </a>
+          </li>
+          {% endif %}
+        </ul>
     </nav>
   </div>
+
   <main>
     <div id="content">
+      {% if previous_url %}
+      <a href="{{ previous_url.url }}">
+        <div class="mt-4 px-4">
+          <svg width="12" height="21" viewBox="0 0 12 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9.60938 20.3906C9.86719 20.6484 10.1953 20.7891 10.582 20.7891C11.3555 20.7891 11.9766 20.1797 11.9766 19.4062C11.9766 19.0195 11.8125 18.668 11.543 18.3984L3.33984 10.3828L11.543 2.39062C11.8125 2.12109 11.9766 1.75781 11.9766 1.38281C11.9766 0.609375 11.3555 0 10.582 0C10.1953 0 9.86719 0.140625 9.60938 0.398438L0.492188 9.30469C0.164062 9.60938 0.0117188 9.98438 0 10.3945C0 10.8047 0.164062 11.1562 0.492188 11.4727L9.60938 20.3906Z" fill="#16056B"/>
+          </svg>
+          <text class="text-header ms-1 align-middle">{{ previous_url.text }}</text>
+        </div>
+      </a>
+      {% endif %}
       {% block content %}
       {% endblock %}
     </div>
@@ -86,5 +121,4 @@
   {% endblock javascript %}
 
 </body>
-
 </html>
