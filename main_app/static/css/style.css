@@ -273,3 +273,13 @@ header {
     font-weight: bold;
     color: red;
 }
+
+/* upvote/downvote button "container" styling */
+.upvote {
+    border:none;
+    background-color: rgba(0,0,0,0); 
+} 
+.downvote {
+    border:none; 
+    background-color: rgba(0,0,0,0); 
+}

@@ -159,17 +159,30 @@
             <label class="form-check-label" for="flexCheckDefault">{{ item.item.name|title }}</label>
           </div>
           {% endif %}
-          <div class="ms-3 d-flex score-div">
-            <svg width="16" height="24" viewBox="0 0 16 16" fill="#C4C4C4" xmlns="http://www.w3.org/2000/svg"
-              class="score score-up me-auto">
-              <path d="M13 8.35714L6.5 0L0 8.35714H3.28333V13H9.71667V8.35714H13Z" />
-            </svg>
-            <label class="form-check-label score-value text-muted" name="{{ item.id }}" for="flexCheckDefault">{{item.sum_votes }}</label>
-            <svg width="16" height="24" viewBox="0 0 16 16" fill="#C4C4C4" xmlns="http://www.w3.org/2000/svg"
-              class="score score-down ms-auto">
-              <path d="M13 4.64286L6.5 13L0 4.64286H3.28333V3.57628e-07H9.71667V4.64286H13Z" />
-            </svg>
-          </div>
+
+
+          <form class="upvote-btn" method="POST" action="{% url 'upvote_system' %}">
+            {% csrf_token %}
+            <div class="ms-3 d-flex score-div">
+              <button type="submit" class="upvote" name="upvote" value="Upvote">
+                <svg width="16" height="24" viewBox="0 0 16 16" fill="#C4C4C4" xmlns="http://www.w3.org/2000/svg"
+                  class="score score-up me-auto">
+                  <path d="M13 8.35714L6.5 0L0 8.35714H3.28333V13H9.71667V8.35714H13Z" />
+                </svg>
+              </button>
+              <label class="form-check-label score-value text-muted" name="{{ item.id }}" for="flexCheckDefault">{{item.sum_votes }}</label>
+              
+              <button type="submit" class="downvote" name="downvote" value="Downvote">
+                <svg width="16" height="24" viewBox="0 0 16 16" fill="#C4C4C4" xmlns="http://www.w3.org/2000/svg"
+                  class="score score-down ms-auto">
+                  <path d="M13 4.64286L6.5 13L0 4.64286H3.28333V3.57628e-07H9.71667V4.64286H13Z" />
+                </svg>
+              </button>
+
+            </div>
+          </form>
+
+
         </div>
         {% endfor %}
       </div>
@@ -281,4 +294,36 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script src="/static/javascript/trip.js"></script>
+<script>
+  $(".upvote-btn").submit(function (e) {
+      let target = document.activeElement
+      e.preventDefault();
+      let serializedData = $(this).serialize();
+      if (target.className === 'upvote') {
+          $.ajax({
+              type: "POST",
+              url: "{% url 'upvote_system' %}",
+              data: serializedData,
+              success: function (response) {
+                  target.style.color = "red"
+              },
+              error: function (response) {
+                  alert(response["responseJSON"]["error"]);
+              }
+          })
+      } else if (target.className === 'downvote') {
+          $.ajax({
+              type: "POST",
+              url: "{% url 'downvote_system' %}",
+              data: serializedData,
+              success: function (response) {
+                  target.style.color = "blue"
+              },
+              error: function (response) {
+                  alert(response["responseJSON"]["error"]);
+              }
+          })
+      }
+  })
+</script>
 {% endblock %}
