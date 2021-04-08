@@ -11,12 +11,6 @@
                 <input type="search" class="form-control" name="search" id="searchTextField" required>
             </div>
         </div>
-        <div class="mt-4">
-            <label for="searchTextField" class="form-label text-header">What day do you arrive?</label>
-            <div class="input-group input-group-sm mb-3">
-                <input type="date" class="form-control" name="date" id="date" required>
-            </div>
-        </div>
 
         <div class="mt-4">
             <label for="number_items" class="form-label text-header">How much do you want to pack?</label>
@@ -64,24 +58,7 @@
                 </div>
             </div>
         </div>
-        <div class="mt-4">
-            <label for="number_items" class="form-label text-header">What will you be doing there?</label>
-            <div class="row g-3 mt-1">
-                {% for activity in activities %}
-                {% if activity != "All" %}
-                <div class="col-4">
-                    <label class="card card-shadow card-activity" for="activity-{{ activity }}">
-                        <input type="checkbox" class="btn-check" name="activities" value="{{ activity }}"
-                            id="activity-{{ activity }}">
-                        <div class="card-body p-1 d-flex flex-column justify-content-center align-items-center">
-                            <text class="text-activities align-middle">{{ activity }}</text>
-                        </div>
-                    </label>
-                </div>
-                {% endif %}
-                {% endfor %}
-            </div>
-        </div>
+       
         <div class="d-grid mt-2">
             <button type="submit" class="btn rounded-pill py-2 mt-4 button-shadow button-primary">
                 <text class="text-card-title">Generate List</text>
@@ -90,45 +67,6 @@
 
     </form>
 
-    {% comment %}
-    <form method="POST" action="{% url 'new_trip' %}">
-        {% csrf_token %}
-        where are you going?<br>
-        <input type="text" id="searchTextField" name="search" placeholder="Search City..."><br>
-        what day do you arrive?<br>
-        <input type="date" name="date" required><br>
-        travelers<br>
-        <p style="color:grey;">placeholder for information of added travelers</p>
-        name<br>
-        <input type="text" name="traveler-name" placeholder="Name..."><br>
-        age group<br>
-        <select name="agegroup" default="none">
-            <option value="" disabled selected hidden>choose age group</option>
-            <option value="infant">Infant/Young Child (0-3)</option>
-            <option value="child">Child (3-17)</option>
-            <option value="adult">Adult (18+)</option>
-        </select><br>
-        how much do you want to pack?<br>
-        light
-        <input type="checkbox" name="light">
-        medium
-        <input type="checkbox" name="medium">
-        everything
-        <input type="checkbox" name="everything"><br>
-
-        select activities<br>
-        <input type="checkbox" name="option1">
-        <input type="checkbox" name="option2">
-        <input type="checkbox" name="option3"><br>
-        <input type="checkbox" name="option4">
-        <input type="checkbox" name="option5">
-        <input type="checkbox" name="option6"><br>
-        <input type="checkbox" name="option7">
-        <input type="checkbox" name="option8">
-        <input type="checkbox" name="option9"><br>
-
-        <button>create my list</button>
-    </form> {% endcomment %}
 
     <script defer type="text/javascript"
         src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyABt5_xdXjRl4pFDKfdUtAM4Bv5lgt1vo8&libraries=places"></script>
