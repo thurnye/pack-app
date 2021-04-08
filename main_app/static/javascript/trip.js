@@ -99,3 +99,36 @@ activityCards.forEach(item => {
     })
 })
 
+
+/*
+ $(".upvote-btn").submit(function (e) {
+        let target = document.activeElement
+        e.preventDefault();
+        let serializedData = $(this).serialize();
+        if (target.className === 'upvote') {
+            $.ajax({
+                type: "POST",
+                url: "{% url 'upvote_system' %}",
+                data: serializedData,
+                success: function (response) {
+                    target.style.color = "red"
+                },
+                error: function (response) {
+                    alert(response["responseJSON"]["error"]);
+                }
+            })
+        } else if (target.className === 'downvote') {
+            $.ajax({
+                type: "POST",
+                url: "{% url 'downvote_system' %}",
+                data: serializedData,
+                success: function (response) {
+                    target.style.color = "blue"
+                },
+                error: function (response) {
+                    alert(response["responseJSON"]["error"]);
+                }
+            })
+        }
+    })
+    */
