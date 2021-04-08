@@ -10,17 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
-<<<<<<< HEAD
-import os
-from pathlib import Path
-=======
 from pathlib import Path
 # import environ
 # environ.Env()
 # environ.Env.read_env()
 # import os
 # my_key = os.environ['SECRET_KEY']
->>>>>>> master
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -51,10 +46,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-<<<<<<< HEAD
     'corsheaders.middleware.CorsMiddleware',
-=======
->>>>>>> master
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -62,10 +54,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-<<<<<<< HEAD
-    # 'whitenoise.middleware.WhiteNoiseMiddleware',
-=======
->>>>>>> master
 ]
 
 ROOT_URLCONF = 'packapp1.urls'
@@ -95,13 +83,7 @@ WSGI_APPLICATION = 'packapp1.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-<<<<<<< HEAD
-        'NAME': 'Packd',
-=======
         'NAME': 'packapp1',
-        # 'USER': 'postgres',
-        # 'PASSWORD': my_key,
->>>>>>> master
     }
 }
 
@@ -110,20 +92,6 @@ DATABASES = {
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-<<<<<<< HEAD
-    # {
-    #     'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    # },
-    # {
-    #     'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    # },
-    # {
-    #     'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    # },
-    # {
-    #     'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    # },
-=======
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
@@ -136,7 +104,6 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
->>>>>>> master
 ]
 
 
@@ -156,15 +123,6 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
-<<<<<<< HEAD
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/accounts/login'
-
-STATIC_URL = '/static/'
-
-import django_heroku
-django_heroku.settings(locals())
-=======
 
 STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL = '/'
@@ -172,4 +130,3 @@ LOGOUT_REDIRECT_URL = '/'
 
 import django_heroku
 django_heroku.settings(locals())
->>>>>>> master
