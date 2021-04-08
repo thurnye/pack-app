@@ -1,4 +1,5 @@
-*.env
+# *.env
+# Procfile
 *db.sqlite3
-# *settings.py
+*settings.py
 packapp1/__pycache__
