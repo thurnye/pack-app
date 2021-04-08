@@ -11,7 +11,7 @@ This is a webapp designed to help absent-minded vacationers get organized! Searc
 Create and add items for specific locations, and up-vote/down-vote other community member's item suggestions based on merit.  
 
 ## Screens
-<img src="https://github.com/logan858/pack-app/blob/master/main_app/static/images/RM-titlescreen.png?raw=true" width="200">
+<img src="https://github.com/logan858/pack-app/blob/master/main_app/static/images/RM-titlescreen.png?raw=true" width="45%">
 ![title](https://github.com/logan858/pack-app/blob/master/main_app/static/images/RM-titlescreen.png?raw=true "title")  ![login](https://github.com/logan858/pack-app/blob/master/main_app/static/images/RM-mainscreen.png?raw=true "login")
 
 
