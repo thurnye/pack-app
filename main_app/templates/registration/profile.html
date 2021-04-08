@@ -7,19 +7,36 @@
         <div class="d-grid">
             <h4>Your profile</h4>
             Here are all of your current and past trips
-            <hr />
+            <hr/>
+        </div>
             {% if mytrips %}
             {% for trip in mytrips %}
-            <div>
-                {{ trip.city }} - {{ trip.country }}<br>
-                {{ trip.date }}<br>
-                {% if trip.travelers == True %}
-                {{ trip.travelers }}
-                {% else %}
-                No travel companions
-                {% endif %}
-                {{ trip.activity }}
-            </div><br>
+            <div class="card card-shadow border-0 my-2">
+                <div class="card-body">
+                  <div class="d-flex">
+                    <div class="me-0">
+                        <text class="text-header">{{ trip.city }}, {{ trip.country }}</text>
+                    </div>
+                    <div class="ms-auto d-flex score-div">
+                      <text class="text-normal-black">{{ trip.date }}</text>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                    <div class="col-7">
+                        <text class="text-small ms-2">{{ trip.activity }}</text>
+                    </div>
+                </div>
+                <div>                
+                    {% if trip.travelers == True %}
+                    {{ trip.travelers }}
+                    {% else %}
+                    No travel companions
+                    {% endif %}
+                    {{ trip.activity }}
+                </div>
+            </div>
+            <br>
             {% endfor %}
             {% else %}
             <div>
@@ -28,16 +45,29 @@
             {% endif %}
             <br>
 
-            Here are all of your created items
+            <h4>Here are all of your created items</h4>
             <hr />
-            {% if myitems %}
-            {% for item in myitems %}
-            <div>
-                name: {{ item.name }}<br>
-                location: {{ item.city }}<br>
-                season: {{ item.season }}<br>
-                current vote: {{ item.vote }}<br>
-            </div><br>
+            {% if my_items %}
+            {% for item in my_items %}
+            <div class="card card-shadow border-0 my-2">
+                <div class="card-body">
+                  <div class="d-flex">
+                    <div class="me-0">
+                        <text class="text-header">{{ item.name }}</text>
+                    </div>
+                    current vote: {{ item.vote }}<br>
+                    season: {{ item.season }}<br>
+                    activity: {{ item.activity }}<br>
+                    category: {{ item.category }}<br>
+                    
+                    <div class="ms-auto d-flex score-div">
+                      <text class="text-normal-black">{{ item.city }}, {{ item.country }}</text>
+                    </div>
+                    
+                  </div>
+                </div>
+    
+            </div>
             {% endfor %}
             {% else %}
             <div>
