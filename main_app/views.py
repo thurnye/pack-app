@@ -209,6 +209,7 @@ def trip(request, trip_id):
         print(type(icon), icon)
         return render(request, "trips/trip.html", {
             "title": "%s, %s" % (trip.city, trip.country),
+            "forecast" : weather_forecast,
             "categorized_items": categorized_items,
             "trip": trip,
             "today_temp_high" : current_temp_high,
