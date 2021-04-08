@@ -68,7 +68,7 @@ class Vote(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    item = models.ForeignKey(Item,on_delete=models.CASCADE)
     vote = models.IntegerField(default=0)
     checked = models.BooleanField(default=False)
 
