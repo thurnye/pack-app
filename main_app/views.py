@@ -301,29 +301,6 @@ def vote(request):
         
         return JsonResponse({},status=200)
 
-
-@login_required
-def upvote_system(request):
-    if request.is_ajax and request.method == "POST":
-        print("UPVOTE: this is successfully an ajax & post method")
-        # this is where the view func will update the database items counters
-        # will also create a relation for the user, to check to see if they've previously voted
-        return redirect('/')
-    else:
-        return JsonResponse({"error": ""}, status=400)
-
-
-@login_required
-def downvote_system(request):
-    if request.is_ajax and request.method == "POST":
-        print("DOWNVOTE: this is successfully an ajax & post method")
-        # this is where the view func will update the database items counters
-        # will also create a relation for the user, to check to see if they've previously voted
-        return redirect('/')
-    else:
-        return JsonResponse({"error": ""}, status=400)
-
-
 @login_required
 def profile(request, user_id):
     my_trips = Trip.objects.filter(user_id=user_id)
