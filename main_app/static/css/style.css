@@ -1,0 +1,293 @@
+/* Global */
+HTML:root {
+    --background: #FFFFFF;
+    /* --nav: #087E8B; */
+    --nav: #a9cae3;
+    --button-primary: #FFDC67;
+    --button-secondary: #a9cae3;
+    --score-default: #16056B;
+    --score-up: #BFD7EA;
+    --score-down: pink;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+a:hover {
+    text-decoration: none;
+    color: initial;
+}
+
+body {
+    font-family: "Montserrat", sans-serif;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+}
+
+.disabled {
+    filter: brightness(92%);
+}
+
+.text-header {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 20px;
+}
+
+.text-small {
+    font-size: 14px;
+}
+
+.text-normal {
+    color: #16056B;
+    font-size: 14px;
+}
+
+.text-normal-black {
+    color: black;
+    font-size: 14px;
+}
+
+.text-normal-bold {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 15px;
+    color: #16056B;
+}
+
+.text-card-title {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+}
+
+.text-card-normal {
+    font-size: 14px;
+}
+
+.text-activities {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 17px;
+}
+
+.text-normal-indent {
+    margin-left: 20px;
+}
+
+.card-shadow {
+    box-shadow: 4px 4px 10px 1px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+}
+
+.button-shadow {
+    box-shadow: 4px 4px 10px 1px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+}
+
+.h2 {
+    font-weight: bold;
+}
+
+header {
+    z-index: 10;
+}
+
+.button-primary {
+    background-color: var(--button-primary);
+}
+
+.button-hover:hover {
+    background-color: var(--button-primary);
+}
+
+.button-hover-secondary:hover {
+    background-color: var(--button-secondary);
+}
+
+/* Top Nav */
+#top-nav {
+    background-color: var(--nav);
+    height: 64px;
+}
+
+#top-nav-title {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+}
+
+#top-nav-right>li>a {
+    color: black;
+    opacity: .5;
+}
+
+#top-nav-right>li>a:hover {
+    opacity: .8;
+}
+
+/* Side Nav */
+#side-nav-container {
+    text-decoration: none;
+    transition: 0.5s;
+    height: 200vh;
+    width: 0px;
+    position: absolute;
+    z-index: 0;
+}
+
+#side-nav {
+    top: 0;
+    z-index: 0;
+    width: 100%;
+    min-height: 100vh;
+    height: 100%;
+    color: rgb(110, 110, 110);
+    list-style-type: none;
+    background-color: var(--nav);
+}
+
+#side-nav>ul {
+    margin-top: 64px;
+    display: none;
+    list-style-type: none;
+    white-space: nowrap;
+}
+
+#side-nav li {
+    display: flex;
+    align-items: flex-end;
+    height: 50px;
+}
+
+#side-nav img {
+    margin-right: 10px;
+}
+
+.text-sidebar {
+    color: var(--score-default);
+    font-size: 20px;
+    font-weight: 500;
+
+}
+
+#content {
+    transition: .5s;
+}
+
+
+/* Containers */
+#mobile-container {
+    min-width: 270px;
+    max-width: 420px;
+}
+
+#index-container {
+    min-width: 270px;
+    max-width: 840px;
+}
+
+/* Login Page */
+
+.text-login-page {
+    /* font-weight: bold; */
+    font-size: 40px;
+}
+
+.text-login-page-2 {
+    font-weight: 600;
+    font-size: 60px;
+}
+
+.button-height {
+    height: 42px;
+    vertical-align: middle;
+
+}
+
+/* Index Home Page */
+
+
+/* Trip Form Items */
+.card-activity,
+.card-packing {
+    border: 2px solid var(--button-secondary);
+    box-sizing: border-box;
+    min-height: 100px;
+    min-width: 100px;
+}
+
+.age {
+    max-width: 60px;
+}
+
+.gender {
+    max-width: 95px;
+}
+
+.card-activity-active,
+.card-packing-active {
+    background-color: var(--button-secondary);
+    color: var(--background);
+}
+
+.card-activity:hover,
+.card-packing:hover {
+    cursor: pointer;
+    background-color: var(--button-secondary);
+    color: var(--background);
+}
+
+
+/* Trip Item */
+.score-div {
+    width: 90px;
+}
+
+.score-value {
+    margin-top: auto;
+}
+
+.score-up:hover {
+    cursor: pointer;
+    color: var(--score-up);
+    fill: var(--score-up);
+}
+
+.score-down:hover {
+    cursor: pointer;
+    color: var(--score-down);
+    fill: var(--score-down);
+}
+
+.score-up-post {
+    color: var(--score-up);
+    fill: var(--score-up);
+}
+
+.score-down-post {
+    color: var(--score-down);
+    fill: var(--score-down);
+}
+
+.text-personal {
+    font-weight: bold;
+    color: red;
+}
+
+/* upvote/downvote button "container" styling */
+.upvote {
+    border:none;
+    background-color: rgba(0,0,0,0); 
+} 
+.downvote {
+    border:none; 
+    background-color: rgba(0,0,0,0); 
+}

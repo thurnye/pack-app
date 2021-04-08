@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<h3>List:</h3>
+
+<div>
+    <ul>
+        <form class="upvote-btn" method="POST" action="{% url 'upvote_system' %}">
+            {% csrf_token %}
+            <li>sample list item 1
+                <input type="submit" class="upvote" name="upvote" value="Upvote">
+                <input type="submit" class="downvote" name="downvote" value="Downvote">
+            </li>
+            <li>sample list item 2
+                <input type="submit" class="upvote" name="upvote" value="Upvote">
+                <input type="submit" class="downvote" name="downvote" value="Downvote">
+            </li>
+            <li>sample list item 3
+                <input type="submit" class="upvote" name="upvote" value="Upvote">
+                <input type="submit" class="downvote" name="downvote" value="Downvote">
+            </li>
+            <li>etc
+                <input type="submit" class="upvote" name="upvote" value="Upvote">
+                <input type="submit" class="downvote" name="downvote" value="Downvote">
+            </li>
+        </form>
+
+    </ul>
+</div>
+
+
+<h4>add item</h4>
+<form method="post" action="{% url 'create' %}">
+    {% csrf_token %}
+    Name of item:<input type="text" name="name"><br />
+    type of travel:<select name="category">
+        <option value="outdoors">Outdoors</option>
+        <option value="metropolitan">Metropolitan</option>
+        <option value="history">Sights/History</option>
+        <option value="business">Business</option>
+        <option value="beaches">Beaches</option>
+        <option value="family">Family</option>
+        <option value="other">Other</option>
+    </select><br />
+    season:<select name="season">
+        <option value="spring">Spring</option>
+        <option value="summer">Summer</option>
+        <option value="winter">Winter</option>
+        <option value="fall">Fall</option>
+    </select><br />
+    <button>Add item!</button>
+</form>
+{% endblock %}
+
+
+{% block javascript %}
+<script>
+    $(".upvote-btn").submit(function (e) {
+        let target = document.activeElement
+        e.preventDefault();
+        let serializedData = $(this).serialize();
+        if (target.className === 'upvote') {
+            $.ajax({
+                type: "POST",
+                url: "{% url 'upvote_system' %}",
+                data: serializedData,
+                success: function (response) {
+                    target.style.color = "red"
+                },
+                error: function (response) {
+                    alert(response["responseJSON"]["error"]);
+                }
+            })
+        } else if (target.className === 'downvote') {
+            $.ajax({
+                type: "POST",
+                url: "{% url 'downvote_system' %}",
+                data: serializedData,
+                success: function (response) {
+                    target.style.color = "blue"
+                },
+                error: function (response) {
+                    alert(response["responseJSON"]["error"]);
+                }
+            })
+        }
+    })
+</script>
+{% endblock javascript %}

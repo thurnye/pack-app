@@ -1,13 +1,66 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h3>Sign up</h3>
-{% if error_message %}<p>{{ error_message }}</p>{% endif %}
+<div class="container px-4 mt-3" id="mobile-container">
+  <div class="d-grid text-center">
+    <div class="">
+      <text class="text-login-page">Sign Up</text><br>
+    </div>
+  </div>
+  <hr class="my-4"/>
+  <form method="POST" action="{% url 'signup' %}">
+    {% csrf_token %}
+    <div class="row">
+      <div class="col-6">
+        <div class="mb-4">
+          <label for="login-firstname" class="form-label mb-2">First Name</label>
+          <input type="text" class="form-control" id="login-firstname" aria-describedby="firstname" name="first_name" required>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="mb-4">
+          <label for="login-lastname" class="form-label mb-2">Last Name</label>
+          <input type="text" class="form-control" id="login-lastname" aria-describedby="lastname" name="last_name" required>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="mb-4">
+          <label for="login-username" class="form-label mb-2">Username</label>
+          <input type="text" class="form-control" id="login-username" aria-describedby="username" name="username" required>
+          <small id="username-help" class="form-text text-muted">Letters, digits and @/./+/-/_ only.</small>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="mb-4">
+          <label for="login-password" class="form-label mb-2">Password</label>
+          <input type="password" class="form-control" id="login-password" name="password1" autocomplete="new-password" required>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="mb-4">
+          <label for="login-password" class="form-label mb-2">Confirm Password</label>
+          <input type="password" class="form-control" id="login-password" name="password2" autocomplete="new-password" required>
+          <small id="username-help" class="form-text text-muted">Enter the same password as before.</small>
+        </div>
+      </div>
+      <div class="d-grid">
+        <input type="submit" class="btn py-2 mt-2 button-shadow button-primary button-height text-header" value="Create Account">
+        <input type="hidden" name="next" value="{{ next }}">
+      </div>
+    </div>
+  </form>
+  {% comment %} <form action="">
+    {{ form }}
+    {% csrf_token %}
 
-<form method="post" action="{% url 'signup' %}">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <input type="submit" value="signup">
-</form>
+  </form> {% endcomment %}
+  {% comment %} <p class="text-center text-muted my-2">or</p> {% endcomment %}
+  <div class="d-grid mt-3">
+    <a href="{% url 'login' %}" class="btn rounded-pill py-2 button-shadow button-height">
+      <text class="text-header">Login</text>
+    </a>
+  </div> 
+</div>
+
 
 {% endblock %}

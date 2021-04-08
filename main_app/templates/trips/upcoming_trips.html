@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+  <div class="container px-4 mt-3" id="mobile-container">
+    <div class="d-grid">
+      <div class="">
+          <text class="text-login-page">Upcoming Trips</text><br>
+      </div>
+      
+      <hr/>
+      {% for trip in trips %}
+      <div class="card card-shadow border-0 my-2">
+        <div class="card-body">
+          <a href="{% url 'trip' trip.trip.id %}">
+            <div class="row">
+              <div class="col col-7 me-0">
+                <text class="text-header">{{ trip.trip.city }}, {{ trip.trip.country }}</text>
+              </div>
+              <div class="col col-5 text-end">
+                <text class="text-normal-black">{{ trip.trip.date }}</text>
+              </div>
+            </div>
+            <ol class="text-small ps-4 pe-2 my-0">
+              <li class="my-1">
+                  <div class="row">
+                    <div class="col-7">
+                      {% if user.first_name %} 
+                        <text class="text-small ms-2">{{ user.first_name|title }} {{ user.last_name|title }}</text>
+                      {% else %}
+                        <text class="text-small ms-2">{{ user.username }}</text>
+                      {% endif %}
+                    </div>
+                    {% comment %} <div class="col-5 text-end">
+                      <text class="text-small text-end me-2">{{ traveler.gender }}, {{ traveler.age }}</text>
+                    </div> {% endcomment %}
+                  </div>
+                </li>
+              {% for traveler in trip.travelers %}
+              <li class="my-1">
+                <div class="row">
+                  <div class="col-7">
+                    <text class="text-small ms-2">{{ traveler.name }}</text>
+                  </div>
+                  <div class="col-5 text-end">
+                    <text class="text-small text-end me-2">{{ traveler.gender }},&nbsp;&nbsp;{{ traveler.age }}</text>
+                  </div>
+                </div>
+              </li>
+              {% endfor %}
+            </ol>
+          </a>
+        </div>
+      </div>
+      {% endfor %}
+      <div class="d-grid">
+        {% if trips %}
+          <a href="{% url 'new_trip' %}" class="btn rounded-pill py-2 mt-2 button-shadow button-primary button-height">
+            <text class="text-header">Add New Trip</text>
+          </a>
+        {% else %}
+          <a href="{% url 'new_trip' %}" class="btn rounded-pill py-2 mt-3 button-shadow button-primary button-height">
+            <text class="text-header">Click here to get started</text>
+          </a>
+        {% endif %}
+        <a href="{% url 'past_trips' %}" class="btn rounded-pill py-2 mt-3 button-shadow button-height">
+          <text class="text-header">View Past Trips</text>
+        </a>
+      </div>
+    </div>
+  </div>
+{% endblock %}

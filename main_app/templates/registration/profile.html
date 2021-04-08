@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<div class="container mt-5" id="index-container">
+    <div class="container" id="mobile-container">
+        <div class="d-grid">
+            <h4>Your profile</h4>
+            Here are all of your current and past trips
+            <hr/>
+        </div>
+            {% if mytrips %}
+            {% for trip in mytrips %}
+            <div class="card card-shadow border-0 my-2">
+                <div class="card-body">
+                  <div class="d-flex">
+                    <div class="me-0">
+                        <text class="text-header">{{ trip.city }}, {{ trip.country }}</text>
+                    </div>
+                    <div class="ms-auto d-flex score-div">
+                      <text class="text-normal-black">{{ trip.date }}</text>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                    <div class="col-7">
+                        <text class="text-small ms-2">{{ trip.activity }}</text>
+                    </div>
+                </div>
+                <div>                
+                    {% if trip.travelers == True %}
+                    {{ trip.travelers }}
+                    {% else %}
+                    No travel companions
+                    {% endif %}
+                    {{ trip.activity }}
+                </div>
+            </div>
+            <br>
+            {% endfor %}
+            {% else %}
+            <div>
+                You have no trips yet
+            </div>
+            {% endif %}
+            <br>
+
+            <h4>Here are all of your created items</h4>
+            <hr />
+            {% if my_items %}
+            {% for item in my_items %}
+            <div class="card card-shadow border-0 my-2">
+                <div class="card-body">
+                  <div class="d-flex">
+                    <div class="me-0">
+                        <text class="text-header">{{ item.name }}</text>
+                    </div>
+                    current vote: {{ item.vote }}<br>
+                    season: {{ item.season }}<br>
+                    activity: {{ item.activity }}<br>
+                    category: {{ item.category }}<br>
+                    
+                    <div class="ms-auto d-flex score-div">
+                      <text class="text-normal-black">{{ item.city }}, {{ item.country }}</text>
+                    </div>
+                    
+                  </div>
+                </div>
+    
+            </div>
+            {% endfor %}
+            {% else %}
+            <div>
+                You have no created items yet
+            </div><br>
+            {% endif %}
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
