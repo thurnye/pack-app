@@ -12,6 +12,8 @@ Create and add items for specific locations, and up-vote/down-vote other communi
 
 ## Screens
 ![title](https://github.com/logan858/pack-app/blob/master/main_app/static/images/RM-titlescreen.png?raw=true "title")  ![login](https://github.com/logan858/pack-app/blob/master/main_app/static/images/RM-mainscreen.png?raw=true "login")
+
+
 ![create trips](https://github.com/logan858/pack-app/blob/master/main_app/static/images/RM-tripscreen.png?raw=true "create trips")   ![create items](https://github.com/logan858/pack-app/blob/master/main_app/static/images/RM-itemscreen.png?raw=true "create items")
 
 ## Link
