@@ -161,9 +161,29 @@
         <a href="{% url 'new_trip' %}" class="btn rounded-pill mt-3 button-shadow button-primary button-height">
           <text class="text-header">Click here to get started</text>
         </a>
+       
       </div>
     </div>
   {% endif %}
 {% endif %}
+<br>
+<div class="container px-4" id="mobile-container">
+  <form method="POST" action="{% url 'index_search' %}">
+    {% csrf_token %}
+    <div class="mt-4">
+      <div class="text-center">
+        <div class="input-group input-group-sm mb-3">
+          <input type="search" class="form-control" name="search" id="searchTextField" required>
+        </div>
+        <button class="btn button-hover button-shadow border-0 mt-4" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls="collapseExample">
+          <text class="text-normal">+ Quick Search</text>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+<br>
 
+<script defer type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyABt5_xdXjRl4pFDKfdUtAM4Bv5lgt1vo8&libraries=places"></script>
+<script defer type="text/javascript" src="/static/javascript/trip_form.js"></script>
 {% endblock %}
