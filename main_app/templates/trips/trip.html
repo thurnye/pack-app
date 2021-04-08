@@ -160,28 +160,15 @@
           </div>
           {% endif %}
 
-
-          <form class="upvote-btn" method="POST" action="{% url 'upvote_system' %}">
-            {% csrf_token %}
-            <div class="ms-3 d-flex score-div">
-              <button type="submit" class="upvote" name="upvote" value="Upvote">
-                <svg width="16" height="24" viewBox="0 0 16 16" fill="#C4C4C4" xmlns="http://www.w3.org/2000/svg"
-                  class="score score-up me-auto">
-                  <path d="M13 8.35714L6.5 0L0 8.35714H3.28333V13H9.71667V8.35714H13Z" />
-                </svg>
-              </button>
-              <label class="form-check-label score-value text-muted" name="{{ item.id }}" for="flexCheckDefault">{{item.sum_votes }}</label>
-              
-              <button type="submit" class="downvote" name="downvote" value="Downvote">
-                <svg width="16" height="24" viewBox="0 0 16 16" fill="#C4C4C4" xmlns="http://www.w3.org/2000/svg"
-                  class="score score-down ms-auto">
-                  <path d="M13 4.64286L6.5 13L0 4.64286H3.28333V3.57628e-07H9.71667V4.64286H13Z" />
-                </svg>
-              </button>
-
-            </div>
-          </form>
-
+          <div class="ms-3 d-flex score-div">
+            <svg width="16" height="24" viewBox="0 0 16 16" fill="#C4C4C4" xmlns="http://www.w3.org/2000/svg" class="score score-up me-auto {% if item.vote.vote > 0 %} score-up-post {% endif %}">
+              <path d="M13 8.35714L6.5 0L0 8.35714H3.28333V13H9.71667V8.35714H13Z" class="path" />
+            </svg>
+            <label class="form-check-label score-value text-muted" name="{{ item.item.id }}" for="flexCheckDefault">{{item.sum_votes }}</label>
+            <svg width="16" height="24" viewBox="0 0 16 16" fill="#C4C4C4" xmlns="http://www.w3.org/2000/svg" class="score score-down ms-auto {% if item.vote.vote < 0 %} score-down-post {% endif %}">
+              <path d="M13 4.64286L6.5 13L0 4.64286H3.28333V3.57628e-07H9.71667V4.64286H13Z" class="path"/>
+            </svg>
+          </div>
 
         </div>
         {% endfor %}
@@ -197,8 +184,6 @@
     </button>
   </div>
 </div>
-
-      
 <div class="collapse multi-collapse hide" id="container-item">
   <a href="{{ previous_url.url }}">
     <div class="mt-4 px-4">
@@ -265,7 +250,7 @@
             {% for activity in activities %}
               {% if activity != "All" %}
               <div class="col-4">
-                <label class="card card-shadow card-activity" for="activity-{{ activity }}">
+                <label class="card card-shadow card-activity " for="activity-{{ activity }}">
                   <input type="checkbox" class="btn-check" name="activities" value="{{ activity }}" id="activity-{{ activity }}">
                   <div class="card-body p-1 d-flex flex-column justify-content-center align-items-center">
                     <text class="text-activities align-middle">{{ activity }}</text>
@@ -285,8 +270,7 @@
     </form>
   </div>
 </div>
-
-
+<input type="hidden" id="trip_id" value="{{ trip.id}}">
 
 
 

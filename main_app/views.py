@@ -1,15 +1,17 @@
 from .generateData import generateItemData, generateUserData, generateVoteData
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core import serializers
 from django.db.models import Sum, Q
 from .models import User, Trip, Vote, Item, Activity, Traveler, CATEGORIES, ACTIVITIES, SEASONS, AGES, GENDERS, getChoices
+import re, json
 import requests
-import re
+
 from datetime import date
+import ast
 
 # Create your views here.
 
@@ -33,26 +35,7 @@ def home(request):
         "past_trips": past_trips,
     })
 
-
-def search(request):
-    if request.method == "POST":
-        print(request.POST)
-        return render(request, "results.html", {
-            "destination": request.POST["destination"],
-            "activity": request.POST["activity"],
-            "date": request.POST["date"]
-        })
-
-
-def searched_filters(request):
-    return render(request, 'results.html')
-
-
-def create(request):
-    return redirect('search/new/filters')
-
-
-@ user_passes_test(lambda u: u.is_anonymous, '/')
+@user_passes_test(lambda u: u.is_anonymous, '/')
 def signup(request):
     error_message = ''
     if request.method == 'POST':
@@ -71,8 +54,24 @@ def signup(request):
     context = {'form': form, 'error_message': error_message}
     return render(request, 'registration/signup.html', context)
 
+def search(request):
+    if request.method == "POST":
+        print(request.POST)
+        return render(request, "results.html", {
+            "destination": request.POST["destination"],
+            "activity": request.POST["activity"],
+            "date": request.POST["date"]
+        })
 
-@ login_required
+
+def searched_filters(request):
+    return render(request, 'results.html')
+
+
+def create(request):
+    return redirect('search/new/filters')
+
+@login_required
 def new_trip(request):
     if request.method == "GET":
         activities = getChoices(ACTIVITIES)
@@ -135,7 +134,7 @@ def new_trip(request):
         return redirect("/trip/%s/" % (trip.id))
 
 
-@ login_required
+@login_required
 def trip(request, trip_id):
     if request.method == "GET":
         trip = Trip.objects.get(id=trip_id)
@@ -226,8 +225,28 @@ def trip(request, trip_id):
         })
     
 
+@login_required
+def add_item(request, trip_id):
+    body = request.POST
+    print(body)
+    trip = Trip.objects.get(id=trip_id)
+    new_item = Item.objects.create(
+        name=body['name'],
+        city=trip.city,
+        country=trip.country,
+        season=body['season'],
+        activity=body['activities'],
+        gender=body["gender"],
+        age=body["age"],
+        category=body['category'],
+        trip_id=trip_id,
+        # public=public
+    )
+    new_item.save()
+    return redirect("/trip/%s/" % (trip_id))
 
-@ login_required
+
+@login_required
 def upcoming_trips(request):
     trips = []
     my_trips = Trip.objects.filter(user_id=request.user.id)
@@ -248,7 +267,7 @@ def upcoming_trips(request):
     })
 
 
-@ login_required
+@login_required
 def past_trips(request):
     trips = []
     my_trips = Trip.objects.filter(user_id=request.user.id)
@@ -268,29 +287,22 @@ def past_trips(request):
         "trips": trips,
     })
 
-
-def itemData(request, n=100):
-    data = generateItemData(n)
-    return render(request, "data.html", {
-        "data": data
-    })
-
-
-def userData(request, n=10):
-    data = generateUserData(n)
-    return render(request, "data.html", {
-        "data": data
-    })
-
-
-def voteData(request, n=1000):
-    data = generateVoteData(n)
-    return render(request, "data.html", {
-        "data": data
-    })
+@login_required
+def vote(request):
+    if request.method == "POST":
+        body = ast.literal_eval(request.body.decode())
+        trip = Trip.objects.get(id=int(body["trip_id"]))
+        changeValue = int(body["change_value"])
+        user = trip.user
+        item = Item.objects.get(id=int(body["item_id"]))
+        vote = Vote.objects.get(user_id=user.id, item_id=item.id)
+        vote.vote += changeValue
+        vote.save()
+        
+        return JsonResponse({},status=200)
 
 
-@ login_required
+@login_required
 def upvote_system(request):
     if request.is_ajax and request.method == "POST":
         print("UPVOTE: this is successfully an ajax & post method")
@@ -301,7 +313,7 @@ def upvote_system(request):
         return JsonResponse({"error": ""}, status=400)
 
 
-@ login_required
+@login_required
 def downvote_system(request):
     if request.is_ajax and request.method == "POST":
         print("DOWNVOTE: this is successfully an ajax & post method")
@@ -312,7 +324,7 @@ def downvote_system(request):
         return JsonResponse({"error": ""}, status=400)
 
 
-@ login_required
+@login_required
 def profile(request, user_id):
     my_trips = Trip.objects.filter(user_id=user_id)
     my_items = []
@@ -347,20 +359,22 @@ def results(request):
         "categories": sorted_items,
     })
 
+def itemData(request, n=100):
+    data = generateItemData(n)
+    return render(request, "data.html", {
+        "data": data
+    })
 
-def add_item(request, trip_id):
-    trip = Trip.objects.get(id=trip_id)
-    new_item = Item.objects.create(
-        name=request.POST['name'],
-        city=trip.city,
-        country=trip.country,
-        season=request.POST['season'],
-        activity=request.POST['activities'],
-        category=request.POST['categories'],
-        trip_id=trip_id
-        # gender=
-        # age=
-        # public=
-    )
-    new_item.save()
-    return redirect("/trip/%s/" % (trip_id))
+
+def userData(request, n=10):
+    data = generateUserData(n)
+    return render(request, "data.html", {
+        "data": data
+    })
+
+
+def voteData(request, n=1000):
+    data = generateVoteData(n)
+    return render(request, "data.html", {
+        "data": data
+    })
