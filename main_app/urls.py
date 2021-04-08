@@ -13,7 +13,7 @@ urlpatterns = [
     path("trip/upcoming/", views.upcoming_trips, name="upcoming_trips"),
     path("trip/pasts/", views.past_trips, name="past_trips"),
     path("trip/<int:trip_id>/add_item", views.add_item, name="add_item"),
-
+    path("index_search/", views.index_search, name="index_search"),
     path("profile/<int:user_id>/", views.profile, name="profile"),
 
     path("search/", views.search, name="search"),

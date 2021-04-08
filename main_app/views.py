@@ -330,18 +330,45 @@ def find_city(request):
 def results(request):
     search = re.split(', | - ', request.POST['search'])
     num_items = int(request.POST['number_items'])
-    items = Item.objects.filter(city__contains=search[0])[:num_items]
+    date = request.POST["date"]
+    month = date.split("-")[1]
+    day = date.split("-")[2]
+    if (month == "12" or month == "01" or month == "02" or month == "03"):
+        season = "Winter"
+    elif(month == "04" or month == "05"):
+        season = "Spring"
+    elif(month == "06" or month == "07" or month == "08" or month == "09"):
+        season = "Summer"
+    elif(month == "10" or month == "11"):
+        season = "Fall"
+    items = Item.objects.filter(city__contains=search[0], season=season)[:num_items]
     categories = getChoices(CATEGORIES)
     sorted_items = {}
     for cat in categories:
         sorted_items[cat] = []
     for item in items:
         sorted_items[item.category].append(item)
+    key = os.environ.get("KEY")
+    city = search[0]
+    api = f"https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{city}?unitGroup=metric&key={key}&include=obs%2Cfcst%2Calerts%2Ccurrent%2Chistfcst"
+    data = requests.get(api).json()
+    weather_forecast = data['days']
+    current_temp_high = f"{int(data['days'][0]['tempmax'])}\u00B0C"
+    current_temp_low = f"{int(data['days'][0]['tempmin'])}\u00B0C"
+    icon = data['days'][0]['icon']
+    current_condition = data['days'][0]['conditions']
     return render(request, 'search/results.html', {
         "categories": sorted_items,
+        "forecast" : weather_forecast,
+        "today_temp_high" : current_temp_high,
+        "today_temp_low" : current_temp_low,
+        "condition" : current_condition,
+        'weather_icon' : icon,
+        "city": city,
     })
+    
 
-def itemData(request, n=100):
+def itemData(request, n=50000):
     data = generateItemData(n)
     return render(request, "data.html", {
         "data": data
@@ -359,4 +386,33 @@ def voteData(request, n=1000):
     data = generateVoteData(n)
     return render(request, "data.html", {
         "data": data
+    })
+
+def index_search(request):
+    search = re.split(', | - ', request.POST['search'])
+    num_items = 15
+    items = Item.objects.filter(city__contains=search[0])[:num_items]
+    categories = getChoices(CATEGORIES)
+    sorted_items = {}
+    for cat in categories:
+        sorted_items[cat] = []
+    for item in items:
+        sorted_items[item.category].append(item)
+        city = search[0]
+    key = os.environ.get("KEY")
+    api = f"https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{city}?unitGroup=metric&key={key}&include=obs%2Cfcst%2Calerts%2Ccurrent%2Chistfcst"
+    data = requests.get(api).json()
+    weather_forecast = data['days']
+    current_temp_high = f"{int(data['days'][0]['tempmax'])}\u00B0C"
+    current_temp_low = f"{int(data['days'][0]['tempmin'])}\u00B0C"
+    icon = data['days'][0]['icon']
+    current_condition = data['days'][0]['conditions']
+    return render(request, 'search/index_results.html', {
+        "categories": sorted_items,
+        "forecast" : weather_forecast,
+        "today_temp_high" : current_temp_high,
+        "today_temp_low" : current_temp_low,
+        "condition" : current_condition,
+        'weather_icon' : icon,
+        "city": search[0],
     })
