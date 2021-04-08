@@ -62,8 +62,8 @@
                   <div class="card">
                     <div class="card-header">
                       {{el.datetime}}
-                    </button>
-                  </h2>
+                    </div>
+                  </div>
                   <div id="flush-collapseOne{{el.datetime}}" class="accordion-collapse collapse" aria-labelledby="flush-headingOne{{el.datetime}}" data-bs-parent="#accordionFlushExample">
                     <div class="accordion-body">
                       <div class="card">
@@ -90,7 +90,6 @@
                             {% if el.icon == 'wind' %}
                               <img src="../../static/images/wind.png" alt="..." style="max-width: 80px;">
                             {% endif %}
-                            
                             <div>
                               <h3>{{el.tempmax}}&#x2103;</h3>
                             </div>
