@@ -209,6 +209,7 @@ def trip(request, trip_id):
         current_temp_high = f"{int(data['days'][0]['tempmax'])}\u00B0C"
         current_temp_low = f"{int(data['days'][0]['tempmin'])}\u00B0C"
         icon = data['days'][0]['icon']
+        print(weather_forecast)
         current_condition = data['days'][0]['conditions']
         return render(request, "trips/trip.html", {
             "title": "%s, %s" % (trip.city, trip.country),
