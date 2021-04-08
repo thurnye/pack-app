@@ -199,16 +199,16 @@ def trip(request, trip_id):
         # weather api call below this line
         city = "%s,%s" % (trip.city,trip.country)
         key = 'CHP8CT5EV5KXE6QSLWW6EA69C'
-        api = f"https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{city}?unitGroup=uk&key={key}&include=obs%2Cfcst%2Calerts%2Ccurrent%2Chistfcst"
+        api = f"https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{city}?unitGroup=metric&key={key}&include=obs%2Cfcst%2Calerts%2Ccurrent%2Chistfcst"
         data = requests.get(api).json()
         weather_forecast = data['days']
         current_temp_high = f"{int(data['days'][0]['tempmax'])}\u00B0C"
         current_temp_low = f"{int(data['days'][0]['tempmin'])}\u00B0C"
         icon = data['days'][0]['icon']
         current_condition = data['days'][0]['conditions']
-        print(type(icon), icon)
         return render(request, "trips/trip.html", {
             "title": "%s, %s" % (trip.city, trip.country),
+            "forecast" : weather_forecast,
             "categorized_items": categorized_items,
             "trip": trip,
             "today_temp_high" : current_temp_high,
