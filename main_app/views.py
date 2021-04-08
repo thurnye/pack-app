@@ -6,6 +6,10 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core import serializers
 from django.db.models import Sum, Q
+from dotenv import load_dotenv
+load_dotenv()
+import os
+import requests
 from .models import User, Trip, Vote, Item, Activity, Traveler, CATEGORIES, ACTIVITIES, SEASONS, AGES, GENDERS, getChoices
 import re, json
 import requests
@@ -13,6 +17,7 @@ import requests
 from datetime import date
 import ast
 
+# config = dotenv_values(".env")
 # Create your views here.
 
 
@@ -197,7 +202,7 @@ def trip(request, trip_id):
         activities = getChoices(ACTIVITIES)
         # weather api call below this line
         city = "%s,%s" % (trip.city,trip.country)
-        key = 'CHP8CT5EV5KXE6QSLWW6EA69C'
+        key = os.environ.get("KEY")
         api = f"https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{city}?unitGroup=metric&key={key}&include=obs%2Cfcst%2Calerts%2Ccurrent%2Chistfcst"
         data = requests.get(api).json()
         weather_forecast = data['days']
