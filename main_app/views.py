@@ -232,7 +232,14 @@ def trip(request, trip_id):
             "genders" : getChoices(GENDERS),
             "checked": "checked",
         })
-    
+
+@login_required
+def edit_trip(request, trip_id):
+    pass
+
+@login_required
+def delete_trip(request, trip_id):
+    pass
 
 @login_required
 def add_item(request, trip_id):
@@ -253,6 +260,15 @@ def add_item(request, trip_id):
     )
     new_item.save()
     return redirect("/trip/%s/" % (trip_id))
+
+def item(request, trip_id, item_id):
+    pass
+
+def edit_item(request, trip_id, item_id):
+    pass
+
+def delete_item(request, trip_id, item_id):
+    pass
 
 
 @login_required
