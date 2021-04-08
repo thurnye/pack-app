@@ -3,6 +3,7 @@
 ## Collaborators 
 * [Austin Im](https://github.com/imaustinim)
 * [Daniel Tamunotonye](https://github.com/thurnye)
+* [Logan Major](https://github.com/logan858)
 
 ## Description
 This is a webapp designed to help absent-minded vacationers get organized! Search by location to return results pertaining to the destinations, get must-pack information curated by destination, season, type of travel, etc, that will help take the stress out of packing for that dream vacation.  
@@ -10,10 +11,14 @@ This is a webapp designed to help absent-minded vacationers get organized! Searc
 Create and add items for specific locations, and up-vote/down-vote other community member's item suggestions based on merit.  
 
 ## Screens
+![title](link "title") 
 
 ## Link
+* [Pack'D Official Site](https://packd-app.herokuapp.com/)
 
 ## Future Enhancements
+* Add expanded filtering capabilities along age, gender, etc
+* Add profile pics, and photo uploads for past trips 
 
 ## Technologies Used
 * Django
@@ -21,7 +26,6 @@ Create and add items for specific locations, and up-vote/down-vote other communi
 * PostgreSQL & Postbird
 * HTML, CSS, Javascript
 * Bootstrap
-* JQuery, AJAX
 
 ## Other
 * [Trello Board](https://trello.com/b/Z1liPaey/packd)
