@@ -2,9 +2,9 @@
 HTML:root {
     --background: #FFFFFF;
     /* --nav: #087E8B; */
-    --nav: #BFD7EA;
+    --nav: #a9cae3;
     --button-primary: #FFDC67;
-    --button-secondary: #96BEDD;
+    --button-secondary: #a9cae3;
     --score-default: #16056B;
     --score-up: #BFD7EA;
     --score-down: pink;
@@ -26,6 +26,10 @@ body {
     flex-direction: column;
     padding: 0;
     margin: 0;
+}
+
+.disabled {
+    filter: brightness(92%);
 }
 
 .text-header {
@@ -102,6 +106,10 @@ header {
 
 .button-hover:hover {
     background-color: var(--button-primary);
+}
+
+.button-hover-secondary:hover {
+    background-color: var(--button-secondary);
 }
 
 /* Top Nav */
@@ -224,13 +232,13 @@ header {
     max-width: 95px;
 }
 
-.aa,
 .card-activity-active,
 .card-packing-active {
     background-color: var(--button-secondary);
     color: var(--background);
 }
 
+.card-activity:hover,
 .card-packing:hover {
     cursor: pointer;
     background-color: var(--button-secondary);

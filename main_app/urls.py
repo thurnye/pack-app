@@ -12,16 +12,17 @@ urlpatterns = [
     path("trip/<int:trip_id>/", views.trip, name="trip"),
     path("trip/upcoming/", views.upcoming_trips, name="upcoming_trips"),
     path("trip/pasts/", views.past_trips, name="past_trips"),
+    path("trip/<int:trip_id>/add_item", views.add_item, name="add_item"),
 
-    path("trip/<int:trip_id>/add", views.add_item, name="add_item"),
     path("profile/<int:user_id>/", views.profile, name="profile"),
 
     path("search/", views.search, name="search"),
     path('search/new/filters', views.searched_filters, name='searched_filters'),
     path('create', views.create, name="create"),
 
-    path("post/ajax/up", views.upvote_system, name="upvote_system"),
-    path("post/ajax/down", views.downvote_system, name="downvote_system"),
+    path("api/vote", views.vote, name="vote"),
+    # path("post/ajax/up", views.upvote_system, name="upvote_system"),
+    # path("post/ajax/down", views.downvote_system, name="downvote_system"),
 
     path('findcity/', views.find_city, name="findcity"),
     path('findcity/results', views.results, name='results'),
